@@ -5,6 +5,6 @@ plugins {
 dependencies {
 }
 
-springBoot {
-    mainClass = 'io.github.V1ServiceApplicationApplication'
+bootJar{
+    enabled = false
 }
