@@ -1,0 +1,10 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+}
+
+springBoot {
+    mainClass = 'io.github.V1ServiceApplicationApplication'
+}
