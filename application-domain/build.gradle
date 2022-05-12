@@ -4,3 +4,7 @@ plugins {
 
 dependencies {
 }
+
+bootJar{
+    enabled = false
+}
