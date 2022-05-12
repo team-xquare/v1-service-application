@@ -41,6 +41,10 @@ subprojects {
 	}
 }
 
+springBoot {
+	mainClass = 'io.github.V1ServiceApplicationApplication'
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }

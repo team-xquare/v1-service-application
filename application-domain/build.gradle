@@ -4,6 +4,3 @@ plugins {
 
 dependencies {
 }
-springBoot {
-    mainClass = 'io.github.V1ServiceApplicationApplication'
-}
