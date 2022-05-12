@@ -21,6 +21,26 @@ repositories {
 dependencies {
 }
 
+subprojects {
+	group 'io.github'
+	version '1.0'
+
+	apply plugin: 'java'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'org.springframework.boot'
+
+	sourceCompatibility = 11
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+	}
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
