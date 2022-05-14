@@ -2,11 +2,9 @@ package io.github.v1serviceapplication.domain.stayapply;
 
 import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.UUID;
 
 @Entity
 @Table(name = "tbl_stay_apply")
