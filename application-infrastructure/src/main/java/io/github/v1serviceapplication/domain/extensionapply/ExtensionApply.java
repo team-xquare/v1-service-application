@@ -7,12 +7,12 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "tbl_extension_apply")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@Table(name = "tbl_extension_apply")
+@Entity
 public class ExtensionApply extends BaseUUIDEntity {
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)

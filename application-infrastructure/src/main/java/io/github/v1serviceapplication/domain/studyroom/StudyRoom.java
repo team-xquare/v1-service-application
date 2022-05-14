@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Table(name = "tbl_study_room")
 @Entity
 public class StudyRoom {

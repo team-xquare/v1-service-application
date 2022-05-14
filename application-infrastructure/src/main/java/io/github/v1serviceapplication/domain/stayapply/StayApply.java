@@ -6,12 +6,12 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "tbl_stay_apply")
 @Getter
-@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
+@Table(name = "tbl_stay_apply")
+@Entity
 public class StayApply extends BaseUUIDEntity {
     @NotNull
     @Column(columnDefinition = "CHAR(6)")
