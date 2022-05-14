@@ -6,7 +6,7 @@ plugins {
 
 group = 'io.github'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '16'
 
 configurations {
 	compileOnly {
@@ -29,7 +29,7 @@ subprojects {
 	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'org.springframework.boot'
 
-	sourceCompatibility = 11
+	sourceCompatibility = 16
 
 	repositories {
 		mavenCentral()
