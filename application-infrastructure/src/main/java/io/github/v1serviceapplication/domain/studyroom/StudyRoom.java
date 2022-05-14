@@ -12,8 +12,6 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
 @Table(name = "tbl_study_room")
 @Entity
 public class StudyRoom {
@@ -29,4 +27,10 @@ public class StudyRoom {
 
     @OneToMany(mappedBy = "userId", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ExtensionApply> extensionApplies;
+
+    @Builder
+    public StudyRoom(String name, List<ExtensionApply> extensionApplies) {
+        this.name = name;
+        this.extensionApplies = extensionApplies;
+    }
 }
