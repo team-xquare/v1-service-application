@@ -20,5 +20,5 @@ public class ExtensionApply {
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "study_room_id")
-    private StudyRoom studyRoomId;
+    private StudyRoom studyRoom;
 }
