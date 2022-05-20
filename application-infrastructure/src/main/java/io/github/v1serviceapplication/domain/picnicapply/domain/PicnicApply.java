@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.domain.picnicapply;
+package io.github.v1serviceapplication.domain.picnicapply.domain;
 
 import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;
 import lombok.*;

@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.domain.weekendmealapply;
+package io.github.v1serviceapplication.domain.weekendmealapply.domain;
 
 import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;
 import lombok.*;

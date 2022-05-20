@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.domain.stayapply;
+package io.github.v1serviceapplication.domain.stayapply.domain;
 
 import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;
 import lombok.*;
