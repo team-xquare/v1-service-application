@@ -1,6 +1,6 @@
-package io.github.v1serviceapplication.domain.extensionapply;
+package io.github.v1serviceapplication.domain.extensionapply.domain;
 
-import io.github.v1serviceapplication.domain.studyroom.StudyRoom;
+import io.github.v1serviceapplication.domain.studyroom.domain.StudyRoom;
 import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;
 import lombok.*;
 
