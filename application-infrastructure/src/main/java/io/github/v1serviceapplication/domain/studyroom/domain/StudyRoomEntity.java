@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.studyroom.domain;
 
-import io.github.v1serviceapplication.domain.extensionapply.domain.ExtensionApply;
+import io.github.v1serviceapplication.domain.extensionapply.domain.ExtensionApplyEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "tbl_study_room")
 @Entity
-public class StudyRoom {
+public class StudyRoomEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -26,10 +26,10 @@ public class StudyRoom {
     private String name;
 
     @OneToMany(mappedBy = "userId", orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<ExtensionApply> extensionApplies;
+    private List<ExtensionApplyEntity> extensionApplies;
 
     @Builder
-    public StudyRoom(String name, List<ExtensionApply> extensionApplies) {
+    public StudyRoomEntity(String name, List<ExtensionApplyEntity> extensionApplies) {
         this.name = name;
         this.extensionApplies = extensionApplies;
     }

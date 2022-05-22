@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @Table(name = "tbl_stay_apply")
 @Entity
-public class StayApply extends BaseUUIDEntity {
+public class StayApplyEntity extends BaseUUIDEntity {
     @NotNull
     @Column(columnDefinition = "CHAR(6)")
     private String code;
