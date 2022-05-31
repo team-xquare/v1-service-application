@@ -9,6 +9,12 @@ import java.util.UUID;
 @Getter
 @Builder
 public class StudyRoom {
+
+    public StudyRoom(UUID id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     private UUID id;
     private String name;
 }
