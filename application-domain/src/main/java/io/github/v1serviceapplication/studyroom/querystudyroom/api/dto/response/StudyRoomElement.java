@@ -1,30 +1,21 @@
 package io.github.v1serviceapplication.studyroom.querystudyroom.api.dto.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.List;
 import java.util.UUID;
 
-public record StudyRoomElement(
-        UUID id,
-        String studyRoomName,
-        Integer applicationCount,
+@Getter
+@AllArgsConstructor
+public class StudyRoomElement{
 
-        List<StudentElement> students
-) {
+    private final UUID id;
 
-    public UUID getId() {
-        return this.id;
-    }
+    private final String studyRoomName;
 
-    public String getStudyRoomName() {
-        return this.studyRoomName;
-    }
+    private final Integer applicationCount;
 
-    public Integer getApplicationCount() {
-        return this.applicationCount;
-    }
-
-    public List<StudentElement> getStudents() {
-        return students;
-    }
-
+    private final List<StudentElement> students;
+    
 }

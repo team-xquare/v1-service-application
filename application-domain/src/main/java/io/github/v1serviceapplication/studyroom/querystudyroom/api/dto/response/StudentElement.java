@@ -1,16 +1,13 @@
 package io.github.v1serviceapplication.studyroom.querystudyroom.api.dto.response;
 
-public record StudentElement(
-        String studentName,
-        String profileImage
-) {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-    public String getStudentName() {
-        return this.studentName;
-    }
+@Getter
+@AllArgsConstructor
+public class StudentElement{
 
-    public String getProfileImage() {
-        return this.profileImage;
-    }
+    private final String studentName;
+    private final String profileImage;
 
 }
