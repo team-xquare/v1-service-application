@@ -25,12 +25,8 @@ public class StudyRoomEntity {
     @Size(max = 20)
     private String name;
 
-    @OneToMany(mappedBy = "userId", orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<ExtensionEntity> extensionApplies;
-
     @Builder
-    public StudyRoomEntity(String name, List<ExtensionEntity> extensionApplies) {
+    public StudyRoomEntity(String name) {
         this.name = name;
-        this.extensionApplies = extensionApplies;
     }
 }
