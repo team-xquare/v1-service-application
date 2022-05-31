@@ -19,7 +19,7 @@ public class QueryStudyRoomImpl implements QueryStudyRoom {
     private final StudyRoomRepositorySpi studyRoomRepositorySpi;
 
     @Override
-    public List<StudyRoomElement> queryStudyRoom() {
+    public List<StudyRoomElement> queryStudyRooms() {
         return studyRoomRepositorySpi.findAll()
                 .stream()
                 .map(studyRoom ->

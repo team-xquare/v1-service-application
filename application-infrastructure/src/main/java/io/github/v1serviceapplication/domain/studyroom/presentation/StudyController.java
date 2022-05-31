@@ -14,7 +14,7 @@ public class StudyController {
 
     @GetMapping
     public StudyRoomList queryStudyRoomList() {
-        return new StudyRoomList(queryStudyRoom.queryStudyRoom());
+        return new StudyRoomList(queryStudyRoom.queryStudyRooms());
     }
 
 }
