@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @Table(name = "tbl_extension_apply")
 @Entity
-public class ExtensionApplyEntity extends BaseUUIDEntity {
+public class ExtensionEntity extends BaseUUIDEntity {
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "study_room_id")

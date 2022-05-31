@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Builder
 @Table(name = "tbl_picnic_apply")
 @Entity
-public class PicnicApplyEntity extends BaseUUIDEntity {
+public class PicnicEntity extends BaseUUIDEntity {
     @NotNull
     private LocalDate date;
 
