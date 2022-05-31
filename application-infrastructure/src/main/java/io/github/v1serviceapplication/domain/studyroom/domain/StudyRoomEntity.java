@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.studyroom.domain;
 
-import io.github.v1serviceapplication.domain.extensionapply.domain.ExtensionEntity;
+import io.github.v1serviceapplication.domain.extension.domain.ExtensionEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
