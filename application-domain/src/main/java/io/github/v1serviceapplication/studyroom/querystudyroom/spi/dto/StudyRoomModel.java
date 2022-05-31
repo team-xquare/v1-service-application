@@ -10,12 +10,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class StudyRoomModel {
 
-    UUID id;
+    private final UUID id;
 
-    String name;
+    private final String name;
 
-    Integer applicationCount;
+    private final Integer applicationCount;
 
-    List<UUID> studentList;
+    private final List<UUID> studentList;
 
 }
