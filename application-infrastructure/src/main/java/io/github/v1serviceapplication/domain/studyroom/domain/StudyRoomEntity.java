@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.studyroom.domain;
 
-import io.github.v1serviceapplication.domain.extensionapply.domain.ExtensionApplyEntity;
+import io.github.v1serviceapplication.domain.extension.domain.ExtensionEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -26,10 +26,10 @@ public class StudyRoomEntity {
     private String name;
 
     @OneToMany(mappedBy = "userId", orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<ExtensionApplyEntity> extensionApplies;
+    private List<ExtensionEntity> extensionApplies;
 
     @Builder
-    public StudyRoomEntity(String name, List<ExtensionApplyEntity> extensionApplies) {
+    public StudyRoomEntity(String name, List<ExtensionEntity> extensionApplies) {
         this.name = name;
         this.extensionApplies = extensionApplies;
     }

@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.picnicapply;
+package io.github.v1serviceapplication.picnic;
 
 import io.github.v1serviceapplication.annotation.Aggregate;
 import lombok.*;
@@ -10,7 +10,7 @@ import java.util.UUID;
 @Aggregate
 @Getter
 @Builder
-public class PicnicApply {
+public class Picnic {
     private UUID userId;
     private LocalDate date;
     private LocalTime startTime;

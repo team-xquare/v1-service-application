@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.domain.picnicapply.domain;
+package io.github.v1serviceapplication.domain.picnic.domain;
 
 import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;
 import lombok.*;
@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Builder
 @Table(name = "tbl_picnic_apply")
 @Entity
-public class PicnicApplyEntity extends BaseUUIDEntity {
+public class PicnicEntity extends BaseUUIDEntity {
     @NotNull
     private LocalDate date;
 

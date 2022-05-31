@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.domain.extensionapply.domain;
+package io.github.v1serviceapplication.domain.extension.domain;
 
 import io.github.v1serviceapplication.domain.studyroom.domain.StudyRoomEntity;
 import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;
@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @Table(name = "tbl_extension_apply")
 @Entity
-public class ExtensionApplyEntity extends BaseUUIDEntity {
+public class ExtensionEntity extends BaseUUIDEntity {
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "study_room_id")

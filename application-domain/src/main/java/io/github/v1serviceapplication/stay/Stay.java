@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.weekendmealapply;
+package io.github.v1serviceapplication.stay;
 
 import io.github.v1serviceapplication.annotation.Aggregate;
 import lombok.*;
@@ -8,7 +8,7 @@ import java.util.UUID;
 @Aggregate
 @Getter
 @Builder
-public class WeekendMealApply {
+public class Stay {
     private UUID userId;
-    private Boolean isApplied;
+    private String code;
 }

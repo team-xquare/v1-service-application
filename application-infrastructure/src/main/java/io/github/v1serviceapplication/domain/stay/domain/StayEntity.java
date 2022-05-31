@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.domain.stayapply.domain;
+package io.github.v1serviceapplication.domain.stay.domain;
 
 import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;
 import lombok.*;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @Table(name = "tbl_stay_apply")
 @Entity
-public class StayApplyEntity extends BaseUUIDEntity {
+public class StayEntity extends BaseUUIDEntity {
     @NotNull
     @Column(columnDefinition = "CHAR(6)")
     private String code;

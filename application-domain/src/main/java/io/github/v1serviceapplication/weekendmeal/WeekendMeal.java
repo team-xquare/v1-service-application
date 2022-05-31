@@ -1,14 +1,14 @@
-package io.github.v1serviceapplication.extensionapply;
+package io.github.v1serviceapplication.weekendmeal;
 
 import io.github.v1serviceapplication.annotation.Aggregate;
 import lombok.*;
 
 import java.util.UUID;
 
+@Aggregate
 @Getter
 @Builder
-@Aggregate
-public class ExtensionApply {
+public class WeekendMeal {
     private UUID userId;
-    private UUID studyRoomId;
+    private Boolean isApplied;
 }
