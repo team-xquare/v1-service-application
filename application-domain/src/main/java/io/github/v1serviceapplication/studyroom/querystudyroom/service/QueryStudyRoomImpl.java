@@ -23,12 +23,12 @@ public class QueryStudyRoomImpl implements QueryStudyRoom {
         return studyRoomRepositorySpi.findAll()
                 .stream()
                 .map(studyRoom ->
-                        new StudyRoomElement(
-                                studyRoom.getId(),
-                                studyRoom.getName(),
-                                studyRoom.getApplicationCount(),
-                                Collections.emptyList()                 //TODO user id list로 정보 불러오기.
-                        )
+                        StudyRoomElement.builder()
+                                .id(studyRoom.getId())
+                                .studyRoomName(studyRoom.getName())
+                                .applicationCount(studyRoom.getApplicationCount())
+                                .students(Collections.emptyList())          //TODO user id list로 정보 불러오기.
+                                .build()
                 ).collect(Collectors.toList());
     }
 
