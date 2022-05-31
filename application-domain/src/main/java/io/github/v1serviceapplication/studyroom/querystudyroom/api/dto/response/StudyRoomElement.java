@@ -1,13 +1,14 @@
 package io.github.v1serviceapplication.studyroom.querystudyroom.api.dto.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
 import java.util.UUID;
 
 @Getter
-@AllArgsConstructor
+@Builder
 public class StudyRoomElement{
 
     private final UUID id;

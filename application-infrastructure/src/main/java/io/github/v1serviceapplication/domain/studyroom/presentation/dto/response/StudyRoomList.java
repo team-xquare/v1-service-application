@@ -1,15 +1,15 @@
 package io.github.v1serviceapplication.domain.studyroom.presentation.dto.response;
 
 import io.github.v1serviceapplication.studyroom.querystudyroom.api.dto.response.StudyRoomElement;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.List;
 
-public record StudyRoomList(
-        List<StudyRoomElement> studyRooms
-) {
+@Getter
+@AllArgsConstructor
+public class StudyRoomList{
 
-    public List<StudyRoomElement> getStudyRooms() {
-        return studyRooms;
-    }
+    private final List<StudyRoomElement> studyRooms;
 
 }
