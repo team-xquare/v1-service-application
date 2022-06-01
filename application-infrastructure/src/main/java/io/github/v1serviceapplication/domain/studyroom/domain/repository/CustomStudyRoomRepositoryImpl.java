@@ -47,11 +47,12 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
         return studyRoomVOList.stream()
                 .map(
                         studyRoomVO ->
-                                new StudyRoomModel(
-                                        studyRoomVO.getId(),
-                                        studyRoomVO.getName(),
-                                        studyRoomVO.getApplicationCount().intValue(),
-                                        queryStudentId(studyRoomVO.getId()))
+                                StudyRoomModel.builder()
+                                        .id(studyRoomVO.getId())
+                                        .name(studyRoomVO.getName())
+                                        .applicationCount(studyRoomVO.getApplicationCount().intValue())
+                                        .studentList(queryStudentId(studyRoomVO.getId()))
+                                        .build()
                 ).collect(Collectors.toList());
     }
 
