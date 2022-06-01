@@ -1,15 +1,11 @@
 package io.github.v1serviceapplication.domain.studyroom.domain.repository;
 
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.github.v1serviceapplication.domain.extension.domain.ExtensionEntity;
 import io.github.v1serviceapplication.domain.extension.domain.repository.ExtensionRepository;
-import io.github.v1serviceapplication.domain.studyroom.domain.StudyRoomEntity;
 import io.github.v1serviceapplication.domain.studyroom.domain.repository.vo.QStudyRoomVO;
 import io.github.v1serviceapplication.domain.studyroom.domain.repository.vo.StudyRoomVO;
-import io.github.v1serviceapplication.studyroom.poststudyroom.spi.PostStudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.querystudyroom.spi.StudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.querystudyroom.spi.dto.StudyRoomModel;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +21,8 @@ import static io.github.v1serviceapplication.domain.studyroom.domain.QStudyRoomE
 
 @RequiredArgsConstructor
 @Repository
-public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, PostStudyRoomRepositorySpi {
+public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi {
 
-    private final StudyRoomRepository studyRoomRepository;
-    private final ExtensionRepository extensionRepository;
     private final JPAQueryFactory queryFactory;
 
     @Override
