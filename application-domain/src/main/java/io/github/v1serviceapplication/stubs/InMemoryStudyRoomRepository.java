@@ -27,11 +27,14 @@ public class InMemoryStudyRoomRepository implements StudyRoomRepositorySpi {
     public List<StudyRoomModel> findAll() {
         return studyRoomMap.values()
                 .stream()
-                .map(studyRoom -> new StudyRoomModel(
-                        studyRoom.getId(),
-                        studyRoom.getName(),
-                        findExtensionById(studyRoom.getId()).size(),
-                        findExtensionById(studyRoom.getId())))
+                .map(studyRoom ->
+                        StudyRoomModel.builder()
+                                .id(studyRoom.getId())
+                                .name(studyRoom.getName())
+                                .applicationCount(findExtensionById(studyRoom.getId()).size())
+                                .studentList(findExtensionById(studyRoom.getId()))
+                                .build()
+                )
                 .collect(Collectors.toList());
     }
 
