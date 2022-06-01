@@ -2,6 +2,7 @@ package io.github.v1serviceapplication.domain.studyroom.domain.repository;
 
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.extension.domain.ExtensionEntity;
 import io.github.v1serviceapplication.domain.extension.domain.repository.ExtensionRepository;
@@ -37,13 +38,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                         new QStudyRoomVO(
                                 studyRoomEntity.id,
                                 studyRoomEntity.name,
-                                ExpressionUtils.as(
-                                        JPAExpressions.select(count(extensionEntity.userId))
-                                                .from(extensionEntity)
-                                                .where(extensionEntity.studyRoom.id.eq(studyRoomEntity.id)),
-                                        "count"
-                                )
-
+                                extensionCount()
                         )
                 )
                 .from(studyRoomEntity)
@@ -66,6 +61,12 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                 .from(extensionEntity)
                 .where(extensionEntity.studyRoom.id.eq(studyRoomId))
                 .fetch();
+    }
+
+    private JPQLQuery<Long> extensionCount() {
+        return JPAExpressions.select(count(extensionEntity.userId))
+                .from(extensionEntity)
+                .where(extensionEntity.studyRoom.id.eq(studyRoomEntity.id));
     }
 
 }
