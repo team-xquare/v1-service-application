@@ -68,38 +68,4 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                 .fetch();
     }
 
-    @Override
-    public void postStudyRoom(UUID studyRoomId, UUID userId) {
-
-        Long totalCount = queryFactory
-                .select(extensionEntity.count())
-                .from(extensionEntity)
-                .where(extensionEntity.userId.eq(userId))
-                .fetchFirst();
-
-        if (totalCount >= 1) {
-            throw new RuntimeException();
-        }
-
-        Long applicationCount = queryFactory
-                .select(extensionEntity.count())
-                .from(extensionEntity)
-                .where(extensionEntity.studyRoom.id.eq(studyRoomId))
-                .fetchFirst();
-
-        StudyRoomEntity studyRoom = studyRoomRepository.findById(studyRoomId)
-                .orElseThrow(RuntimeException::new);
-
-        if (applicationCount >= studyRoom.getMaxPeopleCount()) {
-            throw new RuntimeException();
-        }
-
-        extensionRepository.save(
-                ExtensionEntity.builder()
-                        .userId(userId)
-                        .studyRoom(studyRoom)
-                        .build()
-        );
-
-    }
 }
