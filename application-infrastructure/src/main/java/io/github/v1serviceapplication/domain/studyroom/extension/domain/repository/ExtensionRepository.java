@@ -1,6 +1,6 @@
-package io.github.v1serviceapplication.domain.extension.domain.repository;
+package io.github.v1serviceapplication.domain.studyroom.extension.domain.repository;
 
-import io.github.v1serviceapplication.domain.extension.domain.ExtensionEntity;
+import io.github.v1serviceapplication.domain.studyroom.extension.domain.ExtensionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
