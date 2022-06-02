@@ -21,7 +21,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.querydsl.core.types.ExpressionUtils.count;
-import static io.github.v1serviceapplication.domain.extension.domain.QExtensionEntity.extensionEntity;
+import static io.github.v1serviceapplication.domain.studyroom.extension.domain.QExtensionEntity.extensionEntity;
 import static io.github.v1serviceapplication.domain.studyroom.domain.QStudyRoomEntity.studyRoomEntity;
 
 @RequiredArgsConstructor
