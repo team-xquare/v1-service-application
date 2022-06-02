@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RequiredArgsConstructor
 @RequestMapping("/study-room")
 @RestController
@@ -28,7 +30,7 @@ public class StudyController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping
-    public void postStudyRoom(@RequestBody PostStudyRoomRequest request) {
+    public void postStudyRoom(@RequestBody @Valid PostStudyRoomRequest request) {
         postStudyRoom.postStudyRoom(request.getStudyRoomId());
     }
 
