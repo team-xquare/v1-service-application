@@ -12,5 +12,6 @@ public class StudyRoom {
 
     private UUID id;
     private String name;
+    private Integer maxPeopleCount;
     
 }

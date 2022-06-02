@@ -1,13 +1,11 @@
 package io.github.v1serviceapplication.domain.studyroom.domain;
 
-import io.github.v1serviceapplication.domain.extension.domain.ExtensionEntity;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -25,8 +23,12 @@ public class StudyRoomEntity {
     @Size(max = 20)
     private String name;
 
+    @NotNull
+    private Integer maxPeopleCount;
+
     @Builder
-    public StudyRoomEntity(String name) {
+    public StudyRoomEntity(String name, Integer maxPeopleCount) {
         this.name = name;
+        this.maxPeopleCount = maxPeopleCount;
     }
 }
