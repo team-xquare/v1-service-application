@@ -5,17 +5,15 @@ import io.github.v1serviceapplication.studyroom.querystudyroom.api.QueryStudyRoo
 import io.github.v1serviceapplication.studyroom.querystudyroom.api.dto.response.StudyRoomElement;
 import io.github.v1serviceapplication.studyroom.querystudyroom.spi.StudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.querystudyroom.spi.dto.StudyRoomModel;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @DomainService
 public class QueryStudyRoomImpl implements QueryStudyRoom {
-
-    public QueryStudyRoomImpl(StudyRoomRepositorySpi studyRoomRepositorySpi) {
-        this.studyRoomRepositorySpi = studyRoomRepositorySpi;
-    }
 
     private final StudyRoomRepositorySpi studyRoomRepositorySpi;
 

@@ -4,15 +4,13 @@ import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.poststudyroom.api.PostStudyRoom;
 import io.github.v1serviceapplication.studyroom.poststudyroom.spi.PostStudyRoomRepositorySpi;
+import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @DomainService
 public class PostStudyRoomImpl implements PostStudyRoom {
-
-    public PostStudyRoomImpl(PostStudyRoomRepositorySpi postStudyRoomRepositorySpi) {
-        this.postStudyRoomRepositorySpi = postStudyRoomRepositorySpi;
-    }
 
     private final PostStudyRoomRepositorySpi postStudyRoomRepositorySpi;
 
