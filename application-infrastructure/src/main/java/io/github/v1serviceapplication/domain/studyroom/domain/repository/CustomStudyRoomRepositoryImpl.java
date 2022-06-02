@@ -3,9 +3,14 @@ package io.github.v1serviceapplication.domain.studyroom.domain.repository;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.github.v1serviceapplication.domain.extension.domain.ExtensionEntity;
 import io.github.v1serviceapplication.domain.extension.domain.repository.ExtensionRepository;
+import io.github.v1serviceapplication.domain.studyroom.domain.StudyRoomEntity;
 import io.github.v1serviceapplication.domain.studyroom.domain.repository.vo.QStudyRoomVO;
 import io.github.v1serviceapplication.domain.studyroom.domain.repository.vo.StudyRoomVO;
+import io.github.v1serviceapplication.domain.studyroom.mapper.StudyRoomMapper;
+import io.github.v1serviceapplication.studyroom.StudyRoom;
+import io.github.v1serviceapplication.studyroom.poststudyroom.spi.PostStudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.querystudyroom.spi.StudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.querystudyroom.spi.dto.StudyRoomModel;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +26,13 @@ import static io.github.v1serviceapplication.domain.studyroom.domain.QStudyRoomE
 
 @RequiredArgsConstructor
 @Repository
-public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi {
+public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, PostStudyRoomRepositorySpi {
 
+    private final StudyRoomRepository studyRoomRepository;
+    private final ExtensionRepository extensionRepository;
     private final JPAQueryFactory queryFactory;
+
+    private final StudyRoomMapper studyRoomMapper;
 
     @Override
     public List<StudyRoomModel> findAll() {
@@ -62,6 +71,47 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi {
         return JPAExpressions.select(count(extensionEntity.userId))
                 .from(extensionEntity)
                 .where(extensionEntity.studyRoom.id.eq(studyRoomEntity.id));
+    }
+
+
+    @Override
+    public Long totalCount(UUID userId) {
+        return queryFactory
+                .select(extensionEntity.count())
+                .from(extensionEntity)
+                .where(extensionEntity.userId.eq(userId))
+                .fetchFirst();
+    }
+
+    @Override
+    public Long applicationCount(UUID studyRoomId) {
+        return queryFactory
+                .select(extensionEntity.count())
+                .from(extensionEntity)
+                .where(extensionEntity.studyRoom.id.eq(studyRoomId))
+                .fetchFirst();
+    }
+
+    @Override
+    public StudyRoom findById(UUID studyRoomId) {
+        StudyRoomEntity studyRoom = studyRoomRepository.findById(studyRoomId)
+                .orElseThrow(RuntimeException::new);
+
+        return studyRoomMapper.studyRoomEntityToDomain(studyRoom);
+    }
+
+    @Override
+    public void postStudyRoom(UUID studyRoomId, UUID userId) {
+        StudyRoomEntity studyRoom = studyRoomRepository.findById(studyRoomId)
+                .orElseThrow(RuntimeException::new);
+
+        extensionRepository.save(
+                ExtensionEntity.builder()
+                        .userId(userId)
+                        .studyRoom(studyRoom)
+                        .build()
+        );
+
     }
 
 }
