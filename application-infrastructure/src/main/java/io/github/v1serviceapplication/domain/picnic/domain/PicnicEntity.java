@@ -2,6 +2,7 @@ package io.github.v1serviceapplication.domain.picnic.domain;
 
 import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,7 +12,7 @@ import java.time.LocalTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
+@SuperBuilder
 @Table(name = "tbl_picnic_apply")
 @Entity
 public class PicnicEntity extends BaseUUIDEntity {
