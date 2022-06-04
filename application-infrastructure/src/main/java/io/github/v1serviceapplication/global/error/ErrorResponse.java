@@ -1,12 +1,16 @@
-package io.github.v1serviceapplication.global.error.handler;
+package io.github.v1serviceapplication.global.error;
 
+import io.github.v1serviceapplication.error.ErrorCode;
 import lombok.*;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
 public class ErrorResponse {
+
+    public ErrorResponse(ErrorCode errorCode) {
+        this.status = errorCode.getStatus();
+        this.code = errorCode.getCode();
+        this.message = errorCode.getMessage();
+    }
 
     private int status;
 
