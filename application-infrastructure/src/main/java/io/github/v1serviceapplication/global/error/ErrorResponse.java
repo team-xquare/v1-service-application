@@ -1,7 +1,7 @@
 package io.github.v1serviceapplication.global.error;
 
 import io.github.v1serviceapplication.error.ErrorCode;
-import lombok.*;
+import lombok.Getter;
 
 @Getter
 public class ErrorResponse {
@@ -12,20 +12,9 @@ public class ErrorResponse {
         this.message = errorCode.getMessage();
     }
 
-    private int status;
+    private final int status;
 
-    private String code;
+    private final String code;
 
-    private String message;
-
-    @Override
-    public String toString() {
-        return String.format("""
-                {
-                    "status": %s,
-                    "code": %s,
-                    "message": "%s"
-                }
-                """, status, code, message);
-    }
+    private final String message;
 }
