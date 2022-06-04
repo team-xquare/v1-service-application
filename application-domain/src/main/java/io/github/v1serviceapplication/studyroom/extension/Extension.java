@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.extension;
+package io.github.v1serviceapplication.studyroom.extension;
 
 import io.github.v1serviceapplication.annotation.Aggregate;
 import lombok.*;

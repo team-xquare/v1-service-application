@@ -1,7 +1,7 @@
 package io.github.v1serviceapplication.studyroom.querystudyroom.service;
 
 
-import io.github.v1serviceapplication.extension.Extension;
+import io.github.v1serviceapplication.studyroom.extension.Extension;
 import io.github.v1serviceapplication.stubs.InMemoryStudyRoomRepository;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.querystudyroom.api.QueryStudyRoom;

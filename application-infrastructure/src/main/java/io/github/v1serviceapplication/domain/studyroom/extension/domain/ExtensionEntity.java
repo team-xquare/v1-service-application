@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.domain.extension.domain;
+package io.github.v1serviceapplication.domain.studyroom.extension.domain;
 
 import io.github.v1serviceapplication.domain.studyroom.domain.StudyRoomEntity;
 import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;

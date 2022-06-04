@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.stubs;
 
-import io.github.v1serviceapplication.extension.Extension;
+import io.github.v1serviceapplication.studyroom.extension.Extension;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.querystudyroom.spi.StudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.querystudyroom.spi.dto.StudyRoomModel;
