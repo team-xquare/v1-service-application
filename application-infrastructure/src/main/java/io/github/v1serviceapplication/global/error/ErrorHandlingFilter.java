@@ -1,5 +1,6 @@
 package io.github.v1serviceapplication.global.error;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.v1serviceapplication.error.ApplicationException;
 import io.github.v1serviceapplication.error.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,8 @@ import java.io.IOException;
 
 @Slf4j
 public class ErrorHandlingFilter extends OncePerRequestFilter {
+
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -29,7 +32,11 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
     private void errorToJson(ErrorCode errorCode, HttpServletResponse response) throws IOException {
         response.setStatus(errorCode.getStatus());
         response.setContentType("application/json");
-        response.getWriter().write(new ErrorResponse(errorCode).toString());
+        response.getWriter().write(
+                objectMapper.writeValueAsString(
+                        new ErrorResponse(errorCode)
+                )
+        );
     }
 
 }
