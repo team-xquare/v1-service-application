@@ -17,6 +17,8 @@ public class StudyRoomElement{
 
     private final Integer applicationCount;
 
+    private final Integer maxPeopleCount;
+
     private final List<StudentElement> students;
     
 }

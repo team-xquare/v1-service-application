@@ -41,7 +41,8 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                         new QStudyRoomVO(
                                 studyRoomEntity.id,
                                 studyRoomEntity.name,
-                                extensionCount()
+                                extensionCount(),
+                                studyRoomEntity.maxPeopleCount
                         )
                 )
                 .from(studyRoomEntity)
@@ -54,6 +55,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                                         .id(studyRoomVO.getId())
                                         .name(studyRoomVO.getName())
                                         .applicationCount(studyRoomVO.getApplicationCount().intValue())
+                                        .maxPeopleCount(studyRoomVO.getMaxPeopleCount())
                                         .studentList(queryStudentId(studyRoomVO.getId()))
                                         .build()
                 ).collect(Collectors.toList());

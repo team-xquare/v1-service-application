@@ -9,10 +9,11 @@ import java.util.UUID;
 public class StudyRoomVO {
 
     @QueryProjection
-    public StudyRoomVO(UUID id, String name, Long applicationCount) {
+    public StudyRoomVO(UUID id, String name, Long applicationCount, Integer maxPeopleCount) {
         this.id = id;
         this.name = name;
         this.applicationCount = applicationCount;
+        this.maxPeopleCount = maxPeopleCount;
     }
 
     private final UUID id;
@@ -20,5 +21,7 @@ public class StudyRoomVO {
     private final String name;
 
     private final Long applicationCount;
+
+    private final Integer maxPeopleCount;
 
 }

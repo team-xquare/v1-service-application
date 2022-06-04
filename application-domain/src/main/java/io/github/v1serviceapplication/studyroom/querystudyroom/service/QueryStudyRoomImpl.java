@@ -30,6 +30,7 @@ public class QueryStudyRoomImpl implements QueryStudyRoom {
                 .id(studyRoom.getId())
                 .studyRoomName(studyRoom.getName())
                 .applicationCount(studyRoom.getApplicationCount())
+                .maxPeopleCount(studyRoom.getMaxPeopleCount())
                 .students(Collections.emptyList())          //TODO user id list로 정보 불러오기.
                 .build();
     }

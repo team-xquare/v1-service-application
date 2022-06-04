@@ -32,6 +32,7 @@ public class InMemoryStudyRoomRepository implements StudyRoomRepositorySpi {
                                 .id(studyRoom.getId())
                                 .name(studyRoom.getName())
                                 .applicationCount(findExtensionById(studyRoom.getId()).size())
+                                .maxPeopleCount(studyRoom.getMaxPeopleCount())
                                 .studentList(findExtensionById(studyRoom.getId()))
                                 .build()
                 )
