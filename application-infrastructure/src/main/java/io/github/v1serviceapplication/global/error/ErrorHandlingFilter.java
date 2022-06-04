@@ -2,6 +2,7 @@ package io.github.v1serviceapplication.global.error;
 
 import io.github.v1serviceapplication.error.ApplicationException;
 import io.github.v1serviceapplication.error.ErrorCode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 public class ErrorHandlingFilter extends OncePerRequestFilter {
 
     @Override
@@ -19,7 +21,7 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
         } catch (ApplicationException e) {
             errorToJson(e.getErrorCode(), response);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error", e);
             errorToJson(ErrorCode.INTERNAL_SERVER_ERROR, response);
         }
     }
