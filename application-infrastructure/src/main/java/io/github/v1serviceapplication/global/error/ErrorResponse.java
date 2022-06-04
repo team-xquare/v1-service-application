@@ -10,6 +10,8 @@ public class ErrorResponse {
 
     private int status;
 
+    private String code;
+
     private String message;
 
     @Override
@@ -17,8 +19,9 @@ public class ErrorResponse {
         return String.format("""
                 {
                     "status": %s,
+                    "code": %s,
                     "message": "%s"
                 }
-                """, status, message);
+                """, status, code, message);
     }
 }
