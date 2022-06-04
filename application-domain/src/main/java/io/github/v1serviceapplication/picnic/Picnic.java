@@ -11,10 +11,11 @@ import java.util.UUID;
 @Getter
 @Builder
 public class Picnic {
-    private UUID userId;
-    private LocalDate date;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private String reason;
-    private String arrangement;
+    private final UUID id;
+    private final UUID userId;
+    private final LocalDate date;
+    private final LocalTime startTime;
+    private final LocalTime endTime;
+    private final String reason;
+    private final String arrangement;
 }

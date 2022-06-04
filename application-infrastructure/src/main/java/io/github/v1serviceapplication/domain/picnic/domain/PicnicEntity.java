@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.picnic.domain;
 
-import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;
+import io.github.v1serviceapplication.global.entity.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,10 +14,7 @@ import java.time.LocalTime;
 @Builder
 @Table(name = "tbl_picnic_apply")
 @Entity
-public class PicnicEntity extends BaseUUIDEntity {
-    @NotNull
-    private LocalDate date;
-
+public class PicnicEntity extends BaseEntity {
     @NotNull
     private LocalTime startTime;
 

@@ -1,8 +1,8 @@
 spring:
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     database: mysql
   datasource:
     url: ${JDBC_URL}
