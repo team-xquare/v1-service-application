@@ -3,6 +3,8 @@ package io.github.v1serviceapplication.studyroom.poststudyroom.service;
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.poststudyroom.api.PostStudyRoom;
+import io.github.v1serviceapplication.studyroom.poststudyroom.exception.AlreadyJoinStudyRoomException;
+import io.github.v1serviceapplication.studyroom.poststudyroom.exception.FullStudyRoomException;
 import io.github.v1serviceapplication.studyroom.poststudyroom.spi.PostStudyRoomRepositorySpi;
 import lombok.RequiredArgsConstructor;
 
@@ -21,14 +23,14 @@ public class PostStudyRoomImpl implements PostStudyRoom {
         Long totalCount = postStudyRoomRepositorySpi.totalCount(userId);
 
         if(totalCount >= 1) {
-            throw new RuntimeException(); //TODO Exception
+            throw AlreadyJoinStudyRoomException.EXCEPTION;
         }
 
         Long applicationCount = postStudyRoomRepositorySpi.applicationCount(studyRoomId);
         StudyRoom studyRoom = postStudyRoomRepositorySpi.findById(studyRoomId);
 
         if(applicationCount >= studyRoom.getMaxPeopleCount()) {
-            throw new RuntimeException(); //TODO Exception
+            throw FullStudyRoomException.EXCEPTION;
         }
 
         postStudyRoomRepositorySpi.postStudyRoom(studyRoomId, userId);
