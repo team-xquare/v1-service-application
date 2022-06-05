@@ -6,7 +6,7 @@ on:
 
 env:
   SERVICE_NAME: application
-  SERVICE_TYPE: backend
+  SERVICE_TYPE: be
   ENVIRONMENT: stage
 
 jobs:
