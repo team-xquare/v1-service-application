@@ -17,6 +17,8 @@ public class StudyRoomModel {
 
     private final Integer applicationCount;
 
+    private final Integer maxPeopleCount;
+
     private final List<UUID> studentList;
 
 }
