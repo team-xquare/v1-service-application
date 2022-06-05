@@ -4,10 +4,12 @@ import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.*;
+import io.github.v1serviceapplication.global.error.exception.InternalServerErrorException;
 import io.github.v1serviceapplication.global.error.exception.JwtInvalidSignatureException;
 import io.github.v1serviceapplication.global.error.exception.JwtTokenExpiredException;
 import io.github.v1serviceapplication.global.security.property.JwtProperty;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +23,7 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.*;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class JwtParser {
@@ -38,7 +41,7 @@ public class JwtParser {
         return null;
     }
 
-    public Authentication authenticateUser(String token) throws ParseException, JOSEException {
+    public Authentication authenticateUser(String token) {
         JWTClaimsSet claims = getClaims(token);
         List<String> authoritiesClaim = (List<String>)claims.getClaim(AUTHORITY_KEY);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -49,25 +52,25 @@ public class JwtParser {
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    private JWTClaimsSet getClaims(String token) throws ParseException, JOSEException {
+    private JWTClaimsSet getClaims(String token) {
         try {
             JWSVerifier verifier = new MACVerifier(jwtProperty.getSecret());
             Date now = new Date();
             SignedJWT signedJWT = SignedJWT.parse(token);
 
-            if (signedJWT.verify(verifier) && signedJWT.getJWTClaimsSet().getExpirationTime().after(now)) {
-                return signedJWT.getJWTClaimsSet();
-            } else {
-                if (!signedJWT.verify(verifier)) {
-                    throw JwtInvalidSignatureException.EXCEPTION;
-                } else {
-                    throw JwtTokenExpiredException.EXCEPTION;
-                }
+            if(!signedJWT.getJWTClaimsSet().getExpirationTime().after(now)) {
+                throw JwtTokenExpiredException.EXCEPTION;
             }
-        } catch (ParseException e) {
-            throw new ParseException(e.getMessage(), e.getErrorOffset());
-        } catch (JOSEException e) {
-            throw new JOSEException(e.getMessage());
+
+            if(!signedJWT.verify(verifier)) {
+                throw JwtInvalidSignatureException.EXCEPTION;
+            }
+
+            return signedJWT.getJWTClaimsSet();
+
+        } catch (ParseException | JOSEException e) {
+            log.error("Error", e);
+            throw InternalServerErrorException.EXCEPTION;
         }
     }
 }
