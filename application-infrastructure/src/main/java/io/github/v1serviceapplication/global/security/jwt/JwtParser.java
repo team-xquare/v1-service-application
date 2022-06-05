@@ -40,9 +40,9 @@ public class JwtParser {
 
     public Authentication authenticateUser(String token) throws ParseException, JOSEException {
         JWTClaimsSet claims = getClaims(token);
-        Object authoritiesClaim = claims.getClaim(AUTHORITY_KEY);
+        List<String> authoritiesClaim = (List<String>)claims.getClaim(AUTHORITY_KEY);
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        for (String aut : ((List<String>) authoritiesClaim)) {
+        for (String aut : authoritiesClaim) {
             authorities.add(new SimpleGrantedAuthority(aut));
         }
         UserDetails userDetails = new User(claims.getSubject(), "", authorities);
