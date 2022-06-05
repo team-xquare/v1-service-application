@@ -42,6 +42,15 @@ dependencies {
 
     // multi module
     implementation(project(":application-domain"))
+
+    // jwt
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.21'
+
+    // security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // configuration
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 test {
