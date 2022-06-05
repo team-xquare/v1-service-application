@@ -17,3 +17,7 @@ server:
   servlet:
     context-path: /v1
   shutdown: graceful
+  
+auth:
+  jwt:
+    secret: ${JWT_SECRET_KEY}
