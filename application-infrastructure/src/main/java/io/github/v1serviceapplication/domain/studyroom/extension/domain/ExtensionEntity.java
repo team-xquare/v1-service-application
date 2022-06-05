@@ -1,7 +1,7 @@
 package io.github.v1serviceapplication.domain.studyroom.extension.domain;
 
 import io.github.v1serviceapplication.domain.studyroom.domain.StudyRoomEntity;
-import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;
+import io.github.v1serviceapplication.global.entity.BaseEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @SuperBuilder
 @Table(name = "tbl_extension_apply")
 @Entity
-public class ExtensionEntity extends BaseUUIDEntity {
+public class ExtensionEntity extends BaseEntity {
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "study_room_id")

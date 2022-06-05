@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.weekendmeal.domain;
 
-import io.github.v1serviceapplication.global.entity.BaseUUIDEntity;
+import io.github.v1serviceapplication.global.entity.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @Table(name = "tbl_weekend_meal_apply")
 @Entity
-public class WeekendMealEntity extends BaseUUIDEntity {
+public class WeekendMealEntity extends BaseEntity {
     @NotNull
     @Column(columnDefinition = "TINYINT(1)")
     private Boolean isApplied;

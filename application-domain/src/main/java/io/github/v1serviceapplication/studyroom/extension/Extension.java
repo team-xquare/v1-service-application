@@ -9,6 +9,7 @@ import java.util.UUID;
 @Builder
 @Aggregate
 public class Extension {
-    private UUID userId;
-    private UUID studyRoomId;
+    private final UUID id;
+    private final UUID userId;
+    private final UUID studyRoomId;
 }
