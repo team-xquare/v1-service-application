@@ -4,7 +4,7 @@ import io.github.v1serviceapplication.domain.stay.domain.StayEntity;
 import io.github.v1serviceapplication.stay.Stay;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface StayMapper {
     StayEntity stayDomainToEntity(Stay stay);
 
