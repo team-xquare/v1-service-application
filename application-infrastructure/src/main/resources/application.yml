@@ -15,7 +15,7 @@ spring:
     timeout-per-shutdown-phase: 20s
 server:
   servlet:
-    context-path: /v1
+    context-path: /v1/applications
   shutdown: graceful
   
 auth:
