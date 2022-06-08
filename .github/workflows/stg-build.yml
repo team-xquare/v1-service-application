@@ -52,6 +52,7 @@ jobs:
             DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD_STAGE}}
             DATABASE_USERNAME=${{secrets.DATABASE_USERNAME_STAGE}}
             JWT_SECRET_KEY=${{secrets.JWT_SECRET_KEY}}
+            
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
