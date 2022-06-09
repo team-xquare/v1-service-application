@@ -36,7 +36,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
                 .orElseThrow(() -> StayNotFoundException.EXCEPTION);
 
         return QueryStayStatusResponse.builder()
-                .status(stay.getCode().name())
+                .status(stay.getCodeName(stay.getCode()))
                 .build();
     }
 }
