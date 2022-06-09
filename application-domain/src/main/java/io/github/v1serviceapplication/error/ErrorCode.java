@@ -16,6 +16,8 @@ public enum ErrorCode {
 
     CONVERT_FAILED(404, "APPLICATION-404-1", "The code value convert failed"),
 
+    STAY_NOT_FOUND(404, "STAY-404-1", "Stay Not Found"),
+
     ALREADY_JOIN_STUDY_ROOM(409, "STUDY-ROOM-409-1", "Already Join Study Room."),
 
     INTERNAL_SERVER_ERROR(500, "APPLICATION-500-1",  "Internal Server Error.");
