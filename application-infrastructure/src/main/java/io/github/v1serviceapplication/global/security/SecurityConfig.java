@@ -29,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(HttpMethod.GET, "/study-room").permitAll()
+                .antMatchers(HttpMethod.GET, "/stay/codes/status").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new FilterConfig(jwtParser, objectMapper));
