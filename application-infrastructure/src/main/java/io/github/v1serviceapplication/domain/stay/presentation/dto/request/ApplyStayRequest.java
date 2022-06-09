@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.stay.presentation.dto.request;
 
-import io.github.v1serviceapplication.domain.stay.code.StayStatusCode;
+import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;

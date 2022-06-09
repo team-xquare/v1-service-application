@@ -16,7 +16,7 @@ public class StayController {
 
     @PutMapping
     public void applyStay(@RequestBody @Valid ApplyStayRequest request) {
-        applyStay.applyStay(request.getStatus().getCode());
+        applyStay.applyStay(request.getStatus());
     }
 
 }

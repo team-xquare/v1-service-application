@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.stay.domain.repository;
 
-import io.github.v1serviceapplication.domain.stay.code.StayStatusCode;
+import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import io.github.v1serviceapplication.domain.stay.domain.StayEntity;
 import io.github.v1serviceapplication.global.facade.UserFacade;
 import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
@@ -16,14 +16,12 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
     private final UserFacade userFacade;
 
     @Override
-    public void applyStay(String status) {
-        StayStatusCode statusCode = StayStatusCode.find(status);
-
+    public void applyStay(StayStatusCode status) {
         UUID userId = userFacade.getCurrentUserId();
 
         StayEntity stay = StayEntity.builder()
-                .userId(userId)
-                .code(statusCode)
+                .userId(UUID.randomUUID())
+                .code(status)
                 .build();
 
         stayRepository.save(stay);
