@@ -20,4 +20,8 @@ public class StayEntity extends BaseEntity {
     @Column(columnDefinition = "CHAR(6)")
     @Convert(converter = StayStatusCodeConverter.class)
     private StayStatusCode code;
+
+    public String getCodeName(StayStatusCode code) {
+        return code.name();
+    }
 }
