@@ -1,0 +1,31 @@
+package io.github.v1serviceapplication.picnic.service;
+
+import io.github.v1serviceapplication.annotation.DomainService;
+import io.github.v1serviceapplication.picnic.Picnic;
+import io.github.v1serviceapplication.picnic.api.ApplyWeekendPicnic;
+import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
+import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
+import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
+
+@DomainService
+@RequiredArgsConstructor
+public class ApplyWeekendPicnicImpl implements ApplyWeekendPicnic {
+    private final PicnicRepositorySpi picnicRepositorySpi;
+
+    @Override
+    public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
+        UUID userId = UUID.randomUUID();  // todo request header에서 userId 가져오기
+
+        Picnic picnic = Picnic.builder()
+                .userId(userId)
+                .startTime(request.getStart_time())
+                .endTime(request.getEnd_time())
+                .reason(request.getReason())
+                .arrangement(request.getArrangement())
+                .build();
+
+        picnicRepositorySpi.applyWeekendPicnic(picnic);
+    }
+}
