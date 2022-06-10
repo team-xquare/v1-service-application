@@ -8,9 +8,9 @@ import java.time.LocalTime;
 @Getter
 @Builder
 public class ApplyWeekendPicnicDomainRequest {
-    private LocalTime start_time;
+    private LocalTime startTime;
 
-    private LocalTime end_time;
+    private LocalTime endTime;
 
     private String reason;
 

@@ -11,9 +11,9 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class ApplyWeekendPicnicRequest {
     @NotNull
-    private LocalTime start_time;
+    private LocalTime startTime;
 
-    private LocalTime end_time;
+    private LocalTime endTime;
 
     @NotEmpty
     private String reason;
