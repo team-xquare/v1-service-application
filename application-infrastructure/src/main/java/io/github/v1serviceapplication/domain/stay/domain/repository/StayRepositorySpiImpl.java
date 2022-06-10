@@ -32,7 +32,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
 
     @Override
     public QueryStayStatusResponse queryStayStatus(UUID userId) {
-        StayEntity stay = stayRepository.findByUserId(userId)
+        StayEntity stay = stayRepository.findByUserId(UUID.fromString("422f2483-804c-4286-b96f-923e4910e402"))
                 .orElseThrow(() -> StayNotFoundException.EXCEPTION);
 
         return QueryStayStatusResponse.builder()
