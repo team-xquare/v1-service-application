@@ -19,8 +19,8 @@ public class PicnicController {
     @ResponseStatus(HttpStatus.CREATED)
     public void applyWeekendPicnic(@RequestBody @Valid ApplyWeekendPicnicRequest request) {
         ApplyWeekendPicnicDomainRequest domainRequest = ApplyWeekendPicnicDomainRequest.builder()
-                .start_time(request.getStart_time())
-                .end_time(request.getEnd_time())
+                .startTime(request.getStartTime())
+                .endTime(request.getEndTime())
                 .reason(request.getReason())
                 .arrangement(request.getArrangement())
                 .build();

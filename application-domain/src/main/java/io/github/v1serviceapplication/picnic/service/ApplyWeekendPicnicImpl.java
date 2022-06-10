@@ -20,8 +20,8 @@ public class ApplyWeekendPicnicImpl implements ApplyWeekendPicnic {
 
         Picnic picnic = Picnic.builder()
                 .userId(userId)
-                .startTime(request.getStart_time())
-                .endTime(request.getEnd_time())
+                .startTime(request.getStartTime())
+                .endTime(request.getEndTime())
                 .reason(request.getReason())
                 .arrangement(request.getArrangement())
                 .build();
