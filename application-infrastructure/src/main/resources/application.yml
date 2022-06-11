@@ -18,6 +18,3 @@ server:
     context-path: /applications
   shutdown: graceful
   
-auth:
-  jwt:
-    secret: ${JWT_SECRET_KEY}

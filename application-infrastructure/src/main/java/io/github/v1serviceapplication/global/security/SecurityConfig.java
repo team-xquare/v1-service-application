@@ -1,7 +1,6 @@
 package io.github.v1serviceapplication.global.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.v1serviceapplication.global.security.jwt.JwtParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,7 +14,6 @@ import org.springframework.web.cors.CorsUtils;
 @RequiredArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final JwtParser jwtParser;
     private final ObjectMapper objectMapper;
 
     @Override
@@ -30,9 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers(HttpMethod.GET, "/study-room").permitAll()
                 .antMatchers(HttpMethod.GET, "/stay/codes/status").permitAll()
+                .antMatchers(HttpMethod.POST, "/study-room").permitAll()
+                .antMatchers(HttpMethod.POST, "/picnic").permitAll()
+                .antMatchers(HttpMethod.PUT, "/stay").permitAll()
+                .antMatchers(HttpMethod.GET, "/stay").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .apply(new FilterConfig(jwtParser, objectMapper));
+                .apply(new FilterConfig(objectMapper));
 
     }
 }
