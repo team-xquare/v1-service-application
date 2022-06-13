@@ -27,11 +27,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
     public void applyStay(StayStatusCode status) {
         UUID userId = UUID.fromString("19d1e9b7-0d51-4405-bd1d-042cab403398");
 
-        LocalDate date = LocalDate.now();
-
-        int weekYear = date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
-
-        StayEntity stay = queryStayByUserAndWeekYear(userId, weekYear);
+        StayEntity stay = queryStayByUserAndWeekYear(userId, getCurrentWeekYear());
 
         if (stay != null) {
             stay.changeCode(status);
@@ -48,8 +44,13 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
 
     @Override
     public QueryStayStatusResponse queryStayStatus(UUID userId) {
-        StayEntity stay = stayRepository.findByUserId(UUID.fromString("19d1e9b7-0d51-4405-bd1d-042cab403398"))
-                .orElseThrow(() -> StayNotFoundException.EXCEPTION);
+        StayEntity stay = queryStayByUserAndWeekYear(
+                UUID.fromString("19d1e9b7-0d51-4405-bd1d-042cab403398"), getCurrentWeekYear()
+        );
+
+        if(stay == null) {
+            throw StayNotFoundException.EXCEPTION;
+        }
 
         return QueryStayStatusResponse.builder()
                 .status(stay.getCodeName(stay.getCode()))
@@ -66,5 +67,11 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
                                 )
                 )
                 .fetchFirst();
+    }
+
+    private int getCurrentWeekYear() {
+        LocalDate date = LocalDate.now();
+
+        return date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
     }
 }
