@@ -3,6 +3,8 @@ package io.github.v1serviceapplication.domain.studyroom.domain.repository;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.github.v1serviceapplication.domain.studyroom.exception.ExtensionNotFoundException;
+import io.github.v1serviceapplication.domain.studyroom.exception.StudyRoomNotFoundException;
 import io.github.v1serviceapplication.domain.studyroom.extension.domain.ExtensionEntity;
 import io.github.v1serviceapplication.domain.studyroom.extension.domain.repository.ExtensionRepository;
 import io.github.v1serviceapplication.domain.studyroom.domain.StudyRoomEntity;
@@ -16,6 +18,9 @@ import io.github.v1serviceapplication.studyroom.querystudyroom.spi.dto.StudyRoom
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -97,7 +102,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
     @Override
     public StudyRoom findById(UUID studyRoomId) {
         StudyRoomEntity studyRoom = studyRoomRepository.findById(studyRoomId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> StudyRoomNotFoundException.EXCEPTION);
 
         return studyRoomMapper.studyRoomEntityToDomain(studyRoom);
     }
@@ -105,7 +110,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
     @Override
     public void postStudyRoom(UUID studyRoomId, UUID userId) {
         StudyRoomEntity studyRoom = studyRoomRepository.findById(studyRoomId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> StudyRoomNotFoundException.EXCEPTION);
 
         extensionRepository.save(
                 ExtensionEntity.builder()
@@ -114,6 +119,17 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                         .build()
         );
 
+    }
+
+    @Override
+    @Transactional
+    public void updateStudyRoom(UUID studyRoomId, UUID userId) {
+        StudyRoomEntity studyRoom = studyRoomRepository.findById(studyRoomId)
+                .orElseThrow(() -> StudyRoomNotFoundException.EXCEPTION);
+
+        extensionRepository.findByUserIdAndDate(userId, LocalDate.now())
+                .orElseThrow(() -> ExtensionNotFoundException.EXCEPTION)
+                .changeStudyRoom(studyRoom);
     }
 
 }

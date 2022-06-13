@@ -19,4 +19,9 @@ public class ExtensionEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "study_room_id")
     private StudyRoomEntity studyRoom;
+
+    public void changeStudyRoom(StudyRoomEntity studyRoom) {
+        this.studyRoom = studyRoom;
+    }
+
 }

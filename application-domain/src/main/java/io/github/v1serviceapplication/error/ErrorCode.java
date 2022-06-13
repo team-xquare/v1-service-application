@@ -10,15 +10,17 @@ public enum ErrorCode {
 
     FULL_STUDY_ROOM(400, "STUDY-ROOM-400-1", "Full Study Room."),
 
-    JWT_SIGNATURE(401, "APPLICATION-401-1", "Jwt Signature is not valid"),
+    JWT_SIGNATURE(401, "APPLICATION-401-1", "Jwt Signature is not valid."),
 
-    JWT_EXPIRED(401, "APPLICATION-401-2", "Jwt Token Expired"),
+    JWT_EXPIRED(401, "APPLICATION-401-2", "Jwt Token Expired."),
 
-    CONVERT_FAILED(404, "APPLICATION-404-1", "The code value convert failed"),
+    CONVERT_FAILED(404, "APPLICATION-404-1", "The code value convert failed."),
 
-    STAY_NOT_FOUND(404, "STAY-404-1", "Stay Not Found"),
+    STUDY_ROOM_NOT_FOUND(404, "STUDY-ROOM-404-1", "StudyRoom Not Found."),
 
-    ALREADY_JOIN_STUDY_ROOM(409, "STUDY-ROOM-409-1", "Already Join Study Room."),
+    EXTENSION_NOT_FOUND(404, "EXTENSION-404-1", "Extension Not Found."),
+
+    STAY_NOT_FOUND(404, "STAY-404-1", "Stay Not Found."),
 
     INTERNAL_SERVER_ERROR(500, "APPLICATION-500-1",  "Internal Server Error.");
 
