@@ -55,13 +55,13 @@ jobs:
           tags: ${{secrets.DOCKER_USER}}/${{env.SERVICE_NAME}}-${{env.SERVICE_TYPE}}:${{ steps.get_version.outputs.VERSION }}
           build-args : |
             build-args : |
-            JDBC_URL=${{secrets.JDBC_URL_STAGE}}
-            DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD_STAGE}}
-            DATABASE_USERNAME=${{secrets.DATABASE_USERNAME_STAGE}}
+            JDBC_URL=${{secrets.JDBC_URL_PROD}}
+            DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD_PROD}}
+            DATABASE_USERNAME=${{secrets.DATABASE_USERNAME_PROD}}
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
-          token: ${{ secrets.GITOPS_DEPLOY_STAGE_TOKEN }}
+          token: ${{ secrets.GITOPS_DEPLOY_PRODUCTION_TOKEN }}
           repository: team-xquare/xquare-gitops-repo-production
           event-type: update_image
           client-payload: '{
