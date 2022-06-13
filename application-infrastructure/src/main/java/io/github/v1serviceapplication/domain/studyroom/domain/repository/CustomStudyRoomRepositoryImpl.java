@@ -3,13 +3,13 @@ package io.github.v1serviceapplication.domain.studyroom.domain.repository;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.github.v1serviceapplication.domain.studyroom.domain.StudyRoomEntity;
+import io.github.v1serviceapplication.domain.studyroom.domain.repository.vo.QStudyRoomVO;
+import io.github.v1serviceapplication.domain.studyroom.domain.repository.vo.StudyRoomVO;
 import io.github.v1serviceapplication.domain.studyroom.exception.ExtensionNotFoundException;
 import io.github.v1serviceapplication.domain.studyroom.exception.StudyRoomNotFoundException;
 import io.github.v1serviceapplication.domain.studyroom.extension.domain.ExtensionEntity;
 import io.github.v1serviceapplication.domain.studyroom.extension.domain.repository.ExtensionRepository;
-import io.github.v1serviceapplication.domain.studyroom.domain.StudyRoomEntity;
-import io.github.v1serviceapplication.domain.studyroom.domain.repository.vo.QStudyRoomVO;
-import io.github.v1serviceapplication.domain.studyroom.domain.repository.vo.StudyRoomVO;
 import io.github.v1serviceapplication.domain.studyroom.mapper.StudyRoomMapper;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.poststudyroom.spi.PostStudyRoomRepositorySpi;
@@ -20,14 +20,13 @@ import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.querydsl.core.types.ExpressionUtils.count;
-import static io.github.v1serviceapplication.domain.studyroom.extension.domain.QExtensionEntity.extensionEntity;
 import static io.github.v1serviceapplication.domain.studyroom.domain.QStudyRoomEntity.studyRoomEntity;
+import static io.github.v1serviceapplication.domain.studyroom.extension.domain.QExtensionEntity.extensionEntity;
 
 @RequiredArgsConstructor
 @Repository
@@ -86,7 +85,12 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
         return queryFactory
                 .select(extensionEntity.count())
                 .from(extensionEntity)
-                .where(extensionEntity.userId.eq(userId))
+                .where(
+                        extensionEntity.userId.eq(userId)
+                                .and(
+                                        extensionEntity.date.eq(LocalDate.now())
+                                )
+                )
                 .fetchFirst();
     }
 
