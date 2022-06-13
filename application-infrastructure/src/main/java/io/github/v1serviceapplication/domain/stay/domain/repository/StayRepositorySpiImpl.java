@@ -10,6 +10,7 @@ import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.temporal.IsoFields;
 import java.util.UUID;
@@ -24,6 +25,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
     private final UserFacade userFacade;
 
     @Override
+    @Transactional
     public void applyStay(StayStatusCode status) {
         UUID userId = UUID.fromString("19d1e9b7-0d51-4405-bd1d-042cab403398");
 
