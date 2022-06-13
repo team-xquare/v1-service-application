@@ -26,8 +26,12 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
         } catch (ApplicationException e) {
             errorToJson(e.getErrorCode(), response);
         } catch (Exception e) {
+            if(e.getCause() instanceof ApplicationException) {
+                errorToJson(((ApplicationException)e.getCause()).getErrorCode(), response);
+            } else {
             log.error("Error", e);
             errorToJson(ErrorCode.INTERNAL_SERVER_ERROR, response);
+            }
         }
     }
 
