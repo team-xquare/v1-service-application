@@ -24,4 +24,9 @@ public class StayEntity extends BaseEntity {
     public String getCodeName(StayStatusCode code) {
         return code.name();
     }
+
+    public void changeCode(StayStatusCode code) {
+        this.code = code;
+    }
+
 }
