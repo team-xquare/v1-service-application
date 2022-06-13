@@ -9,4 +9,5 @@ public interface PostStudyRoomRepositorySpi {
     Long applicationCount(UUID studyRoomId);
     StudyRoom findById(UUID studyRoomId);
     void postStudyRoom(UUID studyRoomId, UUID userId);
+    void updateStudyRoom(UUID studyRoomId, UUID userId);
 }
