@@ -1,12 +1,13 @@
 package io.github.v1serviceapplication.stubs;
 
-import io.github.v1serviceapplication.studyroom.extension.Extension;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
+import io.github.v1serviceapplication.studyroom.extension.Extension;
 import io.github.v1serviceapplication.studyroom.querystudyroom.spi.StudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.querystudyroom.spi.dto.StudyRoomModel;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -37,6 +38,19 @@ public class InMemoryStudyRoomRepository implements StudyRoomRepositorySpi {
                                 .build()
                 )
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<StudyRoom> findStudyRoomIdByUserId(UUID userId) {
+        return Optional.ofNullable(
+                studyRoomMap.get(extensionMap.values()
+                        .stream()
+                        .filter(extension -> extension.getUserId().equals(userId))
+                        .map(Extension::getStudyRoomId)
+                        .toList().get(0))
+        );
+
+
     }
 
     private List<UUID> findExtensionById(UUID studyRoomId) {
