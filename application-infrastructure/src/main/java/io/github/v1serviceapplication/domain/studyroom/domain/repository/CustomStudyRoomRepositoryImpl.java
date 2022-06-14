@@ -21,6 +21,7 @@ import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -66,12 +67,10 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
     }
 
     @Override
-    public UUID findStudyRoomIdByUserId(UUID userId) {
+    public Optional<StudyRoom> findStudyRoomIdByUserId(UUID userId) {
         return extensionRepository.findByUserIdAndDate(userId, LocalDate.now())
                 .map(ExtensionEntity::getStudyRoom)
-                .map(StudyRoomEntity::getId)
-                .orElse(null);
-
+                .map(studyRoomMapper::studyRoomEntityToDomain);
     }
 
     private List<UUID> queryStudentId(UUID studyRoomId) {
