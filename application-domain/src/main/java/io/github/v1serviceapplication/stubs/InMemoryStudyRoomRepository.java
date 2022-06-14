@@ -39,6 +39,15 @@ public class InMemoryStudyRoomRepository implements StudyRoomRepositorySpi {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public UUID findStudyRoomIdByUserId(UUID userId) {
+        return extensionMap.values()
+                .stream()
+                .filter(extension -> extension.getUserId().equals(userId))
+                .map(Extension::getStudyRoomId)
+                .toList().get(0);
+    }
+
     private List<UUID> findExtensionById(UUID studyRoomId) {
         return extensionMap.values()
                 .stream()
