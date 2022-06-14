@@ -65,6 +65,15 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                 ).collect(Collectors.toList());
     }
 
+    @Override
+    public UUID findStudyRoomIdByUserId(UUID userId) {
+        return extensionRepository.findByUserIdAndDate(userId, LocalDate.now())
+                .map(ExtensionEntity::getStudyRoom)
+                .map(StudyRoomEntity::getId)
+                .orElse(null);
+
+    }
+
     private List<UUID> queryStudentId(UUID studyRoomId) {
         return queryFactory
                 .select(extensionEntity.userId)
@@ -124,6 +133,8 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
         );
 
     }
+
+
 
     @Override
     @Transactional
