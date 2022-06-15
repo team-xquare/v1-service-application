@@ -1,5 +1,7 @@
 package io.github.v1serviceapplication.global.role;
 
 public enum UserRole {
-    STU, SCH, DOR
+    ROLE_STU,
+    ROLE_SCH,
+    ROLE_DOR
 }
