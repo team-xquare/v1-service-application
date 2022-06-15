@@ -17,10 +17,6 @@ import org.springframework.security.core.userdetails.User;
 @RequiredArgsConstructor
 @Component
 public class TokenProvider {
-    private static final String TOKEN_HEADER = "Authorization";
-    private static final String TOKEN_PREFIX = "Bearer ";
-    private static final String AUTHORITY_KEY = "authorities";
-
     public Authentication authenticateUser(String userId, UserRole userRole, List<String> userAuthorities) {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (String aut : userAuthorities) {
