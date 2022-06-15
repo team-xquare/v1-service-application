@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TokenFilter extends OncePerRequestFilter {
 
-    private final TokenProvider TokenProvider;
+    private final TokenProvider tokenProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -26,7 +26,7 @@ public class TokenFilter extends OncePerRequestFilter {
         List<String> userAuthorities = Collections.singletonList(request.getHeader("Request-User-Authorities"));
 
         if (userId != null) {
-            Authentication authentication = TokenProvider.authenticateUser(userId, userRole, userAuthorities);
+            Authentication authentication = tokenProvider.authenticateUser(userId, userRole, userAuthorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
