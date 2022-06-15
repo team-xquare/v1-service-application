@@ -12,10 +12,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class FilterConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 
     private final ObjectMapper objectMapper;
+    private final TokenProvider tokenProvider;
 
     @Override
     public void configure(HttpSecurity builder) {
+        TokenFilter tokenFilter = new TokenFilter(tokenProvider);
         ErrorHandlingFilter errorHandlingFilter = new ErrorHandlingFilter(objectMapper);
-        builder.addFilterBefore(errorHandlingFilter, UsernamePasswordAuthenticationFilter.class);
+        builder.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+        builder.addFilterBefore(errorHandlingFilter, TokenFilter.class);
     }
 }
