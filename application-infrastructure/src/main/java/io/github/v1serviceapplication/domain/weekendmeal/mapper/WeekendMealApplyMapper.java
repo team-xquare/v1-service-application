@@ -1,12 +1,12 @@
 package io.github.v1serviceapplication.domain.weekendmeal.mapper;
 
 import io.github.v1serviceapplication.domain.weekendmeal.domain.WeekendMealApplyEntity;
-import io.github.v1serviceapplication.weekendmeal.WeekendMeal;
+import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface WeekendMealApplyMapper {
-    WeekendMealApplyEntity domainToEntity(WeekendMeal weekendMeal);
+    WeekendMealApplyEntity domainToEntity(WeekendMealApply weekendMealApply);
 
-    WeekendMeal entityToDomain(WeekendMealApplyEntity weekendMeal);
+    WeekendMealApply entityToDomain(WeekendMealApplyEntity weekendMeal);
 }

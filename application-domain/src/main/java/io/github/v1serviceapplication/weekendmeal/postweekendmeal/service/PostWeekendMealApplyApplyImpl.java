@@ -1,7 +1,7 @@
 package io.github.v1serviceapplication.weekendmeal.postweekendmeal.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
-import io.github.v1serviceapplication.weekendmeal.WeekendMeal;
+import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 import io.github.v1serviceapplication.weekendmeal.postweekendmeal.api.PostWeekendMealApply;
 import io.github.v1serviceapplication.weekendmeal.postweekendmeal.spi.PostWeekendMealApplyRepositorySpi;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class PostWeekendMealApplyApplyImpl implements PostWeekendMealApply {
 
         //TODO 주말급식 비즈니스로직
         postWeekendMealApplyRepositorySpi.saveWeekendMeal(
-                WeekendMeal.builder()
+                WeekendMealApply.builder()
                         .userId(userId)
                         .isApplied(apply)
                         .build()
