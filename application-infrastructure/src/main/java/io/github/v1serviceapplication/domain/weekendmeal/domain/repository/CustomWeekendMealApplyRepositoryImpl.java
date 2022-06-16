@@ -14,7 +14,7 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
     private final WeekendMealApplyMapper weekendMealApplyMapper;
 
     @Override
-    public void saveWeekendMeal(WeekendMealApply weekendMealApply) {
+    public void saveWeekendMealApply(WeekendMealApply weekendMealApply) {
         weekendMealApplyRepository.save(
                 weekendMealApplyMapper.domainToEntity(weekendMealApply)
         );
