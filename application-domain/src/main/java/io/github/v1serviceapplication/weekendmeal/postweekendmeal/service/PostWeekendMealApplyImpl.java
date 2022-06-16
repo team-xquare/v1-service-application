@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @DomainService
-public class PostWeekendMealApplyApplyImpl implements PostWeekendMealApply {
+public class PostWeekendMealApplyImpl implements PostWeekendMealApply {
 
     private PostWeekendMealApplyRepositorySpi postWeekendMealApplyRepositorySpi;
 

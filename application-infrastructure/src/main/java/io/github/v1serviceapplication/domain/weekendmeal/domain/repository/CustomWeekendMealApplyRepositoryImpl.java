@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @RequiredArgsConstructor
 @Repository
-public class CustomWeekendMealApplyApplyRepositoryImpl implements PostWeekendMealApplyRepositorySpi {
+public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealApplyRepositorySpi {
 
     private final WeekendMealApplyRepository weekendMealApplyRepository;
     private final WeekendMealApplyMapper weekendMealApplyMapper;
