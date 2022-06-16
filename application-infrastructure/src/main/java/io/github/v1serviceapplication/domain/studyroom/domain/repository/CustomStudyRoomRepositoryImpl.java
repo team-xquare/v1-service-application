@@ -89,7 +89,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
 
 
     @Override
-    public Long totalCount(UUID userId) {
+    public boolean todayStudyRoomApplyExist(UUID userId) {
         return queryFactory
                 .select(extensionEntity.count())
                 .from(extensionEntity)
@@ -99,7 +99,8 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                                         extensionEntity.date.eq(LocalDate.now())
                                 )
                 )
-                .fetchFirst();
+                .fetchFirst()
+                .equals(1L);
     }
 
     @Override
