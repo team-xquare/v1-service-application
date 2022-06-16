@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostWeekendMealRequest {
+public class PostWeekendMealApplyRequest {
 
     @NotNull(message = "apply는 null일 수 없습니다.")
     private Boolean apply;

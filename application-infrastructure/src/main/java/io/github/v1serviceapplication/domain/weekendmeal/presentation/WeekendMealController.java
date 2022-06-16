@@ -1,7 +1,7 @@
 package io.github.v1serviceapplication.domain.weekendmeal.presentation;
 
-import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.request.PostWeekendMealRequest;
-import io.github.v1serviceapplication.weekendmeal.postweekendmeal.api.PostWeekendMeal;
+import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.request.PostWeekendMealApplyRequest;
+import io.github.v1serviceapplication.weekendmeal.postweekendmeal.api.PostWeekendMealApply;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +17,12 @@ import javax.validation.Valid;
 @RestController
 public class WeekendMealController {
 
-    private final PostWeekendMeal postWeekendMeal;
+    private final PostWeekendMealApply postWeekendMealApply;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping
-    public void postWeekendMeal(@RequestBody @Valid PostWeekendMealRequest request) {
-        postWeekendMeal.postWeekendMeal(request.getApply());
+    public void postWeekendMeal(@RequestBody @Valid PostWeekendMealApplyRequest request) {
+        postWeekendMealApply.postWeekendMeal(request.getApply());
     }
 
 }

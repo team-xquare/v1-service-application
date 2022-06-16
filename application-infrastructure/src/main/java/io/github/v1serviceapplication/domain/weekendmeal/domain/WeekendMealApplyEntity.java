@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @SuperBuilder
 @Table(name = "tbl_weekend_meal_apply")
 @Entity
-public class WeekendMealEntity extends BaseEntity {
+public class WeekendMealApplyEntity extends BaseEntity {
     @NotNull
     @Column(columnDefinition = "TINYINT(1)")
     private Boolean isApplied;
