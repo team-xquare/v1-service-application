@@ -2,6 +2,7 @@ package io.github.v1serviceapplication.domain.weekendmeal.domain;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Table(name = "tbl_weekend_meal")
 @Entity
 public class WeekendMealEntity {

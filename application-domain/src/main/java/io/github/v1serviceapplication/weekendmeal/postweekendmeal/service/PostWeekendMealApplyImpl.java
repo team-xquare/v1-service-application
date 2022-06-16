@@ -15,11 +15,11 @@ public class PostWeekendMealApplyImpl implements PostWeekendMealApply {
     private PostWeekendMealApplyRepositorySpi postWeekendMealApplyRepositorySpi;
 
     @Override
-    public void postWeekendMeal(boolean apply) {
+    public void postWeekendMealApply(boolean apply) {
         UUID userId = UUID.randomUUID(); //TODO userId 가져오기
 
         //TODO 주말급식 비즈니스로직
-        postWeekendMealApplyRepositorySpi.saveWeekendMeal(
+        postWeekendMealApplyRepositorySpi.saveWeekendMealApply(
                 WeekendMealApply.builder()
                         .userId(userId)
                         .isApplied(apply)
