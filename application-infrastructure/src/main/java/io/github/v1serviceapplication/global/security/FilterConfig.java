@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
 public class FilterConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
@@ -18,7 +17,7 @@ public class FilterConfig extends SecurityConfigurerAdapter<DefaultSecurityFilte
     public void configure(HttpSecurity builder) {
         TokenFilter tokenFilter = new TokenFilter(tokenProvider);
         ErrorHandlingFilter errorHandlingFilter = new ErrorHandlingFilter(objectMapper);
-        builder.addFilterBefore(tokenFilter, UsernamePasswordAuthenticationFilter.class);
+        builder.addFilterAt(tokenFilter, TokenFilter.class);
         builder.addFilterBefore(errorHandlingFilter, TokenFilter.class);
     }
 }
