@@ -47,6 +47,6 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
         WeekendMealApplyEntity weekendMealApply =  weekendMealApplyRepository.findTop1ByUserIdOrderByDateAsc(userId)
                 .orElseThrow(() -> WeekendMealApplyNotFoundException.EXCEPTION);
 
-        weekendMealApply.updateApply(apply);
+        weekendMealApply.updateApplied(apply);
     }
 }
