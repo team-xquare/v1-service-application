@@ -9,7 +9,7 @@ import java.util.UUID;
 @Aggregate
 @Getter
 @Builder
-public class WeekendMeal {
+public class WeekendMealApply {
     private final UUID id;
     private final UUID userId;
     private final Boolean isApplied;

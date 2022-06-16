@@ -1,5 +1,5 @@
 package io.github.v1serviceapplication.weekendmeal.postweekendmeal.api;
 
-public interface PostWeekendMeal {
+public interface PostWeekendMealApply {
     void postWeekendMeal(boolean apply);
 }
