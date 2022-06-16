@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class TokenFilter extends OncePerRequestFilter {
+public class AuthenticationFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
 

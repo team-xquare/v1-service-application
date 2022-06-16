@@ -15,9 +15,9 @@ public class FilterConfig extends SecurityConfigurerAdapter<DefaultSecurityFilte
 
     @Override
     public void configure(HttpSecurity builder) {
-        TokenFilter tokenFilter = new TokenFilter(tokenProvider);
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(tokenProvider);
         ErrorHandlingFilter errorHandlingFilter = new ErrorHandlingFilter(objectMapper);
-        builder.addFilterAt(tokenFilter, TokenFilter.class);
-        builder.addFilterBefore(errorHandlingFilter, TokenFilter.class);
+        builder.addFilterAt(authenticationFilter, AuthenticationFilter.class);
+        builder.addFilterBefore(errorHandlingFilter, AuthenticationFilter.class);
     }
 }
