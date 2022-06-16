@@ -13,5 +13,7 @@ public class WeekendMealApply {
     private final UUID id;
     private final UUID userId;
     private final Boolean isApplied;
+    private final UUID weekendMealId;
     private final LocalDate date;
+
 }
