@@ -15,8 +15,8 @@ import javax.validation.constraints.NotNull;
 @Table(name = "tbl_extension_apply")
 @Entity
 public class ExtensionEntity extends BaseEntity {
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "study_room_id")
     private StudyRoomEntity studyRoom;
 
