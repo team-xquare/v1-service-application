@@ -16,7 +16,7 @@ public class ApplyWeekendPicnicImpl implements ApplyWeekendPicnic {
 
     @Override
     public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
-        UUID userId = UUID.randomUUID();  // todo request header에서 userId 가져오기
+        UUID userId = UUID.fromString("19d1e9b7-0d51-4405-bd1d-042cab403398");  // todo request header에서 userId 가져오기
 
         Picnic picnic = Picnic.builder()
                 .userId(userId)
