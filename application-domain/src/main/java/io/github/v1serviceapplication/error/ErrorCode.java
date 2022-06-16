@@ -24,6 +24,8 @@ public enum ErrorCode {
 
     WEEKEND_MEAL_NOT_FOUND(404, "WEEKEND-404-1", "Weekend Meal Not Found."),
 
+    WEEKEND_MEAL_APPLY_NOT_FOUND(404, "WEEKEND-APPLY-404-1", "Weekend Meal Apply Not Found."),
+
     INTERNAL_SERVER_ERROR(500, "APPLICATION-500-1",  "Internal Server Error.");
 
     private final int status;
