@@ -6,6 +6,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,4 +23,9 @@ public class WeekendMealApplyEntity extends BaseEntity {
     @NotNull
     @Column(columnDefinition = "TINYINT(1)")
     private Boolean isApplied;
+
+    public UUID getWeekendMealId() {
+        return this.weekendMeal.getId();
+    }
+
 }
