@@ -23,7 +23,7 @@ public class CustomWeekendMealRepositoryImpl implements QueryWeekendMealReposito
         return weekendMealMapper.entityToDomain(
                 jpaQueryFactory
                         .selectFrom(weekendMealEntity)
-                        .where(weekendMealEntity.date.after(LocalDate.now()))
+                        .where(weekendMealEntity.date.before(LocalDate.now()).not())
                         .orderBy(weekendMealEntity.date.asc())
                         .fetchFirst()
         );
