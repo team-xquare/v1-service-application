@@ -33,7 +33,7 @@ public class PostWeekendMealApplyImpl implements PostWeekendMealApply {
 
     private void saveOrUpdate(UUID userId, UUID weekendMealId, boolean apply) {
         if (postWeekendMealApplyRepositorySpi.currentWeekendMealApplyExist(userId, weekendMealId)) {
-            postWeekendMealApplyRepositorySpi.updateWeekendMealApply(userId, apply);
+            postWeekendMealApplyRepositorySpi.updateWeekendMealApply(userId, weekendMealId, apply);
         } else {
             postWeekendMealApplyRepositorySpi.saveWeekendMealApply(
                     WeekendMealApply.builder()

@@ -7,5 +7,5 @@ import java.util.UUID;
 public interface PostWeekendMealApplyRepositorySpi {
     boolean currentWeekendMealApplyExist(UUID userId, UUID weekendMealId);
     void saveWeekendMealApply(WeekendMealApply weekendMealApply);
-    void updateWeekendMealApply(UUID userId, Boolean apply);
+    void updateWeekendMealApply(UUID userId, UUID weekendMealId, Boolean apply);
 }
