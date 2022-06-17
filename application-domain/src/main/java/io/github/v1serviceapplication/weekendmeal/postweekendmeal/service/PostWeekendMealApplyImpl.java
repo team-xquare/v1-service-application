@@ -15,8 +15,8 @@ import java.util.UUID;
 @DomainService
 public class PostWeekendMealApplyImpl implements PostWeekendMealApply {
 
-    private PostWeekendMealApplyRepositorySpi postWeekendMealApplyRepositorySpi;
-    private QueryWeekendMealRepositorySpi queryWeekendMealRepositorySpi;
+    private final PostWeekendMealApplyRepositorySpi postWeekendMealApplyRepositorySpi;
+    private final QueryWeekendMealRepositorySpi queryWeekendMealRepositorySpi;
 
     @Override
     public void postWeekendMealApply(boolean apply) {
@@ -33,7 +33,7 @@ public class PostWeekendMealApplyImpl implements PostWeekendMealApply {
 
     private void saveOrUpdate(UUID userId, UUID weekendMealId, boolean apply) {
         if (postWeekendMealApplyRepositorySpi.currentWeekendMealApplyExist(userId, weekendMealId)) {
-            postWeekendMealApplyRepositorySpi.updateWeekendMealApply(userId, apply);
+            postWeekendMealApplyRepositorySpi.updateWeekendMealApply(userId, weekendMealId, apply);
         } else {
             postWeekendMealApplyRepositorySpi.saveWeekendMealApply(
                     WeekendMealApply.builder()

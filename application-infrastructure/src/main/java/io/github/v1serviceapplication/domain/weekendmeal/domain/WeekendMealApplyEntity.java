@@ -24,7 +24,7 @@ public class WeekendMealApplyEntity extends BaseEntity {
     @Column(columnDefinition = "TINYINT(1)")
     private Boolean isApplied;
 
-    public UUID getWeekendMealId() {
+    public UUID getMealId() {
         return this.weekendMeal.getId();
     }
 

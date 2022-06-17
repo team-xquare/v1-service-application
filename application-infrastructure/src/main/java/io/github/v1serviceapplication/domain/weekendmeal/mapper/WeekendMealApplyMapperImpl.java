@@ -3,7 +3,6 @@ package io.github.v1serviceapplication.domain.weekendmeal.mapper;
 import io.github.v1serviceapplication.domain.weekendmeal.domain.WeekendMealApplyEntity;
 import io.github.v1serviceapplication.domain.weekendmeal.domain.WeekendMealEntity;
 import io.github.v1serviceapplication.domain.weekendmeal.domain.repository.WeekendMealRepository;
-import io.github.v1serviceapplication.weekendmeal.WeekendMeal;
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +34,7 @@ public class WeekendMealApplyMapperImpl implements WeekendMealApplyMapper {
         return WeekendMealApply.builder()
                 .id(weekendMealApply.getId())
                 .userId(weekendMealApply.getUserId())
-                .weekendMealId(weekendMealApply.getWeekendMealId())
+                .weekendMealId(weekendMealApply.getMealId())
                 .isApplied(weekendMealApply.getIsApplied())
                 .build();
     }

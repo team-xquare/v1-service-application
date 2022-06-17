@@ -6,6 +6,7 @@ import io.github.v1serviceapplication.domain.weekendmeal.mapper.WeekendMealApply
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealApplyNotFoundException;
 import io.github.v1serviceapplication.weekendmeal.postweekendmeal.spi.PostWeekendMealApplyRepositorySpi;
+import io.github.v1serviceapplication.weekendmeal.queryweekendmeal.spi.QueryWeekendMealApplyRepositorySpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +17,7 @@ import static io.github.v1serviceapplication.domain.weekendmeal.domain.QWeekendM
 
 @RequiredArgsConstructor
 @Repository
-public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealApplyRepositorySpi {
+public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealApplyRepositorySpi, QueryWeekendMealApplyRepositorySpi {
 
     private final WeekendMealApplyRepository weekendMealApplyRepository;
     private final WeekendMealApplyMapper weekendMealApplyMapper;
@@ -45,10 +46,17 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
 
     @Override
     @Transactional
-    public void updateWeekendMealApply(UUID userId, Boolean apply) {
-        WeekendMealApplyEntity weekendMealApply = weekendMealApplyRepository.findTop1ByUserIdOrderByDateAsc(userId)
+    public void updateWeekendMealApply(UUID userId, UUID weekendMealId, Boolean apply) {
+        WeekendMealApplyEntity weekendMealApply = weekendMealApplyRepository.findByUserIdAndWeekendMealId(userId, weekendMealId)
                 .orElseThrow(() -> WeekendMealApplyNotFoundException.EXCEPTION);
 
         weekendMealApply.updateApplied(apply);
+    }
+
+    @Override
+    public boolean queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(UUID userId, UUID weekendMealId) {
+        return weekendMealApplyRepository.findByUserIdAndWeekendMealId(userId, weekendMealId)
+                .map(WeekendMealApplyEntity::getIsApplied)
+                .orElse(false);
     }
 }

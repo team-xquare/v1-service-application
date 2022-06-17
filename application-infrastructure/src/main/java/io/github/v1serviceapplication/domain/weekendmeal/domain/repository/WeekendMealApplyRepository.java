@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Repository
 public interface WeekendMealApplyRepository extends JpaRepository<WeekendMealApplyEntity, UUID> {
-    Optional<WeekendMealApplyEntity> findTop1ByUserIdOrderByDateAsc(UUID userId);
+    Optional<WeekendMealApplyEntity> findByUserIdAndWeekendMealId(UUID userId, UUID weekendMealId);
 }
