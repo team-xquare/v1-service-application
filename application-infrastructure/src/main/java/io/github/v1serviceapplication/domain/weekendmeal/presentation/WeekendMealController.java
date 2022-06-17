@@ -1,11 +1,9 @@
 package io.github.v1serviceapplication.domain.weekendmeal.presentation;
 
 import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.request.PostWeekendMealApplyRequest;
-import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.response.QueryWeekendMealApplyStatusResponse;
-import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.response.QueryWeekendMealResponse;
 import io.github.v1serviceapplication.weekendmeal.postweekendmeal.api.PostWeekendMealApply;
 import io.github.v1serviceapplication.weekendmeal.queryweekendmeal.api.QueryWeekendMeal;
-import io.github.v1serviceapplication.weekendmeal.queryweekendmeal.api.QueryWeekendMealApplyStatus;
+import io.github.v1serviceapplication.weekendmeal.queryweekendmeal.api.dto.QueryWeekendMealResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +22,6 @@ public class WeekendMealController {
 
     private final PostWeekendMealApply postWeekendMealApply;
     private final QueryWeekendMeal queryWeekendMeal;
-    private final QueryWeekendMealApplyStatus queryWeekendMealApplyStatus;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping
@@ -34,12 +31,7 @@ public class WeekendMealController {
 
     @GetMapping
     public QueryWeekendMealResponse queryWeekendMeal() {
-        return new QueryWeekendMealResponse(queryWeekendMeal.queryWeekendMeal());
-    }
-
-    @GetMapping("/status")
-    public QueryWeekendMealApplyStatusResponse queryWeekendMealApplyStatus() {
-        return new QueryWeekendMealApplyStatusResponse(queryWeekendMealApplyStatus.queryWeekendMealApplyStatus());
+        return queryWeekendMeal.queryWeekendMeal();
     }
 
 }
