@@ -15,8 +15,8 @@ import java.util.UUID;
 @DomainService
 public class PostWeekendMealApplyImpl implements PostWeekendMealApply {
 
-    private PostWeekendMealApplyRepositorySpi postWeekendMealApplyRepositorySpi;
-    private QueryWeekendMealRepositorySpi queryWeekendMealRepositorySpi;
+    private final PostWeekendMealApplyRepositorySpi postWeekendMealApplyRepositorySpi;
+    private final QueryWeekendMealRepositorySpi queryWeekendMealRepositorySpi;
 
     @Override
     public void postWeekendMealApply(boolean apply) {
