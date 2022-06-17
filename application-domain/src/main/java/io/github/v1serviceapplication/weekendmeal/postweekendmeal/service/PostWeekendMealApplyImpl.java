@@ -28,7 +28,7 @@ public class PostWeekendMealApplyImpl implements PostWeekendMealApply {
             throw WeekendMealNotFoundException.EXCEPTION;
         }
 
-        if (postWeekendMealApplyRepositorySpi.todayWeekendMealApplyExist(userId)) {
+        if (postWeekendMealApplyRepositorySpi.currentWeekendMealApplyExist(userId, weekendMeal.getId())) {
             postWeekendMealApplyRepositorySpi.updateWeekendMealApply(userId, apply);
         } else {
             postWeekendMealApplyRepositorySpi.saveWeekendMealApply(

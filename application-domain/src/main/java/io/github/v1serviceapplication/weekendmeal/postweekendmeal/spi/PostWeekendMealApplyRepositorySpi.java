@@ -5,7 +5,7 @@ import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 import java.util.UUID;
 
 public interface PostWeekendMealApplyRepositorySpi {
-    boolean todayWeekendMealApplyExist(UUID userId);
+    boolean currentWeekendMealApplyExist(UUID userId, UUID weekendMealId);
     void saveWeekendMealApply(WeekendMealApply weekendMealApply);
     void updateWeekendMealApply(UUID userId, Boolean apply);
 }

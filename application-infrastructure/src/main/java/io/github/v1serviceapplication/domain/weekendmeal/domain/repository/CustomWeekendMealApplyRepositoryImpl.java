@@ -23,15 +23,20 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public boolean todayWeekendMealApplyExist(UUID userId) {
+    public boolean currentWeekendMealApplyExist(UUID userId, UUID weekendMealId) {
         return jpaQueryFactory
                 .select(weekendMealApplyEntity.count())
                 .from(weekendMealApplyEntity)
-                .where(weekendMealApplyEntity.userId.eq(userId))
-                .orderBy(weekendMealApplyEntity.date.asc())
-                .limit(1)
+                .where(
+                        weekendMealApplyEntity.userId.eq(userId)
+                                .and(
+                                        weekendMealApplyEntity.weekendMeal.id.eq(weekendMealId)
+                                )
+                )
                 .fetchFirst()
                 .equals(1L);
+
+        // Apply가 이번
     }
 
     @Override
@@ -44,7 +49,7 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
     @Override
     @Transactional
     public void updateWeekendMealApply(UUID userId, Boolean apply) {
-        WeekendMealApplyEntity weekendMealApply =  weekendMealApplyRepository.findTop1ByUserIdOrderByDateAsc(userId)
+        WeekendMealApplyEntity weekendMealApply = weekendMealApplyRepository.findTop1ByUserIdOrderByDateAsc(userId)
                 .orElseThrow(() -> WeekendMealApplyNotFoundException.EXCEPTION);
 
         weekendMealApply.updateApplied(apply);
