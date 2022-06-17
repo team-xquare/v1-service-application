@@ -28,7 +28,7 @@ public class QueryWeekendMealApplyStatusImpl implements QueryWeekendMealApplySta
         }
 
         return queryWeekendMealApplyRepositorySpi
-                .queryWeekendMealAppliedApplyByUserIdAndWeekendMealId(userId, weekendMeal.getId());
+                .queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(userId, weekendMeal.getId());
     }
 
 }

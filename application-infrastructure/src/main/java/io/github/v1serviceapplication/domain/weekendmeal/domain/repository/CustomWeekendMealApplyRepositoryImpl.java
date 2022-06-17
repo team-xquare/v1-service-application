@@ -54,7 +54,7 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
     }
 
     @Override
-    public boolean queryWeekendMealAppliedApplyByUserIdAndWeekendMealId(UUID userId, UUID weekendMealId) {
+    public boolean queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(UUID userId, UUID weekendMealId) {
         return weekendMealApplyRepository.findByUserIdAndWeekendMealId(userId, weekendMealId)
                 .map(WeekendMealApplyEntity::getIsApplied)
                 .orElse(false);
