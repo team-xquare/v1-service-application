@@ -25,7 +25,7 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
     @Override
     public boolean currentWeekendMealApplyExist(UUID userId, UUID weekendMealId) {
         return jpaQueryFactory
-                .select(weekendMealApplyEntity.count())
+                .select(weekendMealApplyEntity)
                 .from(weekendMealApplyEntity)
                 .where(
                         weekendMealApplyEntity.userId.eq(userId)
@@ -33,10 +33,7 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
                                         weekendMealApplyEntity.weekendMeal.id.eq(weekendMealId)
                                 )
                 )
-                .fetchFirst()
-                .equals(1L);
-
-        // Apply가 이번
+                .fetchFirst() != null;
     }
 
     @Override
