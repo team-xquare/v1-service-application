@@ -17,9 +17,11 @@ import org.springframework.security.core.userdetails.User;
 public class TokenProvider {
     public Authentication authenticateUser(String userId, UserRole userRole, List<String> userAuthorities) {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
         for (String userAuthority : userAuthorities) {
             authorities.add(new SimpleGrantedAuthority(userAuthority));
         }
+        
         authorities.add(new SimpleGrantedAuthority(userRole.name()));
         UserDetails userDetails = new User(userId, "", authorities);
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());

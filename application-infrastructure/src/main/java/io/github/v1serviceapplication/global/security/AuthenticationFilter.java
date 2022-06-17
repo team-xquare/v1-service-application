@@ -21,11 +21,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String userId = request.getHeader("Request-User-Id");
-        UserRole userRole = UserRole.valueOf(request.getHeader("Request-User-Role"));
-        List<String> userAuthorities = Collections.singletonList(request.getHeader("Request-User-Authorities"));
-
-        if (userId != null) {
+        if (request.getHeader("Request-User-Id") != null && request.getHeader("Request-User-Role") != null && request.getHeader("Request-User-Authorities") != null) {
+            String userId = request.getHeader("Request-User-Id");
+            UserRole userRole = UserRole.valueOf(request.getHeader("Request-User-Role"));
+            List<String> userAuthorities = Collections.singletonList(request.getHeader("Request-User-Authorities"));
             Authentication authentication = tokenProvider.authenticateUser(userId, userRole, userAuthorities);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
