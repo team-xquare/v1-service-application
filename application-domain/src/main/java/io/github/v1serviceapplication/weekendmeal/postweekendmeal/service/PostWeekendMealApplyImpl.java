@@ -28,16 +28,21 @@ public class PostWeekendMealApplyImpl implements PostWeekendMealApply {
             throw WeekendMealNotFoundException.EXCEPTION;
         }
 
-        if (postWeekendMealApplyRepositorySpi.currentWeekendMealApplyExist(userId, weekendMeal.getId())) {
+        saveOrUpdate(userId, weekendMeal.getId(), apply);
+    }
+
+    private void saveOrUpdate(UUID userId, UUID weekendMealId, boolean apply) {
+        if (postWeekendMealApplyRepositorySpi.currentWeekendMealApplyExist(userId, weekendMealId)) {
             postWeekendMealApplyRepositorySpi.updateWeekendMealApply(userId, apply);
         } else {
             postWeekendMealApplyRepositorySpi.saveWeekendMealApply(
                     WeekendMealApply.builder()
                             .userId(userId)
-                            .weekendMealId(weekendMeal.getId())
+                            .weekendMealId(weekendMealId)
                             .isApplied(apply)
                             .build()
             );
         }
     }
+
 }
