@@ -28,4 +28,8 @@ public class WeekendMealApplyEntity extends BaseEntity {
         return this.weekendMeal.getId();
     }
 
+    public void updateApplied(boolean isApplied) {
+        this.isApplied = isApplied;
+    }
+
 }

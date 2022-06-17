@@ -26,9 +26,11 @@ public class PostStudyRoomImpl implements PostStudyRoom {
             throw FullStudyRoomException.EXCEPTION;
         }
 
-        Long totalCount = postStudyRoomRepositorySpi.totalCount(userId);
+        saveOrUpdate(userId, studyRoomId);
+    }
 
-        if (totalCount >= 1) {
+    private void saveOrUpdate(UUID userId, UUID studyRoomId) {
+        if (postStudyRoomRepositorySpi.todayStudyRoomApplyExist(userId)) {
             postStudyRoomRepositorySpi.updateStudyRoom(studyRoomId, userId);
         } else {
             postStudyRoomRepositorySpi.postStudyRoom(studyRoomId, userId);
