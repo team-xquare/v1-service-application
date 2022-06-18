@@ -15,7 +15,6 @@ import org.springframework.web.cors.CorsUtils;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final ObjectMapper objectMapper;
-    private final TokenProvider tokenProvider;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -35,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/stay").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .apply(new FilterConfig(objectMapper, tokenProvider));
+                .apply(new FilterConfig(objectMapper));
 
     }
 }
