@@ -33,7 +33,6 @@ public class StayController {
 
     @PostMapping("/signup")
     public void setDefaultStay(@RequestBody @Valid SetDefaultStayRequest request) {
-        System.out.println(request.getUserId());
         setDefaultStay.setDefaultStay(request.getUserId());
     }
 }
