@@ -32,6 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/picnic").permitAll()
                 .antMatchers(HttpMethod.PUT, "/stay").permitAll()
                 .antMatchers(HttpMethod.GET, "/stay").permitAll()
+                .antMatchers(HttpMethod.POST, "/signup").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new FilterConfig(objectMapper));

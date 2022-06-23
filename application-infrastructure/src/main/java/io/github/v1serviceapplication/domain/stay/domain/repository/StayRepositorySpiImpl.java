@@ -59,6 +59,16 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
                 .build();
     }
 
+    @Override
+    public void setDefaultStay(UUID userId) {
+        StayEntity stay = StayEntity.builder()
+                .userId(userId)
+                .code(StayStatusCode.STAY)
+                .build();
+
+        stayRepository.save(stay);
+    }
+
     private StayEntity queryStayByUserAndWeekYear(UUID userId, int weekYear) {
         return queryFactory
                 .selectFrom(stayEntity)
