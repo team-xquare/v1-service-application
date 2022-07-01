@@ -5,6 +5,7 @@ import io.github.v1serviceapplication.error.ApplicationException;
 import io.github.v1serviceapplication.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -37,7 +38,7 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
 
     private void errorToJson(ErrorCode errorCode, HttpServletResponse response) throws IOException {
         response.setStatus(errorCode.getStatus());
-        response.setContentType("application/json");
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(
                 objectMapper.writeValueAsString(
                         new ErrorResponse(errorCode)
