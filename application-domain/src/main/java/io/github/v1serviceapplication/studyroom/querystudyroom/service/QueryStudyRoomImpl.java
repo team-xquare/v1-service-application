@@ -21,7 +21,7 @@ public class QueryStudyRoomImpl implements QueryStudyRoom {
     public List<StudyRoomElement> queryStudyRooms(List<Integer> floorList) {
         List<StudyRoomModel> studyRoomModelList;
 
-        if(floorList.isEmpty()) {
+        if(floorList != null && floorList.isEmpty()) {
             studyRoomModelList = studyRoomRepositorySpi.findAll();
         } else {
             studyRoomModelList = studyRoomRepositorySpi.findAllByFloorIn(floorList);
