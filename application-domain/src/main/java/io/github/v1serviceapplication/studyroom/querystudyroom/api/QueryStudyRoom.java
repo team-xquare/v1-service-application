@@ -5,5 +5,5 @@ import io.github.v1serviceapplication.studyroom.querystudyroom.api.dto.response.
 import java.util.List;
 
 public interface QueryStudyRoom {
-    List<StudyRoomElement> queryStudyRooms();
+    List<StudyRoomElement> queryStudyRooms(List<Integer> floorList);
 }
