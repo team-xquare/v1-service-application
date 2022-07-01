@@ -40,7 +40,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
     private final StudyRoomMapper studyRoomMapper;
 
     @Override
-    public List<StudyRoomModel> findAll() {
+    public List<StudyRoomModel> findAllByFloorIn(List<Integer> floorList) {
         List<StudyRoomVO> studyRoomVOList = queryFactory
                 .select(
                         new QStudyRoomVO(
@@ -51,6 +51,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                         )
                 )
                 .from(studyRoomEntity)
+                .where(studyRoomEntity.floor.in(floorList))
                 .fetch();
 
         return studyRoomVOList.stream()
