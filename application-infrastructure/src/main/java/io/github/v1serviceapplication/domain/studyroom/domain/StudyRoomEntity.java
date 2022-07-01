@@ -26,6 +26,9 @@ public class StudyRoomEntity {
     @NotNull
     private Integer maxPeopleCount;
 
+    @NotNull
+    private Integer floor;
+
     @Builder
     public StudyRoomEntity(String name, Integer maxPeopleCount) {
         this.name = name;
