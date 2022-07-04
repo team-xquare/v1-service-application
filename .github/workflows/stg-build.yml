@@ -48,6 +48,7 @@ jobs:
           username: ${{ steps.ecr.outputs.username }}
           password: ${{ steps.ecr.outputs.password }}
           registry: ${{ steps.ecr.outputs.registry }}
+          tags: ${{ github.sha }}
           buildargs: |
             JDBC_URL=${{secrets.JDBC_URL_STAGE}}
             DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD_STAGE}}
