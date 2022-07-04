@@ -2,7 +2,6 @@ package io.github.v1serviceapplication.domain.studyroom.domain.repository;
 
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.studyroom.domain.StudyRoomEntity;
 import io.github.v1serviceapplication.domain.studyroom.domain.repository.vo.QStudyRoomVO;
@@ -42,29 +41,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
 
     @Override
     public List<StudyRoomModel> findAll() {
-        List<StudyRoomVO> studyRoomVOList = queryStudyRoom().fetch();
-
-        return studyRoomVoToModel(studyRoomVOList);
-    }
-
-    @Override
-    public List<StudyRoomModel> findAllByFloorIn(List<Integer> floorList) {
-        List<StudyRoomVO> studyRoomVOList = queryStudyRoom()
-                .where(studyRoomEntity.floor.in(floorList))
-                .fetch();
-
-        return studyRoomVoToModel(studyRoomVOList);
-    }
-
-    @Override
-    public Optional<StudyRoom> findStudyRoomIdByUserId(UUID userId) {
-        return extensionRepository.findByUserIdAndDate(userId, LocalDate.now())
-                .map(ExtensionEntity::getStudyRoom)
-                .map(studyRoomMapper::studyRoomEntityToDomain);
-    }
-
-    private JPAQuery<StudyRoomVO> queryStudyRoom() {
-        return queryFactory
+        List<StudyRoomVO> studyRoomVOList = queryFactory
                 .select(
                         new QStudyRoomVO(
                                 studyRoomEntity.id,
@@ -73,10 +50,9 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                                 studyRoomEntity.maxPeopleCount
                         )
                 )
-                .from(studyRoomEntity);
-    }
+                .from(studyRoomEntity)
+                .fetch();
 
-    private List<StudyRoomModel> studyRoomVoToModel(List<StudyRoomVO> studyRoomVOList) {
         return studyRoomVOList.stream()
                 .map(
                         studyRoomVO ->
@@ -88,6 +64,13 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                                         .studentList(queryStudentId(studyRoomVO.getId()))
                                         .build()
                 ).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<StudyRoom> findStudyRoomIdByUserId(UUID userId) {
+        return extensionRepository.findByUserIdAndDate(userId, LocalDate.now())
+                .map(ExtensionEntity::getStudyRoom)
+                .map(studyRoomMapper::studyRoomEntityToDomain);
     }
 
     private List<UUID> queryStudentId(UUID studyRoomId) {
