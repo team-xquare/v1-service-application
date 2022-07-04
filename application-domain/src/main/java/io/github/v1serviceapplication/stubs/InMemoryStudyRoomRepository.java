@@ -41,6 +41,22 @@ public class InMemoryStudyRoomRepository implements StudyRoomRepositorySpi {
     }
 
     @Override
+    public List<StudyRoomModel> findAllByFloorIn(List<Integer> floorList) {
+        return studyRoomMap.values()
+                .stream().filter(studyRoom -> floorList.contains(studyRoom.getMaxPeopleCount()))
+                .map(studyRoom ->
+                        StudyRoomModel.builder()
+                                .id(studyRoom.getId())
+                                .name(studyRoom.getName())
+                                .applicationCount(findExtensionById(studyRoom.getId()).size())
+                                .maxPeopleCount(studyRoom.getMaxPeopleCount())
+                                .studentList(findExtensionById(studyRoom.getId()))
+                                .build()
+                )
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Optional<StudyRoom> findStudyRoomIdByUserId(UUID userId) {
         return Optional.ofNullable(
                 studyRoomMap.get(extensionMap.values()

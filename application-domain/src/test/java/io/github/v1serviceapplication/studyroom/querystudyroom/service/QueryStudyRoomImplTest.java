@@ -7,6 +7,7 @@ import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.querystudyroom.api.QueryStudyRoom;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -21,10 +22,12 @@ class QueryStudyRoomImplTest {
         UUID studyRoomId = UUID.randomUUID();
         UUID userId = UUID.randomUUID();
         String studyRoomName = "가온실";
+        List<Integer> floorList = List.of(1, 2, 3);
 
         StudyRoom studyRoom = StudyRoom.builder()
                 .id(studyRoomId)
                 .name(studyRoomName)
+                .floor(2)
                 .build();
 
         Extension extension = Extension.builder()
@@ -35,7 +38,7 @@ class QueryStudyRoomImplTest {
         studyRoomRepository.saveStudyRoom(studyRoom);
         studyRoomRepository.saveExtension(extension);
 
-        queryStudyRoom.queryStudyRooms()
+        queryStudyRoom.queryStudyRooms(floorList)
                 .forEach(queryStudy -> {
                     assertThat(queryStudy.getId()).isEqualTo(studyRoomId);
                     assertThat(queryStudy.getStudyRoomName()).isEqualTo(studyRoomName);
