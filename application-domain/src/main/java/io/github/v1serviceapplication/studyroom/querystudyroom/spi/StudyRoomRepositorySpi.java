@@ -9,6 +9,5 @@ import java.util.UUID;
 
 public interface StudyRoomRepositorySpi {
     List<StudyRoomModel> findAll();
-    List<StudyRoomModel> findAllByFloorIn(List<Integer> floorList);
     Optional<StudyRoom> findStudyRoomIdByUserId(UUID userId);
 }

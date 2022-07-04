@@ -18,16 +18,8 @@ public class QueryStudyRoomImpl implements QueryStudyRoom {
     private final StudyRoomRepositorySpi studyRoomRepositorySpi;
 
     @Override
-    public List<StudyRoomElement> queryStudyRooms(List<Integer> floorList) {
-        List<StudyRoomModel> studyRoomModelList;
-
-        if(floorList != null && floorList.isEmpty()) {
-            studyRoomModelList = studyRoomRepositorySpi.findAll();
-        } else {
-            studyRoomModelList = studyRoomRepositorySpi.findAllByFloorIn(floorList);
-        }
-
-        return studyRoomModelList
+    public List<StudyRoomElement> queryStudyRooms() {
+        return studyRoomRepositorySpi.findAll()
                 .stream()
                 .map(this::buildStudyRoom)
                 .collect(Collectors.toList());
