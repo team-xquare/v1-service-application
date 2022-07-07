@@ -9,6 +9,6 @@ import java.util.UUID;
 @Spi
 public interface StayRepositorySpi {
     void applyStay(StayStatusCode status);
-    QueryStayStatusResponse queryStayStatus(UUID userId);
+    QueryStayStatusResponse queryStayStatus();
     void setDefaultStay(UUID userId);
 }

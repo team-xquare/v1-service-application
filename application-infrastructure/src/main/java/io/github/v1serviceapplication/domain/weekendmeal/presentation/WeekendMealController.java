@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.domain.weekendmeal.presentation;
 
 import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.request.PostWeekendMealApplyRequest;
+import io.github.v1serviceapplication.global.facade.UserFacade;
 import io.github.v1serviceapplication.weekendmeal.postweekendmeal.api.PostWeekendMealApply;
 import io.github.v1serviceapplication.weekendmeal.queryweekendmeal.api.QueryWeekendMeal;
 import io.github.v1serviceapplication.weekendmeal.queryweekendmeal.api.dto.QueryWeekendMealResponse;
@@ -22,16 +23,17 @@ public class WeekendMealController {
 
     private final PostWeekendMealApply postWeekendMealApply;
     private final QueryWeekendMeal queryWeekendMeal;
+    private final UserFacade userFacade;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping
     public void postWeekendMealApply(@RequestBody @Valid PostWeekendMealApplyRequest request) {
-        postWeekendMealApply.postWeekendMealApply(request.getApply());
+        postWeekendMealApply.postWeekendMealApply(request.getApply(), userFacade.getCurrentUserId());
     }
 
     @GetMapping
     public QueryWeekendMealResponse queryWeekendMeal() {
-        return queryWeekendMeal.queryWeekendMeal();
+        return queryWeekendMeal.queryWeekendMeal(userFacade.getCurrentUserId());
     }
 
 }

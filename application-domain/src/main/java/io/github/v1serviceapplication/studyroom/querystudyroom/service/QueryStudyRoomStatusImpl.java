@@ -15,10 +15,8 @@ public class QueryStudyRoomStatusImpl implements QueryStudyRoomStatus {
     private final StudyRoomRepositorySpi studyRoomRepositorySpi;
 
     @Override
-    public UUID queryStudyRoomStatus() {
-        return studyRoomRepositorySpi.findStudyRoomIdByUserId(
-                        UUID.fromString("19d1e9b7-0d51-4405-bd1d-042cab403398") // TODO userId
-                )
+    public UUID queryStudyRoomStatus(UUID userId) {
+        return studyRoomRepositorySpi.findStudyRoomIdByUserId(userId)
                 .map(StudyRoom::getId)
                 .orElse(null);
     }

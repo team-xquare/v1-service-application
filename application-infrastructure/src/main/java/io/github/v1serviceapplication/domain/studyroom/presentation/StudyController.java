@@ -3,6 +3,7 @@ package io.github.v1serviceapplication.domain.studyroom.presentation;
 import io.github.v1serviceapplication.domain.studyroom.presentation.dto.request.PostStudyRoomRequest;
 import io.github.v1serviceapplication.domain.studyroom.presentation.dto.response.StudyRoomList;
 import io.github.v1serviceapplication.domain.studyroom.presentation.dto.response.StudyRoomStatusResponse;
+import io.github.v1serviceapplication.global.facade.UserFacade;
 import io.github.v1serviceapplication.studyroom.poststudyroom.api.PostStudyRoom;
 import io.github.v1serviceapplication.studyroom.querystudyroom.api.QueryStudyRoom;
 import io.github.v1serviceapplication.studyroom.querystudyroom.api.QueryStudyRoomStatus;
@@ -25,6 +26,7 @@ public class StudyController {
     private final QueryStudyRoom queryStudyRoom;
     private final PostStudyRoom postStudyRoom;
     private final QueryStudyRoomStatus queryStudyRoomStatus;
+    private final UserFacade userFacade;
 
     @GetMapping
     public StudyRoomList queryStudyRoomList() {
@@ -34,13 +36,13 @@ public class StudyController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping
     public void postStudyRoom(@RequestBody @Valid PostStudyRoomRequest request) {
-        postStudyRoom.postStudyRoom(request.getStudyRoomId());
+        postStudyRoom.postStudyRoom(request.getStudyRoomId(), userFacade.getCurrentUserId());
     }
 
     @GetMapping("/status")
     public StudyRoomStatusResponse queryStudyRoomStatus() {
         return new StudyRoomStatusResponse(
-                queryStudyRoomStatus.queryStudyRoomStatus()
+                queryStudyRoomStatus.queryStudyRoomStatus(userFacade.getCurrentUserId())
         );
     }
 

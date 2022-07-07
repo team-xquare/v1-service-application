@@ -16,9 +16,7 @@ public class PostStudyRoomImpl implements PostStudyRoom {
     private final PostStudyRoomRepositorySpi postStudyRoomRepositorySpi;
 
     @Override
-    public void postStudyRoom(UUID studyRoomId) {
-        UUID userId = UUID.fromString("19d1e9b7-0d51-4405-bd1d-042cab403398");            //TODO userId 가져오기.
-
+    public void postStudyRoom(UUID studyRoomId, UUID userId) {
         Long applicationCount = postStudyRoomRepositorySpi.applicationCount(studyRoomId);
         StudyRoom studyRoom = postStudyRoomRepositorySpi.findById(studyRoomId);
 
