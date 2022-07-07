@@ -19,9 +19,7 @@ public class QueryWeekendMealImpl implements QueryWeekendMeal {
     private final QueryWeekendMealApplyRepositorySpi queryWeekendMealApplyRepositorySpi;
 
     @Override
-    public QueryWeekendMealResponse queryWeekendMeal() {
-        UUID userId = UUID.fromString("19d1e9b7-0d51-4405-bd1d-042cab403398");
-
+    public QueryWeekendMealResponse queryWeekendMeal(UUID userId) {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
 
         if (weekendMeal == null) {

@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,8 +26,8 @@ public class StayController {
     }
 
     @GetMapping
-    public QueryStayStatusResponse queryStayStatus(@RequestHeader("userId") String userId) {
-        return queryStayStatus.queryStayStatus(UUID.fromString(userId));  // todo header에서 userId 받아서 할당
+    public QueryStayStatusResponse queryStayStatus() {
+        return queryStayStatus.queryStayStatus();
     }
 
     @PostMapping("/signup")

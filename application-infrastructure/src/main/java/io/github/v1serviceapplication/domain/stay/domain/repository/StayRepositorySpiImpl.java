@@ -27,7 +27,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
     @Override
     @Transactional
     public void applyStay(StayStatusCode status) {
-        UUID userId = UUID.fromString("19d1e9b7-0d51-4405-bd1d-042cab403398");
+        UUID userId = userFacade.getCurrentUserId();
 
         StayEntity stay = queryStayByUserAndWeekYear(userId, getCurrentWeekYear());
 
@@ -45,9 +45,9 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
     }
 
     @Override
-    public QueryStayStatusResponse queryStayStatus(UUID userId) {
+    public QueryStayStatusResponse queryStayStatus() {
         StayEntity stay = queryStayByUserAndWeekYear(
-                UUID.fromString("19d1e9b7-0d51-4405-bd1d-042cab403398"), getCurrentWeekYear()
+                userFacade.getCurrentUserId(), getCurrentWeekYear()
         );
 
         if(stay == null) {

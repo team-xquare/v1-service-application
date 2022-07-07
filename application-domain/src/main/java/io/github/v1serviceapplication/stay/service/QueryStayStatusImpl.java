@@ -14,7 +14,7 @@ public class QueryStayStatusImpl implements QueryStayStatus {
     private final StayRepositorySpi stayRepositorySpi;
 
     @Override
-    public QueryStayStatusResponse queryStayStatus(UUID userId) {
-        return stayRepositorySpi.queryStayStatus(userId);
+    public QueryStayStatusResponse queryStayStatus() {
+        return stayRepositorySpi.queryStayStatus();
     }
 }

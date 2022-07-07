@@ -19,9 +19,7 @@ public class PostWeekendMealApplyImpl implements PostWeekendMealApply {
     private final QueryWeekendMealRepositorySpi queryWeekendMealRepositorySpi;
 
     @Override
-    public void postWeekendMealApply(boolean apply) {
-        UUID userId = UUID.fromString("19d1e9b7-0d51-4405-bd1d-042cab403398"); //TODO userId 가져오기
-
+    public void postWeekendMealApply(boolean apply, UUID userId) {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
 
         if (weekendMeal == null) {

@@ -5,5 +5,5 @@ import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusRespo
 import java.util.UUID;
 
 public interface QueryStayStatus {
-    QueryStayStatusResponse queryStayStatus(UUID userId);
+    QueryStayStatusResponse queryStayStatus();
 }
