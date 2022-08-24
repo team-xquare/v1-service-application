@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.weekendmeal.postweekendmeal.spi;
+package io.github.v1serviceapplication.weekendmeal.spi;
 
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 

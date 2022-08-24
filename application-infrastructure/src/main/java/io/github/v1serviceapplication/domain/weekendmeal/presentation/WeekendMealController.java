@@ -2,9 +2,8 @@ package io.github.v1serviceapplication.domain.weekendmeal.presentation;
 
 import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.request.PostWeekendMealApplyRequest;
 import io.github.v1serviceapplication.global.facade.UserFacade;
-import io.github.v1serviceapplication.weekendmeal.postweekendmeal.api.PostWeekendMealApply;
-import io.github.v1serviceapplication.weekendmeal.queryweekendmeal.api.QueryWeekendMeal;
-import io.github.v1serviceapplication.weekendmeal.queryweekendmeal.api.dto.QueryWeekendMealResponse;
+import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
+import io.github.v1serviceapplication.weekendmeal.api.dto.QueryWeekendMealResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,20 +19,18 @@ import javax.validation.Valid;
 @RequestMapping("/weekend-meal")
 @RestController
 public class WeekendMealController {
-
-    private final PostWeekendMealApply postWeekendMealApply;
-    private final QueryWeekendMeal queryWeekendMeal;
     private final UserFacade userFacade;
+    private final WeekendMealApi weekendMealApi;
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping
     public void postWeekendMealApply(@RequestBody @Valid PostWeekendMealApplyRequest request) {
-        postWeekendMealApply.postWeekendMealApply(request.getApply(), userFacade.getCurrentUserId());
+        weekendMealApi.postWeekendMealApply(request.getApply(), userFacade.getCurrentUserId());
     }
 
     @GetMapping
     public QueryWeekendMealResponse queryWeekendMeal() {
-        return queryWeekendMeal.queryWeekendMeal(userFacade.getCurrentUserId());
+        return weekendMealApi.queryWeekendMeal(userFacade.getCurrentUserId());
     }
 
 }

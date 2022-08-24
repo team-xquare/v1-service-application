@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.weekendmeal.queryweekendmeal.api.dto;
+package io.github.v1serviceapplication.weekendmeal.api.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
