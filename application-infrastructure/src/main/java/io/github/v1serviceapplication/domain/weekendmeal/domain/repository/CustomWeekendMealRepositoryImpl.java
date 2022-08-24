@@ -3,7 +3,7 @@ package io.github.v1serviceapplication.domain.weekendmeal.domain.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.weekendmeal.mapper.WeekendMealMapper;
 import io.github.v1serviceapplication.weekendmeal.WeekendMeal;
-import io.github.v1serviceapplication.weekendmeal.queryweekendmeal.spi.QueryWeekendMealRepositorySpi;
+import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealRepositorySpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

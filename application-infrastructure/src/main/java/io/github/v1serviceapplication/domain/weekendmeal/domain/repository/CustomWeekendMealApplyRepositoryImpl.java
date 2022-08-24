@@ -5,8 +5,8 @@ import io.github.v1serviceapplication.domain.weekendmeal.domain.WeekendMealApply
 import io.github.v1serviceapplication.domain.weekendmeal.mapper.WeekendMealApplyMapper;
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealApplyNotFoundException;
-import io.github.v1serviceapplication.weekendmeal.postweekendmeal.spi.PostWeekendMealApplyRepositorySpi;
-import io.github.v1serviceapplication.weekendmeal.queryweekendmeal.spi.QueryWeekendMealApplyRepositorySpi;
+import io.github.v1serviceapplication.weekendmeal.spi.PostWeekendMealApplyRepositorySpi;
+import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealApplyRepositorySpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
