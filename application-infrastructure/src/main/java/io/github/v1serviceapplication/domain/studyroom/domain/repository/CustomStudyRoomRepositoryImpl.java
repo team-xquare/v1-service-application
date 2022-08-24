@@ -12,9 +12,9 @@ import io.github.v1serviceapplication.domain.studyroom.extension.domain.Extensio
 import io.github.v1serviceapplication.domain.studyroom.extension.domain.repository.ExtensionRepository;
 import io.github.v1serviceapplication.domain.studyroom.mapper.StudyRoomMapper;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
-import io.github.v1serviceapplication.studyroom.poststudyroom.spi.PostStudyRoomRepositorySpi;
-import io.github.v1serviceapplication.studyroom.querystudyroom.spi.StudyRoomRepositorySpi;
-import io.github.v1serviceapplication.studyroom.querystudyroom.spi.dto.StudyRoomModel;
+import io.github.v1serviceapplication.studyroom.spi.PostStudyRoomRepositorySpi;
+import io.github.v1serviceapplication.studyroom.spi.StudyRoomRepositorySpi;
+import io.github.v1serviceapplication.studyroom.spi.dto.StudyRoomModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

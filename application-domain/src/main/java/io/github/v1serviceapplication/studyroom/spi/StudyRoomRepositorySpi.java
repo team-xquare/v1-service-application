@@ -1,7 +1,7 @@
-package io.github.v1serviceapplication.studyroom.querystudyroom.spi;
+package io.github.v1serviceapplication.studyroom.spi;
 
 import io.github.v1serviceapplication.studyroom.StudyRoom;
-import io.github.v1serviceapplication.studyroom.querystudyroom.spi.dto.StudyRoomModel;
+import io.github.v1serviceapplication.studyroom.spi.dto.StudyRoomModel;
 
 import java.util.List;
 import java.util.Optional;

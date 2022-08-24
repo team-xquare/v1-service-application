@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.studyroom.presentation.dto.response;
 
-import io.github.v1serviceapplication.studyroom.querystudyroom.api.dto.response.StudyRoomElement;
+import io.github.v1serviceapplication.studyroom.api.dto.response.StudyRoomElement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

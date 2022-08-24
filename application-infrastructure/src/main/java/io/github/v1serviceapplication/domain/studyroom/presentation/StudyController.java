@@ -4,9 +4,7 @@ import io.github.v1serviceapplication.domain.studyroom.presentation.dto.request.
 import io.github.v1serviceapplication.domain.studyroom.presentation.dto.response.StudyRoomList;
 import io.github.v1serviceapplication.domain.studyroom.presentation.dto.response.StudyRoomStatusResponse;
 import io.github.v1serviceapplication.global.facade.UserFacade;
-import io.github.v1serviceapplication.studyroom.poststudyroom.api.PostStudyRoom;
-import io.github.v1serviceapplication.studyroom.querystudyroom.api.QueryStudyRoom;
-import io.github.v1serviceapplication.studyroom.querystudyroom.api.QueryStudyRoomStatus;
+import io.github.v1serviceapplication.studyroom.api.StudyRoomApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,26 +21,24 @@ import javax.validation.Valid;
 @RestController
 public class StudyController {
 
-    private final QueryStudyRoom queryStudyRoom;
-    private final PostStudyRoom postStudyRoom;
-    private final QueryStudyRoomStatus queryStudyRoomStatus;
+    private final StudyRoomApi studyRoomApi;
     private final UserFacade userFacade;
 
     @GetMapping
     public StudyRoomList queryStudyRoomList() {
-        return new StudyRoomList(queryStudyRoom.queryStudyRooms());
+        return new StudyRoomList(studyRoomApi.queryStudyRooms());
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping
     public void postStudyRoom(@RequestBody @Valid PostStudyRoomRequest request) {
-        postStudyRoom.postStudyRoom(request.getStudyRoomId(), userFacade.getCurrentUserId());
+        studyRoomApi.postStudyRoom(request.getStudyRoomId(), userFacade.getCurrentUserId());
     }
 
     @GetMapping("/status")
     public StudyRoomStatusResponse queryStudyRoomStatus() {
         return new StudyRoomStatusResponse(
-                queryStudyRoomStatus.queryStudyRoomStatus(userFacade.getCurrentUserId())
+                studyRoomApi.queryStudyRoomStatus(userFacade.getCurrentUserId())
         );
     }
 

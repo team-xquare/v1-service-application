@@ -1,20 +1,24 @@
 package io.github.v1serviceapplication.studyroom.querystudyroom.service;
 
 
+import io.github.v1serviceapplication.studyroom.api.StudyRoomApi;
 import io.github.v1serviceapplication.studyroom.extension.Extension;
 import io.github.v1serviceapplication.stubs.InMemoryStudyRoomRepository;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
-import io.github.v1serviceapplication.studyroom.querystudyroom.api.QueryStudyRoom;
+import io.github.v1serviceapplication.studyroom.service.StudyRoomApiImpl;
+import io.github.v1serviceapplication.studyroom.spi.PostStudyRoomRepositorySpi;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.mock;
 
 class QueryStudyRoomImplTest {
 
-    private final InMemoryStudyRoomRepository studyRoomRepository = new InMemoryStudyRoomRepository();
-    private final QueryStudyRoom queryStudyRoom = new QueryStudyRoomImpl(studyRoomRepository);
+    private final PostStudyRoomRepositorySpi postStudyRoomRepositorySpi = mock(PostStudyRoomRepositorySpi.class);
+    private final InMemoryStudyRoomRepository studyRoomRepositorySpi = new InMemoryStudyRoomRepository();
+    private final StudyRoomApi studyRoomApi = new StudyRoomApiImpl(postStudyRoomRepositorySpi, studyRoomRepositorySpi);
 
     @Test
     void queryStudyRooms() {
@@ -32,10 +36,10 @@ class QueryStudyRoomImplTest {
                 .studyRoomId(studyRoomId)
                 .build();
 
-        studyRoomRepository.saveStudyRoom(studyRoom);
-        studyRoomRepository.saveExtension(extension);
+        studyRoomRepositorySpi.saveStudyRoom(studyRoom);
+        studyRoomRepositorySpi.saveExtension(extension);
 
-        queryStudyRoom.queryStudyRooms()
+        studyRoomApi.queryStudyRooms()
                 .forEach(queryStudy -> {
                     assertThat(queryStudy.getId()).isEqualTo(studyRoomId);
                     assertThat(queryStudy.getStudyRoomName()).isEqualTo(studyRoomName);
