@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.studyroom.poststudyroom.spi;
+package io.github.v1serviceapplication.studyroom.spi;
 
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 

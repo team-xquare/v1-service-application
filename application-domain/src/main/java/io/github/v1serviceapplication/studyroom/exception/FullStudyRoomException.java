@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.studyroom.poststudyroom.exception;
+package io.github.v1serviceapplication.studyroom.exception;
 
 import io.github.v1serviceapplication.error.ApplicationException;
 import io.github.v1serviceapplication.error.ErrorCode;

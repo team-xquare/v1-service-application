@@ -1,6 +1,5 @@
-package io.github.v1serviceapplication.studyroom.querystudyroom.api.dto.response;
+package io.github.v1serviceapplication.studyroom.api.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 

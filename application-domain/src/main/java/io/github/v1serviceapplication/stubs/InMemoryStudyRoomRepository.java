@@ -2,8 +2,8 @@ package io.github.v1serviceapplication.stubs;
 
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.extension.Extension;
-import io.github.v1serviceapplication.studyroom.querystudyroom.spi.StudyRoomRepositorySpi;
-import io.github.v1serviceapplication.studyroom.querystudyroom.spi.dto.StudyRoomModel;
+import io.github.v1serviceapplication.studyroom.spi.StudyRoomRepositorySpi;
+import io.github.v1serviceapplication.studyroom.spi.dto.StudyRoomModel;
 
 import java.util.HashMap;
 import java.util.List;
