@@ -5,6 +5,7 @@ import io.github.v1serviceapplication.domain.stay.presentation.dto.request.SetDe
 import io.github.v1serviceapplication.stay.api.ApplyStay;
 import io.github.v1serviceapplication.stay.api.QueryStayStatus;
 import io.github.v1serviceapplication.stay.api.SetDefaultStay;
+import io.github.v1serviceapplication.stay.api.StayApi;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,22 +17,20 @@ import javax.validation.Valid;
 @RequestMapping("/stay")
 public class StayController {
 
-    private final SetDefaultStay setDefaultStay;
-    private final ApplyStay applyStay;
-    private final QueryStayStatus queryStayStatus;
+    private final StayApi stayApi;
 
     @PutMapping
     public void applyStay(@RequestBody @Valid ApplyStayRequest request) {
-        applyStay.applyStay(request.getStatus());
+        stayApi.applyStay(request.getStatus());
     }
 
     @GetMapping
     public QueryStayStatusResponse queryStayStatus() {
-        return queryStayStatus.queryStayStatus();
+        return stayApi.queryStayStatus();
     }
 
     @PostMapping("/signup")
     public void setDefaultStay(@RequestBody @Valid SetDefaultStayRequest request) {
-        setDefaultStay.setDefaultStay(request.getUserId());
+        stayApi.setDefaultStay(request.getUserId());
     }
 }

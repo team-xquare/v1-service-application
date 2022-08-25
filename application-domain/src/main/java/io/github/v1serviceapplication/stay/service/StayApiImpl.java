@@ -2,15 +2,27 @@ package io.github.v1serviceapplication.stay.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.code.CodeElement;
-import io.github.v1serviceapplication.stay.api.QueryStayStatusCode;
+import io.github.v1serviceapplication.stay.api.StayApi;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusCodeResponse;
+import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
+import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @DomainService
-public class QueryStayStatusCodeImpl implements QueryStayStatusCode {
+public class StayApiImpl implements StayApi {
+    private final StayRepositorySpi stayRepositorySpi;
+
+    @Override
+    public void setDefaultStay(UUID userId) {
+        stayRepositorySpi.setDefaultStay(userId);
+    }
+
     @Override
     public QueryStayStatusCodeResponse queryStayStatusCode() {
         return QueryStayStatusCodeResponse.builder()
@@ -21,5 +33,15 @@ public class QueryStayStatusCodeImpl implements QueryStayStatusCode {
                                 .build()
                         ).collect(Collectors.toList())
                 ).build();
+    }
+
+    @Override
+    public QueryStayStatusResponse queryStayStatus() {
+        return stayRepositorySpi.queryStayStatus();
+    }
+
+    @Override
+    public void applyStay(StayStatusCode status) {
+        stayRepositorySpi.applyStay(status);
     }
 }
