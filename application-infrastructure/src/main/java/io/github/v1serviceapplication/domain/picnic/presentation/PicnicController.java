@@ -2,7 +2,7 @@ package io.github.v1serviceapplication.domain.picnic.presentation;
 
 import io.github.v1serviceapplication.domain.picnic.presentation.dto.request.ApplyWeekendPicnicRequest;
 import io.github.v1serviceapplication.global.facade.UserFacade;
-import io.github.v1serviceapplication.picnic.api.ApplyWeekendPicnic;
+import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,7 +14,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/picnic")
 public class PicnicController {
-    private final ApplyWeekendPicnic applyWeekendPicnic;
+    private final PicnicApi picnicApi;
     private final UserFacade userFacade;
 
     @PostMapping
@@ -28,6 +28,6 @@ public class PicnicController {
                 .arrangement(request.getArrangement())
                 .build();
 
-        applyWeekendPicnic.applyWeekendPicnic(domainRequest);
+        picnicApi.applyWeekendPicnic(domainRequest);
     }
 }

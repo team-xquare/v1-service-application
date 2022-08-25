@@ -2,16 +2,14 @@ package io.github.v1serviceapplication.picnic.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.picnic.Picnic;
-import io.github.v1serviceapplication.picnic.api.ApplyWeekendPicnic;
+import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import lombok.RequiredArgsConstructor;
 
-import java.util.UUID;
-
 @DomainService
 @RequiredArgsConstructor
-public class ApplyWeekendPicnicImpl implements ApplyWeekendPicnic {
+public class PicnicApiImpl implements PicnicApi {
     private final PicnicRepositorySpi picnicRepositorySpi;
 
     @Override
