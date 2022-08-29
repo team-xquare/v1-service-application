@@ -30,7 +30,7 @@ public class StayController {
     }
 
     @PostMapping("/signup")
-    public void setDefaultStay(@RequestBody @Valid SetDefaultStayRequest request) {
-        stayApi.setDefaultStay(request.getUserId());
+    public void setDefaultStay() {
+        stayApi.setDefaultStay();
     }
 }

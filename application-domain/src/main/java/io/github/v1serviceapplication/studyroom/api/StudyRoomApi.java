@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface StudyRoomApi {
-    void postStudyRoom(UUID studyRoomId, UUID userId);
+    void postStudyRoom(UUID studyRoomId);
     List<StudyRoomElement> queryStudyRooms();
-    UUID queryStudyRoomStatus(UUID userId);
+    UUID queryStudyRoomStatus();
 }
