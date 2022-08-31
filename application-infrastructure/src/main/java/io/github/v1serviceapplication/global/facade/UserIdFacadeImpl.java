@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Component
-public class UserFacade implements UserIdFacade {
+public class UserIdFacadeImpl implements UserIdFacade {
 
     public UUID getCurrentUserId() {
         return UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName());
