@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.weekendmeal.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
+import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.weekendmeal.WeekendMeal;
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
@@ -20,16 +21,17 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     private final PostWeekendMealApplyRepositorySpi postWeekendMealApplyRepositorySpi;
     private final QueryWeekendMealRepositorySpi queryWeekendMealRepositorySpi;
     private final QueryWeekendMealApplyRepositorySpi queryWeekendMealApplyRepositorySpi;
+    private final UserIdFacade userIdFacade;
 
     @Override
-    public void postWeekendMealApply(boolean apply, UUID userId) {
+    public void postWeekendMealApply(boolean apply) {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
 
         if (weekendMeal == null) {
             throw WeekendMealNotFoundException.EXCEPTION;
         }
 
-        saveOrUpdate(userId, weekendMeal.getId(), apply);
+        saveOrUpdate(userIdFacade.getCurrentUserId(), weekendMeal.getId(), apply);
     }
 
     private void saveOrUpdate(UUID userId, UUID weekendMealId, boolean apply) {
@@ -47,7 +49,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     }
 
     @Override
-    public QueryWeekendMealResponse queryWeekendMeal(UUID userId) {
+    public QueryWeekendMealResponse queryWeekendMeal() {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
 
         if (weekendMeal == null) {
@@ -55,7 +57,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         }
 
         boolean applied = queryWeekendMealApplyRepositorySpi
-                .queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(userId, weekendMeal.getId());
+                .queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(userIdFacade.getCurrentUserId(), weekendMeal.getId());
 
         return new QueryWeekendMealResponse(
                 weekendMeal.getTitle(),

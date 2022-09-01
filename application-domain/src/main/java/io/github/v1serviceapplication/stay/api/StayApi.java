@@ -7,7 +7,7 @@ import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import java.util.UUID;
 
 public interface StayApi {
-    void setDefaultStay(UUID userId);
+    void setDefaultStay();
     QueryStayStatusCodeResponse queryStayStatusCode();
     QueryStayStatusResponse queryStayStatus();
     void applyStay(StayStatusCode status);

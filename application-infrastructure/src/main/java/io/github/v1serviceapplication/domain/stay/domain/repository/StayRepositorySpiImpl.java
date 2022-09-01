@@ -3,7 +3,6 @@ package io.github.v1serviceapplication.domain.stay.domain.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.stay.domain.StayEntity;
 import io.github.v1serviceapplication.error.StayNotFoundException;
-import io.github.v1serviceapplication.global.facade.UserFacade;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
@@ -22,12 +21,10 @@ import static io.github.v1serviceapplication.domain.stay.domain.QStayEntity.stay
 public class StayRepositorySpiImpl implements StayRepositorySpi {
     private final StayRepository stayRepository;
     private final JPAQueryFactory queryFactory;
-    private final UserFacade userFacade;
 
     @Override
     @Transactional
-    public void applyStay(StayStatusCode status) {
-        UUID userId = userFacade.getCurrentUserId();
+    public void applyStay(StayStatusCode status, UUID userId) {
 
         StayEntity stay = queryStayByUserAndWeekYear(userId, getCurrentWeekYear());
 
@@ -45,9 +42,9 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
     }
 
     @Override
-    public QueryStayStatusResponse queryStayStatus() {
+    public QueryStayStatusResponse queryStayStatus(UUID userId) {
         StayEntity stay = queryStayByUserAndWeekYear(
-                userFacade.getCurrentUserId(), getCurrentWeekYear()
+                userId, getCurrentWeekYear()
         );
 
         if(stay == null) {

@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.studyroom.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
+import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.api.StudyRoomApi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudyRoomElement;
@@ -21,9 +22,10 @@ public class StudyRoomApiImpl implements StudyRoomApi {
 
     private final PostStudyRoomRepositorySpi postStudyRoomRepositorySpi;
     private final StudyRoomRepositorySpi studyRoomRepositorySpi;
+    private final UserIdFacade userIdFacade;
 
     @Override
-    public void postStudyRoom(UUID studyRoomId, UUID userId) {
+    public void postStudyRoom(UUID studyRoomId) {
         Long applicationCount = postStudyRoomRepositorySpi.applicationCount(studyRoomId);
         StudyRoom studyRoom = postStudyRoomRepositorySpi.findById(studyRoomId);
 
@@ -31,7 +33,7 @@ public class StudyRoomApiImpl implements StudyRoomApi {
             throw FullStudyRoomException.EXCEPTION;
         }
 
-        saveOrUpdate(userId, studyRoomId);
+        saveOrUpdate(userIdFacade.getCurrentUserId(), studyRoomId);
     }
 
     private void saveOrUpdate(UUID userId, UUID studyRoomId) {
@@ -61,8 +63,8 @@ public class StudyRoomApiImpl implements StudyRoomApi {
     }
 
     @Override
-    public UUID queryStudyRoomStatus(UUID userId) {
-        return studyRoomRepositorySpi.findStudyRoomIdByUserId(userId)
+    public UUID queryStudyRoomStatus() {
+        return studyRoomRepositorySpi.findStudyRoomIdByUserId(userIdFacade.getCurrentUserId())
                 .map(StudyRoom::getId)
                 .orElse(null);
     }
