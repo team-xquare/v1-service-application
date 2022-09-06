@@ -17,4 +17,7 @@ server:
   servlet:
     context-path: /applications
   shutdown: graceful
-  
+
+  sentry:
+    dsn: ${SENTRY_DSN}
+    traces-sample-rate: 1.0

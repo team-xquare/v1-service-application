@@ -3,6 +3,7 @@ package io.github.v1serviceapplication.global.error;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.v1serviceapplication.error.ApplicationException;
 import io.github.v1serviceapplication.error.ErrorCode;
+import io.sentry.Sentry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -32,6 +33,7 @@ public class ErrorHandlingFilter extends OncePerRequestFilter {
             log.error("Error", e);
             errorToJson(ErrorCode.INTERNAL_SERVER_ERROR, response);
             }
+            Sentry.captureException(e);
         }
     }
 
