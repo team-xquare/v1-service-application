@@ -15,6 +15,7 @@ import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.spi.PostStudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.dto.StudyRoomModel;
+import io.sentry.spring.tracing.SentrySpan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -39,6 +40,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
 
     private final StudyRoomMapper studyRoomMapper;
 
+    @SentrySpan
     @Override
     public List<StudyRoomModel> findAll() {
         List<StudyRoomVO> studyRoomVOList = queryFactory
@@ -66,6 +68,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                 ).collect(Collectors.toList());
     }
 
+    @SentrySpan
     @Override
     public Optional<StudyRoom> findStudyRoomIdByUserId(UUID userId) {
         return extensionRepository.findByUserIdAndDate(userId, LocalDate.now())
@@ -88,6 +91,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
     }
 
 
+    @SentrySpan
     @Override
     public boolean todayStudyRoomApplyExist(UUID userId) {
         return queryFactory
@@ -102,6 +106,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                 .fetchFirst() != null;
     }
 
+    @SentrySpan
     @Override
     public Long applicationCount(UUID studyRoomId) {
         return queryFactory
@@ -111,6 +116,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                 .fetchFirst();
     }
 
+    @SentrySpan
     @Override
     public StudyRoom findById(UUID studyRoomId) {
         StudyRoomEntity studyRoom = studyRoomRepository.findById(studyRoomId)
@@ -119,6 +125,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
         return studyRoomMapper.studyRoomEntityToDomain(studyRoom);
     }
 
+    @SentrySpan
     @Override
     public void postStudyRoom(UUID studyRoomId, UUID userId) {
         StudyRoomEntity studyRoom = studyRoomRepository.findById(studyRoomId)
@@ -132,9 +139,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
         );
 
     }
-
-
-
+    @SentrySpan
     @Override
     @Transactional
     public void updateStudyRoom(UUID studyRoomId, UUID userId) {

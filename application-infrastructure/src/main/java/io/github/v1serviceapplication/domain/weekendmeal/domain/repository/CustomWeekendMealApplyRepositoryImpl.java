@@ -7,6 +7,7 @@ import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealApplyNotFoundException;
 import io.github.v1serviceapplication.weekendmeal.spi.PostWeekendMealApplyRepositorySpi;
 import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealApplyRepositorySpi;
+import io.sentry.spring.tracing.SentrySpan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +24,7 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
     private final WeekendMealApplyMapper weekendMealApplyMapper;
     private final JPAQueryFactory jpaQueryFactory;
 
+    @SentrySpan
     @Override
     public boolean currentWeekendMealApplyExist(UUID userId, UUID weekendMealId) {
         return jpaQueryFactory
@@ -37,6 +39,7 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
                 .fetchFirst() != null;
     }
 
+    @SentrySpan
     @Override
     public void saveWeekendMealApply(WeekendMealApply weekendMealApply) {
         weekendMealApplyRepository.save(
@@ -44,6 +47,7 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
         );
     }
 
+    @SentrySpan
     @Override
     @Transactional
     public void updateWeekendMealApply(UUID userId, UUID weekendMealId, Boolean apply) {
@@ -53,6 +57,7 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
         weekendMealApply.updateApplied(apply);
     }
 
+    @SentrySpan
     @Override
     public boolean queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(UUID userId, UUID weekendMealId) {
         return weekendMealApplyRepository.findByUserIdAndWeekendMealId(userId, weekendMealId)

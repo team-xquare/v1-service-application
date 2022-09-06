@@ -6,6 +6,7 @@ import io.github.v1serviceapplication.error.StayNotFoundException;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
+import io.sentry.spring.tracing.SentrySpan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
     private final StayRepository stayRepository;
     private final JPAQueryFactory queryFactory;
 
+    @SentrySpan
     @Override
     @Transactional
     public void applyStay(StayStatusCode status, UUID userId) {
@@ -41,6 +43,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
 
     }
 
+    @SentrySpan
     @Override
     public QueryStayStatusResponse queryStayStatus(UUID userId) {
         StayEntity stay = queryStayByUserAndWeekYear(
@@ -55,7 +58,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
                 .status(stay.getCodeName(stay.getCode()))
                 .build();
     }
-
+    @SentrySpan
     @Override
     public void setDefaultStay(UUID userId) {
         StayEntity stay = StayEntity.builder()

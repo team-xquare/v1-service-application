@@ -4,6 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.weekendmeal.mapper.WeekendMealMapper;
 import io.github.v1serviceapplication.weekendmeal.WeekendMeal;
 import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealRepositorySpi;
+import io.sentry.spring.tracing.SentrySpan;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +19,7 @@ public class CustomWeekendMealRepositoryImpl implements QueryWeekendMealReposito
     private final JPAQueryFactory jpaQueryFactory;
     private final WeekendMealMapper weekendMealMapper;
 
+    @SentrySpan
     @Override
     public WeekendMeal queryWeekendMealByDate() {
         return weekendMealMapper.entityToDomain(
