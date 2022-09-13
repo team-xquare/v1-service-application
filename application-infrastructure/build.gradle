@@ -51,6 +51,10 @@ dependencies {
 
     // configuration
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    // swagger
+    implementation "io.springfox:springfox-boot-starter:3.0.0"
+    implementation "io.springfox:springfox-swagger-ui:3.0.0"
 }
 
 test {
