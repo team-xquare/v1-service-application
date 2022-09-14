@@ -3,7 +3,6 @@ package io.github.v1serviceapplication.domain.studyroom.presentation;
 import io.github.v1serviceapplication.domain.studyroom.presentation.dto.request.PostStudyRoomRequest;
 import io.github.v1serviceapplication.domain.studyroom.presentation.dto.response.StudyRoomList;
 import io.github.v1serviceapplication.domain.studyroom.presentation.dto.response.StudyRoomStatusResponse;
-import io.github.v1serviceapplication.global.facade.UserFacade;
 import io.github.v1serviceapplication.studyroom.api.StudyRoomApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,6 @@ import javax.validation.Valid;
 public class StudyController {
 
     private final StudyRoomApi studyRoomApi;
-    private final UserFacade userFacade;
 
     @GetMapping
     public StudyRoomList queryStudyRoomList() {
@@ -32,13 +30,13 @@ public class StudyController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping
     public void postStudyRoom(@RequestBody @Valid PostStudyRoomRequest request) {
-        studyRoomApi.postStudyRoom(request.getStudyRoomId(), userFacade.getCurrentUserId());
+        studyRoomApi.postStudyRoom(request.getStudyRoomId());
     }
 
     @GetMapping("/status")
     public StudyRoomStatusResponse queryStudyRoomStatus() {
         return new StudyRoomStatusResponse(
-                studyRoomApi.queryStudyRoomStatus(userFacade.getCurrentUserId())
+                studyRoomApi.queryStudyRoomStatus()
         );
     }
 

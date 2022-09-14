@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.stay.presentation;
 
-import io.github.v1serviceapplication.stay.api.QueryStayStatusCode;
+import io.github.v1serviceapplication.stay.api.StayApi;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusCodeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/stay/codes")
 public class StayCodeController {
-    private final QueryStayStatusCode queryStayStatusCode;
+    private final StayApi stayApi;
 
     @GetMapping("/status")
     public QueryStayStatusCodeResponse queryStayStatusCode() {
-        return queryStayStatusCode.queryStayStatusCode();
+        return stayApi.queryStayStatusCode();
     }
 
 }
