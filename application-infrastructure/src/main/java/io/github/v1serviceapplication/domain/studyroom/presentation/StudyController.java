@@ -32,7 +32,7 @@ public class StudyController {
     }
 
     @Operation(summary = "자습실 신청 API")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void postStudyRoom(@RequestBody @Valid PostStudyRoomRequest request) {
         studyRoomApi.postStudyRoom(request.getStudyRoomId());

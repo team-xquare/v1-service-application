@@ -6,6 +6,7 @@ import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusRespo
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,6 +32,7 @@ public class StayController {
     }
 
     @Operation(summary = "유저 최초 회원가입 시 초기 테이블 값 세팅 API")
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
     public void setDefaultStay() {
         stayApi.setDefaultStay();
