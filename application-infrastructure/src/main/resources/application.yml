@@ -13,9 +13,6 @@ spring:
     property-naming-strategy: SNAKE_CASE
   lifecycle:
     timeout-per-shutdown-phase: 20s
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
 server:
   servlet:
     context-path: /applications

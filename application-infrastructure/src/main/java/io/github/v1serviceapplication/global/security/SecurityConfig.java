@@ -46,9 +46,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .apply(new FilterConfig(objectMapper));
 
     }
-
-    @Bean
-    public HttpFirewall defaultHttpFirewall() {
-        return new DefaultHttpFirewall();
-    }
 }
