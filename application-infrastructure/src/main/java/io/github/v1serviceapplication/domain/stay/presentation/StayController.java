@@ -4,6 +4,7 @@ import io.github.v1serviceapplication.domain.stay.presentation.dto.request.Apply
 import io.github.v1serviceapplication.stay.api.StayApi;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ public class StayController {
     private final StayApi stayApi;
 
     @Operation(summary = "잔류 신청 API")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping
     public void applyStay(@RequestBody @Valid ApplyStayRequest request) {
         stayApi.applyStay(request.getStatus());
