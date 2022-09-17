@@ -17,4 +17,11 @@ server:
   servlet:
     context-path: /applications
   shutdown: graceful
-  
+springdoc:
+  api-docs:
+    path: /docs
+  swagger-ui:
+    path: /swagger-ui
+    display-request-duration: true
+  cache:
+    disabled: true

@@ -2,11 +2,14 @@ package io.github.v1serviceapplication.global.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 import org.springframework.web.cors.CorsUtils;
 
 @EnableWebSecurity
@@ -36,6 +39,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/signup").permitAll()
                 .antMatchers(HttpMethod.POST, "/weekend-meal").hasAuthority("ROLE_STU")
                 .antMatchers(HttpMethod.GET, "/weekend-meal").hasAuthority("ROLE_STU")
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/docs/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new FilterConfig(objectMapper));

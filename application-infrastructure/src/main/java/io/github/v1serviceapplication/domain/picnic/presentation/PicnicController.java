@@ -3,18 +3,22 @@ package io.github.v1serviceapplication.domain.picnic.presentation;
 import io.github.v1serviceapplication.domain.picnic.presentation.dto.request.ApplyWeekendPicnicRequest;
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Tag(name = "주말 외출 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/picnic")
 public class PicnicController {
     private final PicnicApi picnicApi;
 
+    @Operation(summary = "주말 외출 신청 API")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void applyWeekendPicnic(@RequestBody @Valid ApplyWeekendPicnicRequest request) {

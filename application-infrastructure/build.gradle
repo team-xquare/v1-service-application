@@ -51,6 +51,9 @@ dependencies {
 
     // configuration
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    // swagger
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
 }
 
 test {
