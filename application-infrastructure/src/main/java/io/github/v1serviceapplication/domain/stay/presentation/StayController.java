@@ -20,6 +20,7 @@ public class StayController {
     private final StayApi stayApi;
 
     @Operation(summary = "잔류 신청 API")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping
     public void applyStay(@RequestBody @Valid ApplyStayRequest request) {
         stayApi.applyStay(request.getStatus());
