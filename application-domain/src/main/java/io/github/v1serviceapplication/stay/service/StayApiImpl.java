@@ -26,6 +26,11 @@ public class StayApiImpl implements StayApi {
     }
 
     @Override
+    public void deleteStay(UUID userId) {
+        stayRepositorySpi.deleteStay(userId);
+    }
+
+    @Override
     public QueryStayStatusCodeResponse queryStayStatusCode() {
         return QueryStayStatusCodeResponse.builder()
                 .codes(Arrays.stream(StayStatusCode.values())
