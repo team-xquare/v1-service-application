@@ -21,8 +21,8 @@ public class StayApiImpl implements StayApi {
     private final UserIdFacade userIdFacade;
 
     @Override
-    public void setDefaultStay() {
-        stayRepositorySpi.setDefaultStay(userIdFacade.getCurrentUserId());
+    public void setDefaultStay(UUID userId) {
+        stayRepositorySpi.setDefaultStay(userId);
     }
 
     @Override
