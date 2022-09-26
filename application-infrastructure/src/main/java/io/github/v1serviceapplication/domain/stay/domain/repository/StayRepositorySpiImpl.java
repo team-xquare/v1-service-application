@@ -66,6 +66,14 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
         stayRepository.save(stay);
     }
 
+    @Override
+    public void deleteStay(UUID userId) {
+        StayEntity stay = stayRepository.findByUserId(userId)
+                .orElseThrow(() -> StayNotFoundException.EXCEPTION);
+
+        stayRepository.delete(stay);
+    }
+    
     private StayEntity queryStayByUserAndWeekYear(UUID userId, int weekYear) {
         return queryFactory
                 .selectFrom(stayEntity)
