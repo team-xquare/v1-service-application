@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @Tag(name = "잔류 API")
 @RestController
@@ -21,6 +22,7 @@ public class StayController {
     private final StayApi stayApi;
 
     @Operation(summary = "잔류 신청 API")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping
     public void applyStay(@RequestBody @Valid ApplyStayRequest request) {
         stayApi.applyStay(request.getStatus());
@@ -37,5 +39,12 @@ public class StayController {
     @PostMapping("/signup")
     public void setDefaultStay(@RequestBody @Valid SignupSettingRequest request) {
         stayApi.setDefaultStay(request.getUserId());
+    }
+
+    @Operation(summary = "유저 최초 회원가입 실패시 테이블 값 삭제 API")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/signup/{user-uuid}")
+    public void deleteStay(@PathVariable("user-uuid") UUID userId) {
+        stayApi.deleteStay(userId);
     }
 }

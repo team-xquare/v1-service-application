@@ -8,6 +8,7 @@ import java.util.UUID;
 
 public interface StayApi {
     void setDefaultStay(UUID userId);
+    void deleteStay(UUID userId);
     QueryStayStatusCodeResponse queryStayStatusCode();
     QueryStayStatusResponse queryStayStatus();
     void applyStay(StayStatusCode status);
