@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.domain.stay.presentation;
 
 import io.github.v1serviceapplication.domain.stay.presentation.dto.request.ApplyStayRequest;
+import io.github.v1serviceapplication.domain.stay.presentation.dto.request.SignupSettingRequest;
 import io.github.v1serviceapplication.stay.api.StayApi;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,8 +37,8 @@ public class StayController {
     @Operation(summary = "유저 최초 회원가입 시 초기 테이블 값 세팅 API")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
-    public void setDefaultStay() {
-        stayApi.setDefaultStay();
+    public void setDefaultStay(@RequestBody @Valid SignupSettingRequest request) {
+        stayApi.setDefaultStay(request.getUserId());
     }
 
     @Operation(summary = "유저 최초 회원가입 실패시 테이블 값 삭제 API")
