@@ -26,7 +26,15 @@ public enum ErrorCode {
 
     WEEKEND_MEAL_APPLY_NOT_FOUND(404, "WEEKEND-APPLY-404-1", "Weekend Meal Apply Not Found."),
 
-    INTERNAL_SERVER_ERROR(500, "APPLICATION-500-1",  "Internal Server Error.");
+    INTERNAL_SERVER_ERROR(500, "APPLICATION-500-1",  "Internal Server Error."),
+
+    FEIGN_BAD_REQUEST(400, "FEIGN-400-1", "Feign Bad Request."),
+
+    FEIGN_UNAUTHORIZED(401, "FEIGN-401-1", "Feign Unauthorized."),
+
+    FEIGN_FORBIDDEN(403, "FEIGN-403-1", "Feign Forbidden."),
+
+    FEIGN_EXPIRED_TOKEN(419, "FEIGN-419-1", "Feign Expired Token.");
 
     private final int status;
     private final String code;
