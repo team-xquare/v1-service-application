@@ -13,7 +13,7 @@ import static io.github.v1serviceapplication.domain.studyroom.extension.domain.Q
 
 @RequiredArgsConstructor
 @Repository
-public class CustomStudyRoomRepositoryImpl implements StudyRoomQueryExtensionRepositorySpi {
+public class CustomExtensionRepositoryImpl implements StudyRoomQueryExtensionRepositorySpi {
 
     private final JPAQueryFactory queryFactory;
 
