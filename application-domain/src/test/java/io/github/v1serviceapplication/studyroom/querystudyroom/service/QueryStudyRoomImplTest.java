@@ -3,7 +3,7 @@ package io.github.v1serviceapplication.studyroom.querystudyroom.service;
 import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.studyroom.api.StudyRoomApi;
 import io.github.v1serviceapplication.studyroom.extension.Extension;
-import io.github.v1serviceapplication.stubs.InMemoryStudyRoomRepository;
+import io.github.v1serviceapplication.stubs.InMemoryQueryStudyRoomRepository;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.service.StudyRoomApiImpl;
 import io.github.v1serviceapplication.studyroom.spi.PostStudyRoomRepositorySpi;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 class QueryStudyRoomImplTest {
 
     private final PostStudyRoomRepositorySpi postStudyRoomRepositorySpi = mock(PostStudyRoomRepositorySpi.class);
-    private final InMemoryStudyRoomRepository studyRoomRepositorySpi = new InMemoryStudyRoomRepository();
+    private final InMemoryQueryStudyRoomRepository studyRoomRepositorySpi = new InMemoryQueryStudyRoomRepository();
     private final UserIdFacade userIdFacade = new UserIdFacade() {
         @Override
         public UUID getCurrentUserId() {
