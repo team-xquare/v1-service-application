@@ -7,11 +7,12 @@ import io.github.v1serviceapplication.studyroom.api.StudyRoomApi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudyRoomElement;
 import io.github.v1serviceapplication.studyroom.exception.FullStudyRoomException;
 import io.github.v1serviceapplication.studyroom.spi.PostStudyRoomRepositorySpi;
-import io.github.v1serviceapplication.studyroom.spi.StudyRoomRepositorySpi;
+import io.github.v1serviceapplication.studyroom.spi.QueryStudyRoomRepositorySpi;
+import io.github.v1serviceapplication.studyroom.spi.StudyRoomQueryExtensionRepositorySpi;
+import io.github.v1serviceapplication.studyroom.spi.StudyRoomUserFeignSpi;
 import io.github.v1serviceapplication.studyroom.spi.dto.StudyRoomModel;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,7 +22,9 @@ import java.util.stream.Collectors;
 public class StudyRoomApiImpl implements StudyRoomApi {
 
     private final PostStudyRoomRepositorySpi postStudyRoomRepositorySpi;
-    private final StudyRoomRepositorySpi studyRoomRepositorySpi;
+    private final QueryStudyRoomRepositorySpi studyRoomRepositorySpi;
+    private final StudyRoomQueryExtensionRepositorySpi studyRoomQueryExtensionRepositorySpi;
+    private final StudyRoomUserFeignSpi studyRoomUserFeignSpi;
     private final UserIdFacade userIdFacade;
 
     @Override
@@ -58,8 +61,13 @@ public class StudyRoomApiImpl implements StudyRoomApi {
                 .studyRoomName(studyRoom.getName())
                 .applicationCount(studyRoom.getApplicationCount())
                 .maxPeopleCount(studyRoom.getMaxPeopleCount())
-                .students(Collections.emptyList())          //TODO user id list로 정보 불러오기.
+                .students(studyRoomUserFeignSpi.queryUserInfoByUserId(queryStudentIdList(studyRoom.getId())))
                 .build();
+    }
+
+    private List<UUID> queryStudentIdList(UUID studyRoomId) {
+        System.out.println(studyRoomQueryExtensionRepositorySpi.findTodayByStudyRoomId(studyRoomId));
+        return studyRoomQueryExtensionRepositorySpi.findTodayByStudyRoomId(studyRoomId);
     }
 
     @Override
