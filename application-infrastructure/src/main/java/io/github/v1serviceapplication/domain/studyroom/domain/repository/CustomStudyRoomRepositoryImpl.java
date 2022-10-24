@@ -87,7 +87,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                 .from(extensionEntity)
                 .where(
                         extensionEntity.studyRoom.id.eq(studyRoomEntity.id)
-                                .and(getDatePredicate())
+                                .and(getCurrentDatePredicate())
                 );
     }
 
@@ -113,7 +113,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                 .from(extensionEntity)
                 .where(
                         extensionEntity.studyRoom.id.eq(studyRoomId)
-                                .and(getDatePredicate())
+                                .and(getCurrentDatePredicate())
                 )
                 .fetchFirst();
     }
@@ -151,7 +151,7 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
                 .changeStudyRoom(studyRoom);
     }
 
-    private Predicate getDatePredicate() {
+    private Predicate getCurrentDatePredicate() {
         return extensionEntity.date.eq(LocalDate.now());
     }
 
