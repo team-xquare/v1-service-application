@@ -1,5 +1,6 @@
 package io.github.v1serviceapplication.domain.studyroom.domain.repository;
 
+import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -84,7 +85,10 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
     private JPQLQuery<Long> extensionCount() {
         return JPAExpressions.select(count(extensionEntity.userId))
                 .from(extensionEntity)
-                .where(extensionEntity.studyRoom.id.eq(studyRoomEntity.id));
+                .where(
+                        extensionEntity.studyRoom.id.eq(studyRoomEntity.id)
+                                .and(getCurrentDatePredicate())
+                );
     }
 
 
@@ -107,7 +111,10 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
         return queryFactory
                 .select(extensionEntity.count())
                 .from(extensionEntity)
-                .where(extensionEntity.studyRoom.id.eq(studyRoomId))
+                .where(
+                        extensionEntity.studyRoom.id.eq(studyRoomId)
+                                .and(getCurrentDatePredicate())
+                )
                 .fetchFirst();
     }
 
@@ -133,8 +140,6 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
 
     }
 
-
-
     @Override
     @Transactional
     public void updateStudyRoom(UUID studyRoomId, UUID userId) {
@@ -144,6 +149,10 @@ public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, Po
         extensionRepository.findByUserIdAndDate(userId, LocalDate.now())
                 .orElseThrow(() -> ExtensionNotFoundException.EXCEPTION)
                 .changeStudyRoom(studyRoom);
+    }
+
+    private Predicate getCurrentDatePredicate() {
+        return extensionEntity.date.eq(LocalDate.now());
     }
 
 }
