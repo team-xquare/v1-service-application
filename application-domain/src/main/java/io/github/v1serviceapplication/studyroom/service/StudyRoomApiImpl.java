@@ -66,7 +66,7 @@ public class StudyRoomApiImpl implements StudyRoomApi {
     }
 
     private List<UUID> queryStudentIdList(UUID studyRoomId) {
-        return studyRoomQueryExtensionRepositorySpi.findTodayByStudyRoomId(studyRoomId);
+        return studyRoomQueryExtensionRepositorySpi.findStudentIdByRoomIdAndToday(studyRoomId);
     }
 
     @Override

@@ -4,5 +4,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface StudyRoomQueryExtensionRepositorySpi {
-    List<UUID> findTodayByStudyRoomId(UUID studyRoomId);
+    List<UUID> findStudentIdByRoomIdAndToday(UUID studyRoomId);
 }

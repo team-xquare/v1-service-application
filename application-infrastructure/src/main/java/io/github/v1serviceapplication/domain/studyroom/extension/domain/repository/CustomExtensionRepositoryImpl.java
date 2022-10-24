@@ -18,7 +18,7 @@ public class CustomExtensionRepositoryImpl implements StudyRoomQueryExtensionRep
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<UUID> findTodayByStudyRoomId(UUID studyRoomId) {
+    public List<UUID> findStudentIdByRoomIdAndToday(UUID studyRoomId) {
         return queryFactory.select(extensionEntity.userId)
                 .from(extensionEntity)
                 .where(
