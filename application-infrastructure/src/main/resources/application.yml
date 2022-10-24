@@ -25,3 +25,6 @@ springdoc:
     display-request-duration: true
   cache:
     disabled: true
+
+user:
+  url: https://stag-api.xquare.app/users
