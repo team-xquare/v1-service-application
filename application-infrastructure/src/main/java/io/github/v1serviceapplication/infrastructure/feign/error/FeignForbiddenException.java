@@ -7,7 +7,7 @@ public class FeignForbiddenException extends ApplicationException {
 
     public static final ApplicationException EXCEPTION = new FeignForbiddenException();
 
-    public FeignForbiddenException() {
+    private FeignForbiddenException() {
         super(ErrorCode.FEIGN_FORBIDDEN);
     }
 

@@ -7,7 +7,7 @@ public class FeignUnAuthorizedException extends ApplicationException {
 
     public static final ApplicationException EXCEPTION = new FeignUnAuthorizedException();
 
-    public FeignUnAuthorizedException() {
+    private FeignUnAuthorizedException() {
         super(ErrorCode.FEIGN_UNAUTHORIZED);
     }
 

@@ -7,7 +7,7 @@ public class FeignBadRequestException extends ApplicationException {
 
     public static final ApplicationException EXCEPTION = new FeignBadRequestException();
 
-    public FeignBadRequestException() {
+    private FeignBadRequestException() {
         super(ErrorCode.FEIGN_BAD_REQUEST);
     }
 

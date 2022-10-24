@@ -7,7 +7,7 @@ public class FeignExpiredTokenException extends ApplicationException {
 
     public static final ApplicationException EXCEPTION = new FeignExpiredTokenException();
 
-    public FeignExpiredTokenException() {
+    private FeignExpiredTokenException() {
         super(ErrorCode.FEIGN_EXPIRED_TOKEN);
     }
 
