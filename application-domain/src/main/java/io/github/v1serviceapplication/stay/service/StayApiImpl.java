@@ -7,6 +7,7 @@ import io.github.v1serviceapplication.stay.api.StayApi;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusCodeResponse;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
+import io.github.v1serviceapplication.stay.exception.AlreadyExistsStayException;
 import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
 import lombok.RequiredArgsConstructor;
 
@@ -22,7 +23,10 @@ public class StayApiImpl implements StayApi {
 
     @Override
     public void setDefaultStay(UUID userId) {
-        stayRepositorySpi.setDefaultStay(userId);
+        if (stayRepositorySpi.existsByUserId(userId)) {
+            throw AlreadyExistsStayException.EXCEPTION;
+        }
+        stayRepositorySpi.applyStay(userId, StayStatusCode.STAY);
     }
 
     @Override
@@ -49,6 +53,6 @@ public class StayApiImpl implements StayApi {
 
     @Override
     public void applyStay(StayStatusCode status) {
-        stayRepositorySpi.applyStay(status, userIdFacade.getCurrentUserId());
+        stayRepositorySpi.applyStay(userIdFacade.getCurrentUserId(), status);
     }
 }
