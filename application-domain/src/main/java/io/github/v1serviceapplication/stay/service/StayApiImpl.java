@@ -22,7 +22,7 @@ public class StayApiImpl implements StayApi {
 
     @Override
     public void setDefaultStay(UUID userId) {
-        stayRepositorySpi.setDefaultStay(userId);
+        stayRepositorySpi.applyStay(userId, StayStatusCode.STAY);
     }
 
     @Override
@@ -49,6 +49,6 @@ public class StayApiImpl implements StayApi {
 
     @Override
     public void applyStay(StayStatusCode status) {
-        stayRepositorySpi.applyStay(status, userIdFacade.getCurrentUserId());
+        stayRepositorySpi.applyStay(userIdFacade.getCurrentUserId(), status);
     }
 }

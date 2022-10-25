@@ -18,8 +18,20 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
 
     @Override
     @Transactional
-    public void applyStay(StayStatusCode status, UUID userId) {
-        saveOrUpdate(userId, status);
+    public void applyStay(UUID userId, StayStatusCode stayStatusCode) {
+        StayEntity stay = stayRepository.findByUserId(userId)
+                .orElse(null);
+
+        if (stay != null) {
+            stay.changeCode(stayStatusCode);
+        } else {
+            stayRepository.save(
+                    StayEntity.builder()
+                            .userId(userId)
+                            .code(stayStatusCode)
+                            .build()
+            );
+        }
     }
 
     @Override
@@ -33,32 +45,11 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
     }
 
     @Override
-    public void setDefaultStay(UUID userId) {
-        saveOrUpdate(userId, StayStatusCode.STAY);
-    }
-
-    @Override
     public void deleteStay(UUID userId) {
         StayEntity stay = stayRepository.findByUserId(userId)
                 .orElseThrow(() -> StayNotFoundException.EXCEPTION);
 
         stayRepository.delete(stay);
-    }
-
-    private void saveOrUpdate(UUID userId, StayStatusCode statusCode) {
-        StayEntity stay = stayRepository.findByUserId(userId)
-                .orElse(null);
-
-        if (stay != null) {
-            stay.changeCode(statusCode);
-        } else {
-            stayRepository.save(
-                    StayEntity.builder()
-                            .userId(userId)
-                            .code(statusCode)
-                            .build()
-            );
-        }
     }
 
 }

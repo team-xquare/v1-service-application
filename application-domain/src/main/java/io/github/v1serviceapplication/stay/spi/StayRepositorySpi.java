@@ -8,8 +8,7 @@ import java.util.UUID;
 
 @Spi
 public interface StayRepositorySpi {
-    void applyStay(StayStatusCode status, UUID userId);
+    void applyStay(UUID userId, StayStatusCode stayStatusCode);
     QueryStayStatusResponse queryStayStatus(UUID userId);
-    void setDefaultStay(UUID userId);
     void deleteStay(UUID userId);
 }
