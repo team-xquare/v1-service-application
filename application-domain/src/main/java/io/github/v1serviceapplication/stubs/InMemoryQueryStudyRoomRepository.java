@@ -2,7 +2,7 @@ package io.github.v1serviceapplication.stubs;
 
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.extension.Extension;
-import io.github.v1serviceapplication.studyroom.spi.StudyRoomRepositorySpi;
+import io.github.v1serviceapplication.studyroom.spi.QueryStudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.dto.StudyRoomModel;
 
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class InMemoryStudyRoomRepository implements StudyRoomRepositorySpi {
+public class InMemoryQueryStudyRoomRepository implements QueryStudyRoomRepositorySpi {
 
     private final HashMap<UUID, StudyRoom> studyRoomMap = new HashMap<>();
     private final HashMap<UUID, Extension> extensionMap = new HashMap<>();
