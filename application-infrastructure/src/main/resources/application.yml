@@ -7,5 +7,5 @@ spring:
     import: optional:configserver:https://api.xquare.app/cloud-config/
   cloud:
     config:
-      username: ${CLOUD_CONFIG_USERNAME:xquare-config-username}
-      password: ${CLOUD_CONFIG_PASSWORD:xquare-config-password}
+      username: ${CLOUD_CONFIG_USERNAME}
+      password: ${CLOUD_CONFIG_PASSWORD}
