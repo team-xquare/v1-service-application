@@ -1,6 +1,5 @@
 package io.github.v1serviceapplication.domain.stay.domain.repository;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.stay.domain.StayEntity;
 import io.github.v1serviceapplication.error.StayNotFoundException;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
@@ -10,46 +9,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.time.temporal.IsoFields;
 import java.util.UUID;
-
-import static io.github.v1serviceapplication.domain.stay.domain.QStayEntity.stayEntity;
 
 @Repository
 @RequiredArgsConstructor
 public class StayRepositorySpiImpl implements StayRepositorySpi {
     private final StayRepository stayRepository;
-    private final JPAQueryFactory queryFactory;
 
     @Override
     @Transactional
     public void applyStay(StayStatusCode status, UUID userId) {
-
-        StayEntity stay = queryStayByUserAndWeekYear(userId, getCurrentWeekYear());
-
-        if (stay != null) {
-            stay.changeCode(status);
-        } else {
-            stayRepository.save(
-                    StayEntity.builder()
-                            .userId(userId)
-                            .code(status)
-                            .build()
-            );
-        }
-
+        saveOrUpdate(userId, status);
     }
 
     @Override
     public QueryStayStatusResponse queryStayStatus(UUID userId) {
-        StayEntity stay = queryStayByUserAndWeekYear(
-                userId, getCurrentWeekYear()
-        );
-
-        if(stay == null) {
-            throw StayNotFoundException.EXCEPTION;
-        }
+        StayEntity stay = stayRepository.findByUserId(userId)
+                .orElseThrow(() -> StayNotFoundException.EXCEPTION);
 
         return QueryStayStatusResponse.builder()
                 .status(stay.getCodeName(stay.getCode()))
@@ -58,12 +34,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
 
     @Override
     public void setDefaultStay(UUID userId) {
-        StayEntity stay = StayEntity.builder()
-                .userId(userId)
-                .code(StayStatusCode.STAY)
-                .build();
-
-        stayRepository.save(stay);
+        saveOrUpdate(userId, StayStatusCode.STAY);
     }
 
     @Override
@@ -73,22 +44,21 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
 
         stayRepository.delete(stay);
     }
-    
-    private StayEntity queryStayByUserAndWeekYear(UUID userId, int weekYear) {
-        return queryFactory
-                .selectFrom(stayEntity)
-                .where(
-                        stayEntity.userId.eq(userId)
-                                .and(
-                                        stayEntity.date.week().eq(weekYear)
-                                )
-                )
-                .fetchFirst();
+
+    private void saveOrUpdate(UUID userId, StayStatusCode statusCode) {
+        StayEntity stay = stayRepository.findByUserId(userId)
+                .orElse(null);
+
+        if (stay != null) {
+            stay.changeCode(statusCode);
+        } else {
+            stayRepository.save(
+                    StayEntity.builder()
+                            .userId(userId)
+                            .code(statusCode)
+                            .build()
+            );
+        }
     }
 
-    private int getCurrentWeekYear() {
-        LocalDate date = LocalDate.now();
-
-        return date.get(IsoFields.WEEK_OF_WEEK_BASED_YEAR);
-    }
 }
