@@ -14,7 +14,7 @@ import io.github.v1serviceapplication.domain.studyroom.extension.domain.reposito
 import io.github.v1serviceapplication.domain.studyroom.mapper.StudyRoomMapper;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.spi.PostStudyRoomRepositorySpi;
-import io.github.v1serviceapplication.studyroom.spi.StudyRoomRepositorySpi;
+import io.github.v1serviceapplication.studyroom.spi.QueryStudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.dto.StudyRoomModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -32,7 +32,7 @@ import static io.github.v1serviceapplication.domain.studyroom.extension.domain.Q
 
 @RequiredArgsConstructor
 @Repository
-public class CustomStudyRoomRepositoryImpl implements StudyRoomRepositorySpi, PostStudyRoomRepositorySpi {
+public class CustomStudyRoomRepositoryImpl implements QueryStudyRoomRepositorySpi, PostStudyRoomRepositorySpi {
 
     private final StudyRoomRepository studyRoomRepository;
     private final ExtensionRepository extensionRepository;

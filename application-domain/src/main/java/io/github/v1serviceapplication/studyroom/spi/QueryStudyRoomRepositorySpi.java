@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface StudyRoomRepositorySpi {
+public interface QueryStudyRoomRepositorySpi {
     List<StudyRoomModel> findAll();
     Optional<StudyRoom> findStudyRoomIdByUserId(UUID userId);
 }
