@@ -52,4 +52,10 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
         stayRepository.delete(stay);
     }
 
+    @Override
+    public boolean existsByUserId(UUID userId) {
+        return stayRepository.findByUserId(userId)
+                .isPresent();
+    }
+
 }

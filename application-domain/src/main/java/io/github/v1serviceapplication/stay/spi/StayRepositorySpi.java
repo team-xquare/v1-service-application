@@ -11,4 +11,5 @@ public interface StayRepositorySpi {
     void applyStay(UUID userId, StayStatusCode stayStatusCode);
     QueryStayStatusResponse queryStayStatus(UUID userId);
     void deleteStay(UUID userId);
+    boolean existsByUserId(UUID userId);
 }
