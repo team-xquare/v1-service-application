@@ -1,3 +1,8 @@
+server:
+  shutdown: graceful
+  servlet:
+    context-path: /applications
+
 spring:
   application:
     name: v1-application-service
@@ -9,3 +14,34 @@ spring:
     config:
       username: ${CLOUD_CONFIG_USERNAME}
       password: ${CLOUD_CONFIG_PASSWORD}
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
+
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
+springdoc:
+  api-docs:
+    path: ${swagger.docs.path}
+  swagger-ui:
+    path: ${swagger.ui.path}
+    display-request-duration: true
+  cache:
+    disabled: true
+
+user:
+  url: ${user.url}
