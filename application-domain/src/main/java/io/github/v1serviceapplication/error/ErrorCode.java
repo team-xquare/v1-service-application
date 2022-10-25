@@ -20,6 +20,8 @@ public enum ErrorCode {
 
     EXTENSION_NOT_FOUND(404, "EXTENSION-404-1", "Extension Not Found."),
 
+    ALREADY_EXISTS_STAY(400, "STAY-400-1", "Already Exists Stay."),
+
     STAY_NOT_FOUND(404, "STAY-404-1", "Stay Not Found."),
 
     WEEKEND_MEAL_NOT_FOUND(404, "WEEKEND-404-1", "Weekend Meal Not Found."),
