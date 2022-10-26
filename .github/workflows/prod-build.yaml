@@ -57,9 +57,9 @@ jobs:
           tags: ${{ steps.get_version.outputs.VERSION }}
           buildargs: |
             build-args : |
-            JDBC_URL=${{secrets.JDBC_URL_PROD}}
-            DATABASE_PASSWORD=${{secrets.DATABASE_PASSWORD_PROD}}
-            DATABASE_USERNAME=${{secrets.DATABASE_USERNAME_PROD}}
+            PROFILE=${{secrets.PROD_PROFILE}}
+            CLOUD_CONFIG_USERNAME=${{ secrets.CLOUD_CONFIG_USERNAME }}
+            CLOUD_CONFIG_PASSWORD=${{ secrets.CLOUD_CONFIG_PASSWORD }}
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:

@@ -1,30 +1,47 @@
-spring:
-  jpa:
-    show-sql: false
-    hibernate:
-      ddl-auto: validate
-    database: mysql
-  datasource:
-    url: ${JDBC_URL}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    password: ${DATABASE_PASSWORD}
-    username: ${DATABASE_USERNAME}
-  jackson:
-    property-naming-strategy: SNAKE_CASE
-  lifecycle:
-    timeout-per-shutdown-phase: 20s
 server:
+  shutdown: graceful
   servlet:
     context-path: /applications
-  shutdown: graceful
+
+spring:
+  application:
+    name: v1-application-service
+  profiles:
+    active: ${PROFILE}
+  config:
+    import: optional:configserver:https://api.xquare.app/cloud-config/
+  cloud:
+    config:
+      username: ${CLOUD_CONFIG_USERNAME}
+      password: ${CLOUD_CONFIG_PASSWORD}
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${db.url}
+    username: ${db.username}
+    password: ${db.password}
+
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+
 springdoc:
   api-docs:
-    path: /docs
+    path: ${swagger.docs.path}
   swagger-ui:
-    path: /swagger-ui
+    path: ${swagger.ui.path}
     display-request-duration: true
   cache:
     disabled: true
 
 user:
-  url: https://stag-api.xquare.app/users
+  url: ${user.url}

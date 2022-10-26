@@ -11,6 +11,12 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2021.0.1")
+    }
+}
+
 dependencies {
     // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -37,14 +43,14 @@ dependencies {
             "com.querydsl:querydsl-apt:5.0.0:jpa")
 
     // mapstruct
-    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
 
     // multi module
     implementation(project(":application-domain"))
 
     // jwt
-    implementation 'com.nimbusds:nimbus-jose-jwt:9.21'
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.25.6'
 
     // security
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -55,7 +61,10 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.4'
 
     // swagger
-    implementation 'org.springdoc:springdoc-openapi-ui:1.6.6'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+
+    // spring config
+    implementation 'org.springframework.cloud:spring-cloud-config-client'
 }
 
 test {
