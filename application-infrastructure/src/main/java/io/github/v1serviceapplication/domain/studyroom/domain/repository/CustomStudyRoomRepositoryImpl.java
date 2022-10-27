@@ -67,6 +67,7 @@ public class CustomStudyRoomRepositoryImpl implements QueryStudyRoomRepositorySp
                 ).collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public Optional<StudyRoom> findStudyRoomIdByUserId(UUID userId) {
         return extensionRepository.findByUserIdAndDate(userId, LocalDate.now())
