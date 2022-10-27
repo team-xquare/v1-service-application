@@ -4,7 +4,6 @@ import io.github.v1serviceapplication.domain.studyroom.extension.domain.Extensio
 import io.github.v1serviceapplication.studyroom.extension.Extension;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
 public interface ExtensionMapper {
 
     Extension extensionEntityToDomain(ExtensionEntity extensionEntity);
