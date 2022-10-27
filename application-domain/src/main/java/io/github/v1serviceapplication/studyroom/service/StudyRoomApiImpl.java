@@ -52,7 +52,7 @@ public class StudyRoomApiImpl implements StudyRoomApi {
             throw ExtensionNotFoundException.EXCEPTION;
         }
 
-        if(extension.getStudyRoomId() != studyRoomId) {
+        if(!extension.getStudyRoomId().equals(studyRoomId)) {
             throw InCorrectStudyRoomIdException.EXCEPTION;
         }
 
