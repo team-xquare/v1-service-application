@@ -12,6 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedMethods("*")
                 .allowedHeaders("*")
+                .allowCredentials(true)
                 .allowedOrigins("https://service.xquare.app/", "http://localhost:3000", "http://localhost:3001");
     }
 }
