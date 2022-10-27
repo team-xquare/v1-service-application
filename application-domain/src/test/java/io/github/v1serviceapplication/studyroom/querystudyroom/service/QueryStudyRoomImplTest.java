@@ -8,6 +8,7 @@ import io.github.v1serviceapplication.stubs.InMemoryQueryStudyRoomRepository;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.service.StudyRoomApiImpl;
 import io.github.v1serviceapplication.studyroom.spi.PostStudyRoomRepositorySpi;
+import io.github.v1serviceapplication.studyroom.spi.StudyRoomPostExtensionRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomQueryExtensionRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomUserFeignSpi;
 import org.junit.jupiter.api.Test;
@@ -27,7 +28,20 @@ class QueryStudyRoomImplTest {
         public List<UUID> findStudentIdByRoomIdAndToday(UUID studyRoomId) {
             return List.of(UUID.randomUUID());
         }
+
+        @Override
+        public Extension todayStudyRoomApply(UUID userId) {
+            return Extension.builder().build();
+        }
     };
+
+    private final StudyRoomPostExtensionRepositorySpi studyRoomPostExtensionRepositorySpi = new StudyRoomPostExtensionRepositorySpi() {
+        @Override
+        public void deleteById(UUID extensionId) {
+
+        }
+    };
+
     private final StudyRoomUserFeignSpi studyRoomUserFeignSpi = new StudyRoomUserFeignSpi() {
         @Override
         public List<StudentElement> queryUserInfoByUserId(List<UUID> userId) {
@@ -40,7 +54,7 @@ class QueryStudyRoomImplTest {
             return null;
         }
     };
-    private final StudyRoomApi studyRoomApi = new StudyRoomApiImpl(postStudyRoomRepositorySpi, studyRoomRepositorySpi, studyRoomQueryExtensionRepositorySpi, studyRoomUserFeignSpi, userIdFacade);
+    private final StudyRoomApi studyRoomApi = new StudyRoomApiImpl(postStudyRoomRepositorySpi, studyRoomRepositorySpi, studyRoomQueryExtensionRepositorySpi, studyRoomPostExtensionRepositorySpi, studyRoomUserFeignSpi, userIdFacade);
 
     @Test
     void queryStudyRooms() {
