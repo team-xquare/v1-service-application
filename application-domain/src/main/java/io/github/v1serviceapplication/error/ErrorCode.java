@@ -20,6 +20,8 @@ public enum ErrorCode {
 
     EXTENSION_NOT_FOUND(404, "EXTENSION-404-1", "Extension Not Found."),
 
+    IN_CORRECT_STUDY_ROOM_ID(400, "EXTENSION-400-1", "In Correct StudyRoom ID"),
+
     ALREADY_EXISTS_STAY(400, "STAY-400-1", "Already Exists Stay."),
 
     STAY_NOT_FOUND(404, "STAY-404-1", "Stay Not Found."),
