@@ -5,9 +5,13 @@ import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.api.StudyRoomApi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudyRoomElement;
+import io.github.v1serviceapplication.studyroom.exception.ExtensionNotFoundException;
 import io.github.v1serviceapplication.studyroom.exception.FullStudyRoomException;
+import io.github.v1serviceapplication.studyroom.exception.InCorrectStudyRoomIdException;
+import io.github.v1serviceapplication.studyroom.extension.Extension;
 import io.github.v1serviceapplication.studyroom.spi.PostStudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.QueryStudyRoomRepositorySpi;
+import io.github.v1serviceapplication.studyroom.spi.StudyRoomPostExtensionRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomQueryExtensionRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomUserFeignSpi;
 import io.github.v1serviceapplication.studyroom.spi.dto.StudyRoomModel;
@@ -24,6 +28,7 @@ public class StudyRoomApiImpl implements StudyRoomApi {
     private final PostStudyRoomRepositorySpi postStudyRoomRepositorySpi;
     private final QueryStudyRoomRepositorySpi studyRoomRepositorySpi;
     private final StudyRoomQueryExtensionRepositorySpi studyRoomQueryExtensionRepositorySpi;
+    private final StudyRoomPostExtensionRepositorySpi studyRoomPostExtensionRepositorySpi;
     private final StudyRoomUserFeignSpi studyRoomUserFeignSpi;
     private final UserIdFacade userIdFacade;
 
@@ -37,6 +42,21 @@ public class StudyRoomApiImpl implements StudyRoomApi {
         }
 
         saveOrUpdate(userIdFacade.getCurrentUserId(), studyRoomId);
+    }
+
+    @Override
+    public void cancelExtension(UUID studyRoomId) {
+        Extension extension = studyRoomQueryExtensionRepositorySpi.todayStudyRoomApply(userIdFacade.getCurrentUserId());
+
+        if(extension == null) {
+            throw ExtensionNotFoundException.EXCEPTION;
+        }
+
+        if(extension.getStudyRoomId() != studyRoomId) {
+            throw InCorrectStudyRoomIdException.EXCEPTION;
+        }
+
+        studyRoomPostExtensionRepositorySpi.deleteById(extension.getId());
     }
 
     private void saveOrUpdate(UUID userId, UUID studyRoomId) {

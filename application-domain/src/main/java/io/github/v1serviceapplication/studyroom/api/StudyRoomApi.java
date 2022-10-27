@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface StudyRoomApi {
     void postStudyRoom(UUID studyRoomId);
+    void cancelExtension(UUID studyRoomId);
     List<StudyRoomElement> queryStudyRooms();
     UUID queryStudyRoomStatus();
 }
