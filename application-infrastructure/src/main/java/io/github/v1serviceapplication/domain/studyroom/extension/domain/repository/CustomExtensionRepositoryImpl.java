@@ -1,6 +1,9 @@
 package io.github.v1serviceapplication.domain.studyroom.extension.domain.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.github.v1serviceapplication.domain.studyroom.mapper.ExtensionMapper;
+import io.github.v1serviceapplication.studyroom.extension.Extension;
+import io.github.v1serviceapplication.studyroom.spi.StudyRoomPostExtensionRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomQueryExtensionRepositorySpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -13,9 +16,11 @@ import static io.github.v1serviceapplication.domain.studyroom.extension.domain.Q
 
 @RequiredArgsConstructor
 @Repository
-public class CustomExtensionRepositoryImpl implements StudyRoomQueryExtensionRepositorySpi {
+public class CustomExtensionRepositoryImpl implements StudyRoomQueryExtensionRepositorySpi, StudyRoomPostExtensionRepositorySpi {
 
     private final JPAQueryFactory queryFactory;
+    private final ExtensionRepository extensionRepository;
+    private final ExtensionMapper extensionMapper;
 
     @Override
     public List<UUID> findStudentIdByRoomIdAndToday(UUID studyRoomId) {
@@ -27,4 +32,26 @@ public class CustomExtensionRepositoryImpl implements StudyRoomQueryExtensionRep
                 )
                 .fetch();
     }
+
+    @Override
+    public Extension todayStudyRoomApply(UUID userId) {
+        return extensionMapper.extensionEntityToDomain(
+                queryFactory
+                        .select(extensionEntity)
+                        .from(extensionEntity)
+                        .where(
+                                extensionEntity.userId.eq(userId)
+                                        .and(
+                                                extensionEntity.date.eq(LocalDate.now())
+                                        )
+                        )
+                        .fetchFirst()
+        );
+    }
+
+    @Override
+    public void deleteById(UUID extensionId) {
+        extensionRepository.deleteById(extensionId);
+    }
+
 }
