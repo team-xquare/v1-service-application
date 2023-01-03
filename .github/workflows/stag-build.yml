@@ -54,6 +54,7 @@ jobs:
             PROFILE=${{secrets.STAG_PROFILE}}
             CLOUD_CONFIG_USERNAME=${{ secrets.CLOUD_CONFIG_USERNAME }}
             CLOUD_CONFIG_PASSWORD=${{ secrets.CLOUD_CONFIG_PASSWORD }}
+
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
         with:
