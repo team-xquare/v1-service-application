@@ -32,9 +32,6 @@ public class StayStatus {
         if(stay < 1 || stay > 4) {
             throw InvalidStayStatusException.EXCEPTION;
         }
-        else {
-            this.stay = StayOption.VALUES[stay - 1];
-        }
     }
 
     public static String getStayValue(Integer index) {
