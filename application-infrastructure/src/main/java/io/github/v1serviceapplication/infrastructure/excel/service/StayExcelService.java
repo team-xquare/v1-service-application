@@ -4,7 +4,9 @@ import io.github.v1serviceapplication.domain.stay.domain.repository.StayReposito
 import io.github.v1serviceapplication.domain.stay.mapper.StayMapper;
 import io.github.v1serviceapplication.infrastructure.excel.presentation.dto.StayApplyListResponse;
 import io.github.v1serviceapplication.infrastructure.excel.presentation.dto.StayStatus;
+import io.github.v1serviceapplication.infrastructure.excel.usecase.GetStayApplyListUseCase;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.utility.privilege.GetSystemPropertyAction;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +14,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class StayExcelService {
+public class StayExcelService implements GetStayApplyListUseCase {
 
     private final StayRepository stayRepository;
     private final StayMapper stayMapper;
