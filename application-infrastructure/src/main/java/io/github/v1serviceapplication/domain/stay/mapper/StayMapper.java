@@ -4,7 +4,7 @@ import io.github.v1serviceapplication.domain.stay.domain.StayEntity;
 import io.github.v1serviceapplication.infrastructure.excel.presentation.dto.StayStatus;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+// @Mapper(componentModel = "spring")
 public interface StayMapper {
     /*StayEntity stayDomainToEntity(Stay stay);
 
