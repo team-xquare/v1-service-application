@@ -2,9 +2,8 @@ package io.github.v1serviceapplication.domain.stay.mapper;
 
 import io.github.v1serviceapplication.domain.stay.domain.StayEntity;
 import io.github.v1serviceapplication.infrastructure.excel.presentation.dto.StayStatus;
-import io.github.v1serviceapplication.infrastructure.feign.client.UserClient;
-import io.github.v1serviceapplication.infrastructure.feign.client.dto.response.UserInfoResponse;
-import io.github.v1serviceapplication.infrastructure.feign.client.dto.response.UserInfoResponseElement;
+import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
+import io.github.v1serviceapplication.studyroom.spi.StudyRoomUserFeignSpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +14,7 @@ import java.util.UUID;
 @Component
 public class StayMapperImpl implements StayMapper {
 
-    private final UserClient userClient;
+    private final StudyRoomUserFeignSpi studyRoomUserFeignSpi;
 
     @Override
     public StayStatus mapToStayStatus(StayEntity stayStatus) {
@@ -28,28 +27,28 @@ public class StayMapperImpl implements StayMapper {
     }
 
     private String queryNameByUserId(UUID userId) {
-        UserInfoResponse userInfoResponse = userClient.queryUserInfoByUserId(List.of(userId));
-        List<String> nameList = userInfoResponse.getUsers()
+        List<StudentElement> userInfoResponse = studyRoomUserFeignSpi.queryUserInfoByUserId(List.of(userId));
+        List<String> nameList = userInfoResponse
                 .stream()
-                .map(UserInfoResponseElement::getName)
+                .map(StudentElement::getStudentName)
                 .toList();
 
         return nameList.get(0);
     }
 
     private String queryNumByUserId(UUID userId) {
-        UserInfoResponse userInfoResponse = userClient.queryUserInfoByUserId(List.of(userId));
-        List<Integer> gradeList = userInfoResponse.getUsers()
+        List<StudentElement> userInfoResponse = studyRoomUserFeignSpi.queryUserInfoByUserId(List.of(userId));
+        List<Integer> gradeList = userInfoResponse
                 .stream()
-                .map(UserInfoResponseElement::getGrade)
+                .map(StudentElement::getGrade)
                 .toList();
-        List<Integer> classNumList = userInfoResponse.getUsers()
+        List<Integer> classNumList = userInfoResponse
                 .stream()
-                .map(UserInfoResponseElement::getClassNum)
+                .map(StudentElement::getClassNum)
                 .toList();
-        List<Integer> numList = userInfoResponse.getUsers()
+        List<Integer> numList = userInfoResponse
                 .stream()
-                .map(UserInfoResponseElement::getNum)
+                .map(StudentElement::getNum)
                 .toList();
 
         return gradeList.get(0).toString() + classNumList.get(0).toString() + numList.get(0).toString();

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -17,13 +16,16 @@ public class UserClientImpl implements StudyRoomUserFeignSpi {
 
     @Override
     public List<StudentElement> queryUserInfoByUserId(List<UUID> userId) {
-        if(userId.isEmpty())
+        if (userId.isEmpty()) {
             return null;
+        } else {
+            return userClient.queryUserInfoByUserId(userId)
+                    .getUsers()
+                    .stream().map(
+                            user -> new StudentElement(
+                                    user.getName(), user.getGrade(), user.getClassNum(), user.getNum(), user.getProfileFileName())
+                    ).toList();
 
-        return userClient.queryUserInfoByUserId(userId).getUsers()
-                .stream().map(
-                        user -> new StudentElement(user.getName(), user.getProfileFileName())
-                ).collect(Collectors.toList());
+        }
     }
-
 }

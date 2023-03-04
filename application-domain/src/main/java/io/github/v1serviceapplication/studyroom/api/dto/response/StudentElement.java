@@ -8,6 +8,9 @@ import lombok.Getter;
 public class StudentElement{
 
     private final String studentName;
+    private final int grade;
+    private final int classNum;
+    private final int num;
     private final String profileImage;
 
 }

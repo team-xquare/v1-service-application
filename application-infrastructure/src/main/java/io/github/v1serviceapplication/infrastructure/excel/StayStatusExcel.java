@@ -1,7 +1,7 @@
 package io.github.v1serviceapplication.infrastructure.excel;
 
 import io.github.v1serviceapplication.infrastructure.excel.presentation.dto.StayStatus;
-import io.github.v1serviceapplication.infrastructure.excel.usecase.GetStayApplyListUseCase;
+import io.github.v1serviceapplication.infrastructure.excel.service.StayExcelService;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class StayStatusExcel {
-    private final GetStayApplyListUseCase getStayApplyListUseCase;
+    private final StayExcelService stayExcelService;
 
     public Workbook createWorkHook() {
         Workbook workbook = new XSSFWorkbook();
@@ -29,7 +29,7 @@ public class StayStatusExcel {
         setHeaderRow(row2);
         setHeaderRow(row3);
 
-        List<StayStatus> stayStatuses = getStayApplyListUseCase.getStayApplyList().getStudents();
+        List<StayStatus> stayStatuses = stayExcelService.getStayApplyList().getStudents();
 
         // row: 23n - 21 + num -1, n은 학년, num은 학번
         // column: 4n - 3 , n은 반
