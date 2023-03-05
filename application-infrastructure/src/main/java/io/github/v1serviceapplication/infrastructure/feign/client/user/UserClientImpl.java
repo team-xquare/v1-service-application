@@ -24,16 +24,32 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
 
     @Override
     public List<StudentElement> queryUserInfoByUserId(List<UUID> userId) {
-        if (userId.isEmpty())
+        if (userId.isEmpty()) {
             return null;
+        } else {
+            return userClient.queryUserInfoByUserId(userId)
+                    .getUsers()
+                    .stream().map(
+                            user -> new StudentElement(
+                                    user.getId(), user.getName(), user.getGrade(), user.getClassNum(), user.getNum(), user.getProfileFileName())
+                    ).toList();
 
-        return userClient.queryUserInfoByUserId(userId).getUsers()
-                .stream().map(
-                        user -> new StudentElement(user.getName(), user.getProfileFileName())
-                ).collect(Collectors.toList());
+        }
     }
 
     @Override
+    public List<StudentElement> queryAllUser() {
+        if (userClient.queryAllUser().getUsers().isEmpty()) {
+            return null;
+        }
+        return userClient.queryAllUser()
+                .getUsers()
+                .stream().map(
+                        user -> new StudentElement(
+                                user.getId(), user.getName(), user.getGrade(), user.getClassNum(), user.getNum(), user.getProfileFileName()
+                        )).collect(Collectors.toList());
+    }
+
     public List<PicnicUserElement> getUserInfoByUserId(List<UUID> userId) {
         if (userId.isEmpty()) {
             return Collections.emptyList();

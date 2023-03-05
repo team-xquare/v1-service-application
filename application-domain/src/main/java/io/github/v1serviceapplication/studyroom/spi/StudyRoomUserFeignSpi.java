@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface StudyRoomUserFeignSpi {
     List<StudentElement> queryUserInfoByUserId(List<UUID> userId);
+    List<StudentElement> queryAllUser();
 }
