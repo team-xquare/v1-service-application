@@ -80,7 +80,7 @@ public class PicnicApiImpl implements PicnicApi {
 
     private Boolean convertType(String type) {
         return switch (type) {
-            case A"ALL" -> true;
+            case "ALL" -> true;
             case "RETURN" -> false;
             default -> null;
         };
