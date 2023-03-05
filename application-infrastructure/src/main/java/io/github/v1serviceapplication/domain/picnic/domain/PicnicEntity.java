@@ -3,6 +3,7 @@ package io.github.v1serviceapplication.domain.picnic.domain;
 import io.github.v1serviceapplication.global.entity.BaseEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -27,4 +28,8 @@ public class PicnicEntity extends BaseEntity {
     private String arrangement;
 
     private LocalTime dormitoryReturnCheckTime;
+
+    @ColumnDefault("'0'")
+    @Column(columnDefinition = "TINYINT(1)", nullable = false)
+    private Boolean isAcceptance;
 }

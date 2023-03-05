@@ -60,16 +60,17 @@ public class PicnicApiImpl implements PicnicApi {
                                     .num(user.getNum())
                                     .startTime(picnic.getStartTime())
                                     .endTime(picnic.getEndTime())
+                                    .isAcceptance(picnic.getIsAcceptance())
                                     .build();
                         }
-                ).toList();
+                ).filter(picnicElement -> !picnicElement.getIsAcceptance()).toList();
 
         return new PicnicListResponse(picnicElements);
     }
 
     @Override
     public void updateDormitoryReturnTime(UUID picnicId) {
-        Picnic picnic = picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
+        picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
         picnicRepositorySpi.updateDormitoryReturnTime(picnicId);
     }
 }

@@ -14,4 +14,5 @@ public class PicnicElement {
     private final String name;
     private final LocalTime startTime;
     private final LocalTime endTime;
+    private final Boolean isAcceptance;
 }
