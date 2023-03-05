@@ -11,9 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.UUID;
 
 import static io.github.v1serviceapplication.domain.weekendmeal.domain.QWeekendMealApplyEntity.weekendMealApplyEntity;
+import static io.github.v1serviceapplication.domain.weekendmeal.domain.QWeekendMealEntity.weekendMealEntity;
 
 @RequiredArgsConstructor
 @Repository
@@ -58,5 +60,23 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
         return weekendMealApplyRepository.findByUserIdAndWeekendMealId(userId, weekendMealId)
                 .map(WeekendMealApplyEntity::getIsApplied)
                 .orElse(false);
+    }
+
+    @Override
+    public List<UUID> queryWeekendMealUserList() {
+        return jpaQueryFactory
+                .select(weekendMealApplyEntity.userId)
+                .from(weekendMealApplyEntity)
+                .fetch();
+    }
+
+    @Override
+    public List<WeekendMealApply> findAll() {
+        return jpaQueryFactory
+                .selectFrom(weekendMealApplyEntity)
+                .fetch()
+                .stream()
+                .map(weekendMealApplyMapper::entityToDomain)
+                .toList();
     }
 }

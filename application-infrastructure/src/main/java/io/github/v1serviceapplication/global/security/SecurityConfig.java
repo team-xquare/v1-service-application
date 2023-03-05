@@ -38,6 +38,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/stay/list").permitAll()
                 .antMatchers(HttpMethod.GET, "/stay/excel").permitAll()
                 .antMatchers(HttpMethod.POST, "/stay/signup").permitAll()
+                .antMatchers(HttpMethod.GET, "/admin/picnic").permitAll()
+                .antMatchers(HttpMethod.GET, "/admin/stay").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/docs/**").permitAll()
                 .anyRequest().authenticated()

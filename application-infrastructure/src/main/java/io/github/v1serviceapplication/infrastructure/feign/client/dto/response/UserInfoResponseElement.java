@@ -14,11 +14,10 @@ public class UserInfoResponseElement {
     private String name;
     private UUID id;
     private LocalDate birthDay;
-    private int grade;
-    private int classNum;
+    private Integer grade;
+    private Integer classNum;
     private String profileFileName;
     private String password;
     private String accountId;
-    private int num;
-
+    private Integer num;
 }
