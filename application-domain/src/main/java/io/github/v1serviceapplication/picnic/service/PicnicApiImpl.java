@@ -35,6 +35,7 @@ public class PicnicApiImpl implements PicnicApi {
                 .endTime(request.getEndTime())
                 .reason(request.getReason())
                 .arrangement(request.getArrangement())
+                .isAcceptance(false)
                 .build();
 
         picnicRepositorySpi.applyWeekendPicnic(picnic);
