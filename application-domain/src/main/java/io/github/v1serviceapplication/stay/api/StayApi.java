@@ -15,6 +15,6 @@ public interface StayApi {
     QueryStayStatusResponse queryStayStatus();
     void applyStay(StayStatusCode status);
     QueryAllStayStatusResponse queryAllStayStatus();
-
     AdminUserInfoResponse queryUserInfo(UUID userId);
+    void adminChangeStayStatus(UUID userId, StayStatusCode status);
 }
