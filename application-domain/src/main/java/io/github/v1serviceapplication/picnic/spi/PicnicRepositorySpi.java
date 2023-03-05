@@ -20,4 +20,8 @@ public interface PicnicRepositorySpi {
     void updateDormitoryReturnTime(UUID picnicId);
 
     Optional<Picnic> findByPicnicId(UUID picnicId);
+
+    void acceptPicnic(UUID picnicId);
+
+    void refusePicnic(UUID picnicId);
 }

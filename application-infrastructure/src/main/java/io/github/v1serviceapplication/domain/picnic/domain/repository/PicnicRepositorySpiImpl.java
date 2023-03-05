@@ -75,4 +75,23 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
         return Optional.ofNullable(picnicMapper.picnicEntityToDomain(entity));
     }
+
+    @Transactional
+    @Override
+    public void acceptPicnic(UUID picnicId) {
+        queryFactory
+                .update(picnicEntity)
+                .set(picnicEntity.isAcceptance, true)
+                .where(picnicEntity.id.eq(picnicId))
+                .execute();
+    }
+
+    @Transactional
+    @Override
+    public void refusePicnic(UUID picnicId) {
+        queryFactory
+                .delete(picnicEntity)
+                .where(picnicEntity.id.eq(picnicId))
+                .execute();
+    }
 }

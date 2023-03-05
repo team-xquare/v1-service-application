@@ -12,4 +12,8 @@ public interface PicnicApi {
     PicnicListResponse applyWeekendPicnics();
 
     void updateDormitoryReturnTime(UUID picnicId);
+
+    void acceptPicnic(UUID picnicId);
+
+    void refusePicnic(UUID picnicId);
 }

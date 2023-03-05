@@ -73,4 +73,16 @@ public class PicnicApiImpl implements PicnicApi {
         picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
         picnicRepositorySpi.updateDormitoryReturnTime(picnicId);
     }
+
+    @Override
+    public void acceptPicnic(UUID picnicId) {
+        picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
+        picnicRepositorySpi.acceptPicnic(picnicId);
+    }
+
+    @Override
+    public void refusePicnic(UUID picnicId) {
+        picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
+        picnicRepositorySpi.refusePicnic(picnicId);
+    }
 }

@@ -28,4 +28,16 @@ public class AdminPicnicController {
     public void updateDormitoryReturnTime(@PathVariable("picnic-id") UUID picnicId) {
         picnicApi.updateDormitoryReturnTime(picnicId);
     }
+
+    @Operation(summary = "주말외출 요청 수락 API")
+    @PatchMapping("/picnic/accept/{picnic-id}")
+    public void acceptPicnic(@PathVariable("picnic-id") UUID picnicId) {
+        picnicApi.acceptPicnic(picnicId);
+    }
+
+    @Operation(summary = "주말외출 요청 거절 API")
+    @DeleteMapping("/picnic/refuse/{picnic-id}")
+    public void refusePicnic(@PathVariable("picnic-id") UUID picnicId) {
+        picnicApi.refusePicnic(picnicId);
+    }
 }
