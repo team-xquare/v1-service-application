@@ -5,9 +5,9 @@ import io.github.v1serviceapplication.picnic.api.dto.PicnicListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @Tag(name = "어드민 주말 외출 API")
 @RestController
@@ -21,5 +21,11 @@ public class AdminPicnicController {
     @GetMapping("/picnic")
     public PicnicListResponse getPicnic() {
         return picnicApi.applyWeekendPicnics();
+    }
+
+    @Operation(summary = "주말외출 도착확인 API")
+    @PatchMapping("/picnic/arrive/{picnic-id}")
+    public void updateDormitoryReturnTime(@PathVariable("picnic-id") UUID picnicId) {
+        picnicApi.updateDormitoryReturnTime(picnicId);
     }
 }
