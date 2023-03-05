@@ -1,0 +1,25 @@
+package io.github.v1serviceapplication.domain.picnic.presentation;
+
+import io.github.v1serviceapplication.picnic.api.PicnicApi;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicListResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@Tag(name = "어드민 주말 외출 API")
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/admin")
+public class AdminPicnicController {
+
+    private final PicnicApi picnicApi;
+
+    @Operation(summary = "주말 외출 신청한 학생 조회 API")
+    @GetMapping("/picnic")
+    public PicnicListResponse getPicnic() {
+        return picnicApi.applyWeekendPicnics();
+    }
+}

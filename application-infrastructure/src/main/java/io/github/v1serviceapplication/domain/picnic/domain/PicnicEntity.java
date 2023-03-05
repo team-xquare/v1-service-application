@@ -6,7 +6,6 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Getter
@@ -16,9 +15,9 @@ import java.time.LocalTime;
 @Table(name = "tbl_picnic_apply")
 @Entity
 public class PicnicEntity extends BaseEntity {
-    @NotNull
     private LocalTime startTime;
 
+    @NotNull
     private LocalTime endTime;
 
     @NotNull
@@ -26,4 +25,6 @@ public class PicnicEntity extends BaseEntity {
 
     @NotNull
     private String arrangement;
+
+    private LocalTime dormitoryReturnCheckTime;
 }
