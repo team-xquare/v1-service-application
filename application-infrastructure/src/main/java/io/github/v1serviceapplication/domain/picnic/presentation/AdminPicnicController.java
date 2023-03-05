@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.UUID;
 
 @Tag(name = "어드민 주말 외출 API")
@@ -20,8 +21,8 @@ public class AdminPicnicController {
 
     @Operation(summary = "주말 외출 신청한 학생 조회 API")
     @GetMapping("/picnic")
-    public PicnicListResponse getPicnic() {
-        return picnicApi.applyWeekendPicnics();
+    public PicnicListResponse getWeekendPicnicList(@PathParam("type") String type) {
+        return picnicApi.weekendPicnicList(type);
     }
 
     @Operation(summary = "주말외출 도착확인 API")

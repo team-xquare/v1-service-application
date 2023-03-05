@@ -40,7 +40,7 @@ public class PicnicApiImpl implements PicnicApi {
 
 
     @Override
-    public PicnicListResponse applyWeekendPicnics() {
+    public PicnicListResponse weekendPicnicList(String type) {
         List<Picnic> picnics = picnicRepositorySpi.findAllByToday();
         List<UUID> picnicUserIds = picnicRepositorySpi.findUserIdByToday();
         if (picnicUserIds.isEmpty()) {
@@ -50,6 +50,17 @@ public class PicnicApiImpl implements PicnicApi {
                 .collect(Collectors.toMap(PicnicUserElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
 
         List<PicnicElement> picnicElements = picnics.stream()
+                .filter(
+                        picnic -> {
+                            if (type.equals("AWAIT")) {
+                                return !picnic.getIsAcceptance();
+                            } else if (convertType(type).equals(false)) {
+                                return picnic.getDormitoryReturnCheckTime() != null && picnic.getIsAcceptance();
+                            } else {
+                                return true;
+                            }
+                        }
+                )
                 .map(picnic -> {
                             PicnicUserElement user = hashMap.get(picnic.getUserId());
                             return PicnicElement.builder()
@@ -62,9 +73,17 @@ public class PicnicApiImpl implements PicnicApi {
                                     .isAcceptance(picnic.getIsAcceptance())
                                     .build();
                         }
-                ).filter(picnicElement -> !picnicElement.getIsAcceptance()).toList();
+                ).toList();
 
         return new PicnicListResponse(picnicElements);
+    }
+
+    private Boolean convertType(String type) {
+        return switch (type) {
+            case A"ALL" -> true;
+            case "RETURN" -> false;
+            default -> null;
+        };
     }
 
     @Override
