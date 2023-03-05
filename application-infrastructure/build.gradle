@@ -65,6 +65,10 @@ dependencies {
 
     // spring config
     implementation 'org.springframework.cloud:spring-cloud-config-client'
+
+    // poi
+    implementation 'org.apache.poi:poi:4.1.2'
+    implementation 'org.apache.poi:poi-ooxml:4.1.2'
 }
 
 test {

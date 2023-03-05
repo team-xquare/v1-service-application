@@ -1,11 +1,11 @@
 package io.github.v1serviceapplication.studyroom.querystudyroom.service;
 
 import io.github.v1serviceapplication.common.UserIdFacade;
+import io.github.v1serviceapplication.stubs.InMemoryQueryStudyRoomRepository;
+import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.api.StudyRoomApi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import io.github.v1serviceapplication.studyroom.extension.Extension;
-import io.github.v1serviceapplication.stubs.InMemoryQueryStudyRoomRepository;
-import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.service.StudyRoomApiImpl;
 import io.github.v1serviceapplication.studyroom.spi.PostStudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomPostExtensionRepositorySpi;
@@ -45,7 +45,12 @@ class QueryStudyRoomImplTest {
     private final StudyRoomUserFeignSpi studyRoomUserFeignSpi = new StudyRoomUserFeignSpi() {
         @Override
         public List<StudentElement> queryUserInfoByUserId(List<UUID> userId) {
-            return List.of(new StudentElement("Test", "Test Image path"));
+            return List.of(new StudentElement(UUID.randomUUID(), "Test", 0, 0, 0, "Test Image path"));
+        }
+
+        @Override
+        public List<StudentElement> queryAllUser() {
+            return queryAllUser();
         }
     };
     private final UserIdFacade userIdFacade = new UserIdFacade() {

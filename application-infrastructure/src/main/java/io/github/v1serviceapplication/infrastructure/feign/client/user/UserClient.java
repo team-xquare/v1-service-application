@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient(name = "userClient", url = "${service.scheme}://${service.user.host}/users")
+@FeignClient(name = "userClient", url = "${service.scheme}://${service.user.host}")
 public interface UserClient {
 
-    @GetMapping("/id")
+    @GetMapping("/users/id")
     UserInfoResponse queryUserInfoByUserId(@RequestParam("userId") List<UUID> userId);
+
+    @GetMapping("/users/all")
+    UserInfoResponse queryAllUser();
 
     @GetMapping("/id/{userId}")
     UserInfoResponseElement queryUserInfo(@PathVariable("userId") UUID userId);
+
 }

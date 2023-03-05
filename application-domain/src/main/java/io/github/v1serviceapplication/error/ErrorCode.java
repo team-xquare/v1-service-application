@@ -39,7 +39,9 @@ public enum ErrorCode {
 
     FEIGN_FORBIDDEN(403, "FEIGN-403-1", "Feign Forbidden."),
 
-    FEIGN_EXPIRED_TOKEN(419, "FEIGN-419-1", "Feign Expired Token.");
+    FEIGN_EXPIRED_TOKEN(419, "FEIGN-419-1", "Feign Expired Token."),
+
+    INVALID_STAY_STATUS(401, "STAY-401-1", "Invalid Stay Status");
 
     private final int status;
     private final String code;
