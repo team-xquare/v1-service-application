@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -36,17 +35,19 @@ public class StayExcelService {
         return studyRoomUserFeignSpi.queryAllUser()
                 .stream()
                 .map(user -> {
-                    StayStatus stays = stayList.stream()
+                    String stay = stayList.stream()
                             .filter(stayStatus -> user.getUserId().equals(stayStatus.getUserId()))
+                            .map(StayStatus::getStay)
                             .findFirst()
-                            .orElseThrow(RuntimeException::new);
+                            .orElseGet(() -> "금요귀가");
 
                     return StayStatus.builder()
                             .userId(user.getUserId())
                             .name(user.getStudentName())
                             .num(getStudentNum(user.getGrade(), user.getClassNum(), user.getNum()))
-                            .stay(stays.getStay())
+                            .stay(stay)
                             .build();
+
                 })
                 .collect(Collectors.toList());
     }
