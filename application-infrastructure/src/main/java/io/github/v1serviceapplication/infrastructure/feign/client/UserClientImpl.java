@@ -4,6 +4,8 @@ import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomUserFeignSpi;
+import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealUserElement;
+import io.github.v1serviceapplication.weekendmeal.spi.WeekendMealUserFeignSpi;
 import lombok.RequiredArgsConstructor;
 import org.bouncycastle.util.Strings;
 import org.springframework.stereotype.Component;
@@ -15,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
-public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi {
+public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi, WeekendMealUserFeignSpi {
 
     private final UserClient userClient;
 
@@ -40,6 +42,23 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
                 .stream()
                 .map(
                         user -> new PicnicUserElement(
+                                user.getId(),
+                                user.getGrade().toString() + user.getClassNum().toString() + String.format("%02d", user.getNum()),
+                                user.getName()
+                        )
+                ).toList();
+    }
+
+    @Override
+    public List<WeekendMealUserElement> getUserInfoList(List<UUID> ids) {
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return userClient.queryUserInfoByUserId(ids)
+                .getUsers()
+                .stream()
+                .map(
+                        user -> new WeekendMealUserElement(
                                 user.getId(),
                                 user.getGrade().toString() + user.getClassNum().toString() + String.format("%02d", user.getNum()),
                                 user.getName()
