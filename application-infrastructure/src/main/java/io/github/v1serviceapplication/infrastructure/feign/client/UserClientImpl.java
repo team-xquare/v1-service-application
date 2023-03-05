@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
@@ -44,7 +45,8 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
                 .getUsers()
                 .stream().map(
                         user -> new StudentElement(
-                                user.getId(), user.getName(), user.getGrade(), user.getClassNum(), user.getNum(), user.getProfileFileName())
+                                user.getId(), user.getName(), user.getGrade(), user.getClassNum(), user.getNum(), user.getProfileFileName()
+                        )).collect(Collectors.toList());
     }
 
 public List<PicnicUserElement> getUserInfoByUserId(List<UUID> userId) {
