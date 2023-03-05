@@ -7,11 +7,13 @@ import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static io.github.v1serviceapplication.domain.picnic.domain.QPicnicEntity.picnicEntity;
 
@@ -52,5 +54,25 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 .fetch();
 
         return test.stream().map(PicnicEntity::getUserId).toList();
+    }
+
+    @Transactional
+    @Override
+    public void updateDormitoryReturnTime(UUID picnicId) {
+        queryFactory
+                .update(picnicEntity)
+                .set(picnicEntity.dormitoryReturnCheckTime, LocalTime.now())
+                .where(picnicEntity.id.eq(picnicId))
+                .execute();
+    }
+
+    @Override
+    public Optional<Picnic> findByPicnicId(UUID picnicId) {
+        PicnicEntity entity = queryFactory
+                .selectFrom(picnicEntity)
+                .where(picnicEntity.id.eq(picnicId))
+                .fetchOne();
+
+        return Optional.ofNullable(picnicMapper.picnicEntityToDomain(entity));
     }
 }

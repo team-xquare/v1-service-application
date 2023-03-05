@@ -4,6 +4,7 @@ import io.github.v1serviceapplication.annotation.Spi;
 import io.github.v1serviceapplication.picnic.Picnic;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Spi
@@ -15,4 +16,8 @@ public interface PicnicRepositorySpi {
     List<Picnic> findAllByToday();
 
     List<UUID> findUserIdByToday();
+
+    void updateDormitoryReturnTime(UUID picnicId);
+
+    Optional<Picnic> findByPicnicId(UUID picnicId);
 }

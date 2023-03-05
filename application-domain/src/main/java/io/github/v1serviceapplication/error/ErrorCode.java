@@ -26,6 +26,7 @@ public enum ErrorCode {
 
     STAY_NOT_FOUND(404, "STAY-404-1", "Stay Not Found."),
 
+    PICNIC_NOT_FOUND(404, "STAY-404-1", "Picnic Not Found."),
     WEEKEND_MEAL_NOT_FOUND(404, "WEEKEND-404-1", "Weekend Meal Not Found."),
 
     WEEKEND_MEAL_APPLY_NOT_FOUND(404, "WEEKEND-APPLY-404-1", "Weekend Meal Apply Not Found."),

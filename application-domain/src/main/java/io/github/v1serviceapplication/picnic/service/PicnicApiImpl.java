@@ -2,6 +2,7 @@ package io.github.v1serviceapplication.picnic.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.common.UserIdFacade;
+import io.github.v1serviceapplication.error.PicnicNotFoundException;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
@@ -64,5 +65,11 @@ public class PicnicApiImpl implements PicnicApi {
                 ).toList();
 
         return new PicnicListResponse(picnicElements);
+    }
+
+    @Override
+    public void updateDormitoryReturnTime(UUID picnicId) {
+        Picnic picnic = picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
+        picnicRepositorySpi.updateDormitoryReturnTime(picnicId);
     }
 }
