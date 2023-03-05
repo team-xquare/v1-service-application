@@ -37,9 +37,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/weekend-meal").hasAuthority("ROLE_STU")
                 .antMatchers(HttpMethod.POST, "/stay/signup").permitAll()
                 .antMatchers(HttpMethod.GET, "/admin/picnic").permitAll()
+                .antMatchers(HttpMethod.GET, "/admin/stay").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/docs/**").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .apply(new FilterConfig(objectMapper));
 
