@@ -41,7 +41,9 @@ public enum ErrorCode {
 
     FEIGN_EXPIRED_TOKEN(419, "FEIGN-419-1", "Feign Expired Token."),
 
-    INVALID_STAY_STATUS(401, "STAY-401-1", "Invalid Stay Status");
+    INVALID_STAY_STATUS(401, "STAY-401-1", "Invalid Stay Status"),
+
+    USER_ID_EXIST(409, "PICNIC-409-1", "Exist User Id");
 
     private final int status;
     private final String code;

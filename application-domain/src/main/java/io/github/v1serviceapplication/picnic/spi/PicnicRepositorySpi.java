@@ -24,4 +24,6 @@ public interface PicnicRepositorySpi {
     void acceptPicnic(UUID picnicId);
 
     void refusePicnic(UUID picnicId);
+
+    Optional<Picnic> findByUserId(UUID userId);
 }
