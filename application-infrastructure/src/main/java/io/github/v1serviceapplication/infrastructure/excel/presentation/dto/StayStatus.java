@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 @Getter
 public class StayStatus {
-    private final UUID id;
+    private final UUID userId;
 
     private final String name;
 

@@ -23,9 +23,22 @@ public class UserClientImpl implements StudyRoomUserFeignSpi {
                     .getUsers()
                     .stream().map(
                             user -> new StudentElement(
-                                    user.getName(), user.getGrade(), user.getClassNum(), user.getNum(), user.getProfileFileName())
+                                    user.getId(), user.getName(), user.getGrade(), user.getClassNum(), user.getNum(), user.getProfileFileName())
                     ).toList();
 
         }
+    }
+
+    @Override
+    public List<StudentElement> queryAllUser() {
+        if (userClient.queryAllUser().getUsers().isEmpty()) {
+            return null;
+        }
+        return userClient.queryAllUser()
+                .getUsers()
+                .stream().map(
+                        user -> new StudentElement(
+                                user.getId(), user.getName(), user.getGrade(), user.getClassNum(), user.getNum(), user.getProfileFileName())
+                ).toList();
     }
 }

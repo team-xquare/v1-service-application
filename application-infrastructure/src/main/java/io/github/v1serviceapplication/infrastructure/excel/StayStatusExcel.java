@@ -3,9 +3,7 @@ package io.github.v1serviceapplication.infrastructure.excel;
 import io.github.v1serviceapplication.infrastructure.excel.presentation.dto.StayStatus;
 import io.github.v1serviceapplication.infrastructure.excel.service.StayExcelService;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +16,9 @@ public class StayStatusExcel {
 
     public Workbook createWorkHook() {
         Workbook workbook = new XSSFWorkbook();
+        CellStyle mergeRowStyle = workbook.createCellStyle();
+
+        mergeRowStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 
         Sheet sheet = workbook.createSheet("잔류신청명단");
 
@@ -53,11 +54,20 @@ public class StayStatusExcel {
     private void setHeaderRow(Row row) {
         row.createCell(1).setCellValue("학번");
         row.createCell(2).setCellValue("이름");
+        row.createCell(4).setCellValue("서명");
         row.createCell(5).setCellValue("학번");
         row.createCell(6).setCellValue("이름");
+        row.createCell(8).setCellValue("서명");
         row.createCell(9).setCellValue("학번");
         row.createCell(10).setCellValue("이름");
+        row.createCell(12).setCellValue("서명");
         row.createCell(13).setCellValue("학번");
         row.createCell(14).setCellValue("이름");
+        row.createCell(16).setCellValue("서명");
     }
+
+/*    private void setColor(CellStyle mergeRowStyle) {
+        mergeRowStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        mergeRowStyle.setFillPattern(CellStyle);
+    }*/
 }

@@ -19,7 +19,7 @@ public class StayMapperImpl implements StayMapper {
     @Override
     public StayStatus mapToStayStatus(StayEntity stayStatus) {
         return StayStatus.builder()
-                .id(stayStatus.getId())
+                .userId(stayStatus.getUserId())
                 .name(queryNameByUserId(stayStatus.getUserId()))
                 .num(queryNumByUserId(stayStatus.getUserId()))
                 .stay(stayStatus.getCode().getValue())
