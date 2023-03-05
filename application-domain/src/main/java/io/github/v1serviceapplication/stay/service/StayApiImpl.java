@@ -77,6 +77,7 @@ public class StayApiImpl implements StayApi {
                             StayUserElement user = studentList.get(stay.getUserId());
 
                             return QueryAllStayStatusElement.builder()
+                                    .id(stay.getId())
                                     .num(user.getNum())
                                     .name(user.getName())
                                     .code(stay.getCode())
