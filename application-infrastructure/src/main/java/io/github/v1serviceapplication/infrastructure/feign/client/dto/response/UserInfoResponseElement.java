@@ -1,6 +1,5 @@
 package io.github.v1serviceapplication.infrastructure.feign.client.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

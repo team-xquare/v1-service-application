@@ -5,6 +5,7 @@ import io.github.v1serviceapplication.domain.stay.mapper.StayMapper;
 import io.github.v1serviceapplication.error.StayNotFoundException;
 import io.github.v1serviceapplication.stay.Stay;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
+import io.github.v1serviceapplication.stay.api.dto.response.UserStayStatusValueResponse;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,15 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
         return QueryStayStatusResponse.builder()
                 .status(stay.getCodeName(stay.getCode()))
                 .build();
+    }
+
+    @Override
+    public UserStayStatusValueResponse queryStayStatusValue(UUID userId) {
+        StayEntity stayEntity = stayRepository.findByUserId(userId)
+                .orElseThrow(() -> StayNotFoundException.EXCEPTION);
+        return new UserStayStatusValueResponse(
+                stayEntity.getCode().getValue()
+        );
     }
 
     @Override

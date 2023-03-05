@@ -9,6 +9,7 @@ import java.util.UUID;
 @Getter
 @Builder
 public class PicnicElement {
+    private final UUID id;
     private final UUID userId;
     private final String num;
     private final String name;
