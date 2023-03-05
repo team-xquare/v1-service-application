@@ -1,5 +1,6 @@
 package io.github.v1serviceapplication.stay.api;
 
+import io.github.v1serviceapplication.stay.api.dto.response.QueryAllStayStatusResponse;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusCodeResponse;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
@@ -12,4 +13,5 @@ public interface StayApi {
     QueryStayStatusCodeResponse queryStayStatusCode();
     QueryStayStatusResponse queryStayStatus();
     void applyStay(StayStatusCode status);
+    QueryAllStayStatusResponse queryAllStayStatus();
 }

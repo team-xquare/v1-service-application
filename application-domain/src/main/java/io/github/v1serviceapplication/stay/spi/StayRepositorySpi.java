@@ -1,9 +1,11 @@
 package io.github.v1serviceapplication.stay.spi;
 
 import io.github.v1serviceapplication.annotation.Spi;
+import io.github.v1serviceapplication.stay.Stay;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
 
+import java.util.List;
 import java.util.UUID;
 
 @Spi
@@ -12,4 +14,5 @@ public interface StayRepositorySpi {
     QueryStayStatusResponse queryStayStatus(UUID userId);
     void deleteStay(UUID userId);
     boolean existsByUserId(UUID userId);
+    List<Stay> queryAll();
 }
