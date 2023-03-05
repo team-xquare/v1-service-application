@@ -18,9 +18,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
-public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi, StayUserFeignSpi {
-public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi, WeekendMealUserFeignSpi {
-
+public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi, StayUserFeignSpi, WeekendMealUserFeignSpi {
     private final UserClient userClient;
 
     @Override
