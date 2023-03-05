@@ -38,6 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/stay/signup").permitAll()
                 .antMatchers(HttpMethod.GET, "/admin/picnic").permitAll()
                 .antMatchers(HttpMethod.GET, "/admin/stay").permitAll()
+                .antMatchers(HttpMethod.PUT, "/admin/stay/{student-id}").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .antMatchers("/docs/**").permitAll()
                 .anyRequest().authenticated()
