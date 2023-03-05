@@ -5,15 +5,12 @@ import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.error.PicnicNotFoundException;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
-import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
-import io.github.v1serviceapplication.picnic.api.dto.PicnicElement;
-import io.github.v1serviceapplication.picnic.api.dto.PicnicListResponse;
-import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
+import io.github.v1serviceapplication.picnic.api.dto.*;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
+import io.github.v1serviceapplication.stay.api.dto.response.AdminUserInfoResponse;
 import lombok.RequiredArgsConstructor;
 
-import java.nio.channels.NotYetBoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +53,7 @@ public class PicnicApiImpl implements PicnicApi {
                 .map(picnic -> {
                             PicnicUserElement user = hashMap.get(picnic.getUserId());
                             return PicnicElement.builder()
+                                    .id(picnic.getId())
                                     .userId(user.getUserId())
                                     .name(user.getName())
                                     .num(user.getNum())

@@ -1,5 +1,6 @@
-package io.github.v1serviceapplication.infrastructure.feign.client;
+package io.github.v1serviceapplication.infrastructure.feign.client.user;
 
+import io.github.v1serviceapplication.infrastructure.feign.client.dto.response.UserInfoResponseElement;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
 import io.github.v1serviceapplication.stay.api.dto.response.StayUserElement;
@@ -49,7 +50,7 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
                         )).collect(Collectors.toList());
     }
 
-public List<PicnicUserElement> getUserInfoByUserId(List<UUID> userId) {
+    public List<PicnicUserElement> getUserInfoByUserId(List<UUID> userId) {
         if (userId.isEmpty()) {
             return Collections.emptyList();
         }
@@ -97,5 +98,15 @@ public List<PicnicUserElement> getUserInfoByUserId(List<UUID> userId) {
                                 user.getName()
                         )
                 ).toList();
+    }
+
+    @Override
+    public StayUserElement getUserInfo(UUID userId) {
+        UserInfoResponseElement userInfo = userClient.queryUserInfo(userId);
+        return new StayUserElement(
+                userInfo.getId(),
+                userInfo.getGrade().toString() + userInfo.getClassNum().toString() + String.format("%02d", userInfo.getNum()),
+                userInfo.getName()
+        );
     }
 }

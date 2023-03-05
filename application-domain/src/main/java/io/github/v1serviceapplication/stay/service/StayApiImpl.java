@@ -5,13 +5,10 @@ import io.github.v1serviceapplication.code.CodeElement;
 import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.stay.Stay;
 import io.github.v1serviceapplication.stay.api.StayApi;
-import io.github.v1serviceapplication.stay.api.dto.response.QueryAllStayStatusElement;
-import io.github.v1serviceapplication.stay.api.dto.response.QueryAllStayStatusResponse;
-import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusCodeResponse;
-import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
-import io.github.v1serviceapplication.stay.api.dto.response.StayUserElement;
+import io.github.v1serviceapplication.stay.api.dto.response.*;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import io.github.v1serviceapplication.stay.exception.AlreadyExistsStayException;
+import io.github.v1serviceapplication.stay.spi.PointUserFeignSpi;
 import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
 import io.github.v1serviceapplication.stay.spi.StayUserFeignSpi;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +27,7 @@ public class StayApiImpl implements StayApi {
     private final StayRepositorySpi stayRepositorySpi;
     private final UserIdFacade userIdFacade;
     private final StayUserFeignSpi stayUserFeignSpi;
+    private final PointUserFeignSpi pointUserFeignSpi;
 
     @Override
     public void setDefaultStay(UUID userId) {
@@ -89,5 +87,20 @@ public class StayApiImpl implements StayApi {
                 .toList();
 
         return new QueryAllStayStatusResponse(stayStatusElements);
+    }
+
+    @Override
+    public AdminUserInfoResponse queryUserInfo(UUID userId) {
+        StayUserElement user = stayUserFeignSpi.getUserInfo(userId);
+        UserStayStatusValueResponse stay = stayRepositorySpi.queryStayStatusValue(userId);
+        UserPointStatusResponse point = pointUserFeignSpi.getUserPointStatus(userId);
+
+        return AdminUserInfoResponse.builder()
+                .username(user.getName())
+                .num(user.getNum())
+                .goodPoint(point.getGoodPoint())
+                .badPoint(point.getBadPoint())
+                .code(stay.getStatus())
+                .build();
     }
 }
