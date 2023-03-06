@@ -56,8 +56,8 @@ public class PicnicApiImpl implements PicnicApi {
                         picnic -> {
                             if (type.equals("AWAIT")) {
                                 return !picnic.getIsAcceptance();
-                            } else if (convertType(type).equals(false)) {
-                                return picnic.getDormitoryReturnCheckTime() != null && picnic.getIsAcceptance();
+                            } else if (type.equals("RETURN")) {
+                                return picnic.getIsAcceptance();
                             } else {
                                 return true;
                             }
@@ -78,14 +78,6 @@ public class PicnicApiImpl implements PicnicApi {
                 ).toList();
 
         return new PicnicListResponse(picnicElements);
-    }
-
-    private Boolean convertType(String type) {
-        return switch (type) {
-            case "ALL" -> true;
-            case "RETURN" -> false;
-            default -> null;
-        };
     }
 
     @Override
