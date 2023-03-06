@@ -108,8 +108,8 @@ public class PicnicApiImpl implements PicnicApi {
 
     @Override
     public PicnicDetail getPicnicDetail(UUID picnicId) {
-        Optional<Picnic> picnics = picnicRepositorySpi.findByPicnicId(picnicId);
-        PicnicUserElement user = picnicRepositorySpi.getUserInfo(picnics.get().getUserId());
+        Picnic picnics = picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
+        PicnicUserElement user = picnicRepositorySpi.getUserInfo(picnics.getUserId());
 
         return PicnicDetail.builder()
                 .num(user.getNum())
