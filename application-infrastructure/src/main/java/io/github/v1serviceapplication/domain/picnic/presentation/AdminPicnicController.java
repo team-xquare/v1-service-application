@@ -48,7 +48,7 @@ public class AdminPicnicController {
     }
 
     @Operation(summary = "주말외출 학생 상세보기")
-    @GetMapping("picnic/detail/{picnic-id}")
+    @GetMapping("/picnic/detail/{picnic-id}")
     public PicnicDetail getPicnicDetail(@PathVariable("picnic-id") UUID picnicId) {
         return picnicApi.getPicnicDetail(picnicId);
     }

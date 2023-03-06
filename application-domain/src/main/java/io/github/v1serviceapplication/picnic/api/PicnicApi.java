@@ -18,5 +18,4 @@ public interface PicnicApi {
 
     void refusePicnic(UUID picnicId);
     PicnicDetail getPicnicDetail(UUID picnicId);
-
 }
