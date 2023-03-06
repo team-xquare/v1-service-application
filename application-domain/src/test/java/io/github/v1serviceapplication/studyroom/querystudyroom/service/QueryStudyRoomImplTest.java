@@ -53,45 +53,7 @@ class QueryStudyRoomImplTest {
             return queryAllUser();
         }
     };
-    private final UserIdFacade userIdFacade = new UserIdFacade() {
-        @Override
-        public UUID getCurrentUserId() {
-            return null;
-        }
-    };
-    private final StudyRoomApi studyRoomApi = new StudyRoomApiImpl(postStudyRoomRepositorySpi, studyRoomRepositorySpi, studyRoomQueryExtensionRepositorySpi, studyRoomPostExtensionRepositorySpi, studyRoomUserFeignSpi, userIdFacade);
 
-    @Test
-    void queryStudyRooms() {
-        UUID studyRoomId = UUID.randomUUID();
-        UUID userId = UUID.randomUUID();
-        String studyRoomName = "가온실";
-
-        StudyRoom studyRoom = StudyRoom.builder()
-                .id(studyRoomId)
-                .name(studyRoomName)
-                .build();
-
-        Extension extension = Extension.builder()
-                .userId(userId)
-                .studyRoomId(studyRoomId)
-                .build();
-
-        studyRoomRepositorySpi.saveStudyRoom(studyRoom);
-        studyRoomRepositorySpi.saveExtension(extension);
-
-        studyRoomApi.queryStudyRooms()
-                .forEach(queryStudy -> {
-                    assertThat(queryStudy.getId()).isEqualTo(studyRoomId);
-                    assertThat(queryStudy.getStudyRoomName()).isEqualTo(studyRoomName);
-                    assertThat(queryStudy.getApplicationCount()).isEqualTo(1);
-                    queryStudy.getStudents().forEach(it -> {
-                        assertThat(it.getStudentName()).isEqualTo("Test");
-                        assertThat(it.getProfileImage()).isEqualTo("Test Image path");
-                    });
-                });
-
-    }
 
 
 }

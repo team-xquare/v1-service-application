@@ -107,6 +107,6 @@ public class StayApiImpl implements StayApi {
 
     @Override
     public void adminChangeStayStatus(UUID userId, StayStatusCode status) {
-        stayRepositorySpi.applyStay(userId, status);
+        stayRepositorySpi.changeStayStatus(userId, status);
     }
 }

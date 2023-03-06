@@ -3,6 +3,7 @@ package io.github.v1serviceapplication.domain.stay.domain.repository;
 import io.github.v1serviceapplication.domain.stay.domain.StayEntity;
 import io.github.v1serviceapplication.domain.stay.mapper.StayMapper;
 import io.github.v1serviceapplication.error.StayNotFoundException;
+import io.github.v1serviceapplication.error.UserNotFoundException;
 import io.github.v1serviceapplication.stay.Stay;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
 import io.github.v1serviceapplication.stay.api.dto.response.UserStayStatusValueResponse;
@@ -84,4 +85,15 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
                         .build())
                 .toList();
     }
+
+    @Override
+    public void changeStayStatus(UUID userId, StayStatusCode stayStatusCode) {
+        StayEntity stay = stayRepository.findByUserId(userId)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        if (stay.getCode() != stayStatusCode) {
+            stay.changeCode(stayStatusCode);
+        }
+    }
 }
+    
