@@ -57,7 +57,7 @@ public class PicnicApiImpl implements PicnicApi {
                             if (type.equals("AWAIT")) {
                                 return !picnic.getIsAcceptance();
                             } else if (type.equals("RETURN")) {
-                                return picnic.getIsAcceptance();
+                                return picnic.getIsAcceptance() && picnic.getDormitoryReturnCheckTime() == null;
                             } else {
                                 return true;
                             }
