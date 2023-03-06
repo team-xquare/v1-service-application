@@ -43,7 +43,9 @@ public enum ErrorCode {
 
     INVALID_STAY_STATUS(401, "STAY-401-1", "Invalid Stay Status"),
 
-    USER_ID_EXIST(409, "PICNIC-409-1", "Exist User Id");
+    USER_ID_EXIST(409, "PICNIC-409-1", "Exist User Id"),
+
+    USER_ID_NOT_FOUND(404, "PICNIC-404-1", "Not Found User Id");
 
     private final int status;
     private final String code;

@@ -61,7 +61,8 @@ public class StayApiImpl implements StayApi {
 
     @Override
     public void applyStay(StayStatusCode status) {
-        stayRepositorySpi.applyStay(userIdFacade.getCurrentUserId(), status);
+        UUID userId = userIdFacade.getCurrentUserId();
+        stayRepositorySpi.applyStay(userId, status);
     }
 
     @Override
@@ -77,7 +78,7 @@ public class StayApiImpl implements StayApi {
                             StayUserElement user = studentList.get(stay.getUserId());
 
                             return QueryAllStayStatusElement.builder()
-                                    .id(stay.getId())
+                                    .id(stay.getUserId())
                                     .num(user.getNum())
                                     .name(user.getName())
                                     .code(stay.getCode())
@@ -107,6 +108,6 @@ public class StayApiImpl implements StayApi {
 
     @Override
     public void adminChangeStayStatus(UUID userId, StayStatusCode status) {
-        stayRepositorySpi.applyStay(userId, status);
+        stayRepositorySpi.changeStayStatus(userId, status);
     }
 }
