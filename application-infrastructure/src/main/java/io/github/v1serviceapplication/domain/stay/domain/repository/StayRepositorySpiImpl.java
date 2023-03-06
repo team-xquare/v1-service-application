@@ -91,9 +91,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
         StayEntity stay = stayRepository.findByUserId(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
-        if (stay.getCode() != stayStatusCode) {
-            stay.changeCode(stayStatusCode);
-        }
+        stay.changeCode(stayStatusCode);
     }
 }
     
