@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.domain.picnic.presentation;
 
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicDetail;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,5 +45,11 @@ public class AdminPicnicController {
     @DeleteMapping("/picnic/refuse/{picnic-id}")
     public void refusePicnic(@PathVariable("picnic-id") UUID picnicId) {
         picnicApi.refusePicnic(picnicId);
+    }
+
+    @Operation(summary = "주말외출 학생 상세보기")
+    @GetMapping("picnic/detail/{picnic-id}")
+    public PicnicDetail getPicnicDetail(@PathVariable("picnic-id") UUID picnicId) {
+        return picnicApi.getPicnicDetail(picnicId);
     }
 }

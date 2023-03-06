@@ -3,8 +3,13 @@ package io.github.v1serviceapplication.domain.picnic.domain.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.picnic.domain.PicnicEntity;
 import io.github.v1serviceapplication.domain.picnic.mapper.PicnicMapper;
+import io.github.v1serviceapplication.infrastructure.feign.client.dto.response.UserInfoResponseElement;
+import io.github.v1serviceapplication.infrastructure.feign.client.user.UserClient;
 import io.github.v1serviceapplication.picnic.Picnic;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
+import io.github.v1serviceapplication.stay.api.dto.response.StayUserElement;
+import io.github.v1serviceapplication.stay.service.StayApiImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +28,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     private final PicnicRepository picnicRepository;
     private final PicnicMapper picnicMapper;
     private final JPAQueryFactory queryFactory;
-
+    private final UserClient userClient;
     @Override
     public void applyWeekendPicnic(Picnic picnic) {
         picnicRepository.save(picnicMapper.picnicDomainToEntity(picnic));
@@ -104,5 +109,15 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 .fetchOne();
 
         return Optional.ofNullable(picnicMapper.picnicEntityToDomain(entity));
+    }
+
+    @Override
+    public PicnicUserElement getUserInfo(UUID userId) {
+        UserInfoResponseElement userInfo = userClient.queryUserInfo(userId);
+        return new PicnicUserElement(
+                userInfo.getId(),
+                userInfo.getGrade().toString() + userInfo.getClassNum().toString() + String.format("%02d", userInfo.getNum()),
+                userInfo.getName()
+        );
     }
 }

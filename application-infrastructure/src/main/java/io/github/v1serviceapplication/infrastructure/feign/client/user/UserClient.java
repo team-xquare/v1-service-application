@@ -21,5 +21,4 @@ public interface UserClient {
 
     @GetMapping("/id/{userId}")
     UserInfoResponseElement queryUserInfo(@PathVariable("userId") UUID userId);
-
 }

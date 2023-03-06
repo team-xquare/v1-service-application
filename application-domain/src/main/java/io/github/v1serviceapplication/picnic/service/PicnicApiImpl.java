@@ -11,10 +11,7 @@ import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @DomainService
@@ -107,5 +104,20 @@ public class PicnicApiImpl implements PicnicApi {
     public void refusePicnic(UUID picnicId) {
         picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
         picnicRepositorySpi.refusePicnic(picnicId);
+    }
+
+    @Override
+    public PicnicDetail getPicnicDetail(UUID picnicId) {
+        Optional<Picnic> picnics = picnicRepositorySpi.findByPicnicId(picnicId);
+        PicnicUserElement user = picnicRepositorySpi.getUserInfo(picnics.get().getUserId());
+
+        return PicnicDetail.builder()
+                .num(user.getNum())
+                .name(user.getName())
+                .startTime(picnics.get().getStartTime())
+                .endTime(picnics.get().getEndTime())
+                .reason(picnics.get().getReason())
+                .arrangement(picnics.get().getArrangement())
+                .build();
     }
 }
