@@ -17,6 +17,5 @@ public interface StayRepositorySpi {
     void deleteStay(UUID userId);
     boolean existsByUserId(UUID userId);
     List<Stay> queryAll();
-
     void changeStayStatus(UUID userId, StayStatusCode stayStatusCode);
 }

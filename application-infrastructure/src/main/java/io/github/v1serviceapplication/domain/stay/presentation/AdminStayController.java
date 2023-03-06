@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.stay.presentation;
 
-import io.github.v1serviceapplication.domain.stay.presentation.dto.request.AdminChangeStayStatusRequset;
+import io.github.v1serviceapplication.domain.stay.presentation.dto.request.AdminChangeStayStatusRequest;
 import io.github.v1serviceapplication.stay.api.StayApi;
 import io.github.v1serviceapplication.stay.api.dto.response.AdminUserInfoResponse;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryAllStayStatusResponse;
@@ -34,7 +34,7 @@ public class AdminStayController {
 
     @Operation(summary = "어드민 잔류 상태 변경 API")
     @PutMapping("/stay/{student-id}")
-    public void adminChangeStayStatus(@PathVariable("student-id") UUID studentId, @RequestBody @Valid AdminChangeStayStatusRequset request) {
+    public void adminChangeStayStatus(@PathVariable("student-id") UUID studentId, @RequestBody @Valid AdminChangeStayStatusRequest request) {
         stayApi.adminChangeStayStatus(studentId, request.getStatus());
     }
 }
