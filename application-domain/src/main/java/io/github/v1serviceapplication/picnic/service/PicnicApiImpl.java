@@ -108,16 +108,17 @@ public class PicnicApiImpl implements PicnicApi {
 
     @Override
     public PicnicDetail getPicnicDetail(UUID picnicId) {
-        Picnic picnics = picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
+        Picnic picnics = picnicRepositorySpi.findByPicnicId(picnicId)
+                .orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
         PicnicUserElement user = picnicRepositorySpi.getUserInfo(picnics.getUserId());
 
         return PicnicDetail.builder()
                 .num(user.getNum())
                 .name(user.getName())
-                .startTime(picnics.get().getStartTime())
-                .endTime(picnics.get().getEndTime())
-                .reason(picnics.get().getReason())
-                .arrangement(picnics.get().getArrangement())
+                .startTime(picnics.getStartTime())
+                .endTime(picnics.getEndTime())
+                .reason(picnics.getReason())
+                .arrangement(picnics.getArrangement())
                 .build();
     }
 }
