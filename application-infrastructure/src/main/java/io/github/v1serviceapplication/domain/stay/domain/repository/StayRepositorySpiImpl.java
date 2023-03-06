@@ -20,7 +20,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class StayRepositorySpiImpl implements StayRepositorySpi {
     private final StayRepository stayRepository;
-    private final StayMapper stayMapper;
 
     @Override
     @Transactional
@@ -87,6 +86,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
     }
 
     @Override
+    @Transactional
     public void changeStayStatus(UUID userId, StayStatusCode stayStatusCode) {
         StayEntity stay = stayRepository.findByUserId(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);

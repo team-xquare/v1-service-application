@@ -6,7 +6,7 @@ import lombok.Getter;
 import javax.validation.constraints.NotNull;
 
 @Getter
-public class AdminChangeStayStatusRequset {
+public class AdminChangeStayStatusRequest {
 
     @NotNull
     private StayStatusCode status;
