@@ -23,13 +23,14 @@ public class PicnicApiImpl implements PicnicApi {
 
     @Override
     public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
-        List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndIsAcceptance(userIdFacade.getCurrentUserId());
+        UUID userId = userIdFacade.getCurrentUserId();
+        List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndIsAcceptance(userId);
         if (!userPicnics.isEmpty()) {
             throw UserExistException.EXCEPTION;
         }
 
         Picnic picnic = Picnic.builder()
-                .userId(userIdFacade.getCurrentUserId())
+                .userId(userId)
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
                 .reason(request.getReason())
