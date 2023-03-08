@@ -74,7 +74,6 @@ public class StudyRoomApiImpl implements StudyRoomApi {
         return studyRoomRepositorySpi.findAll()
                 .stream()
                 .map(this::buildStudyRoom)
-                .sorted(Comparator.comparing(StudyRoomElement::getStudyRoomName))
                 .collect(Collectors.toList());
     }
 
