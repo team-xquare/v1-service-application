@@ -102,13 +102,13 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Transactional
     @Override
-    public Optional<Picnic> findByUserId(UUID userId) {
-        PicnicEntity entity = queryFactory
+    public List<Picnic> findAllByUserIdAndIsAcceptance(UUID userId) {
+        List<PicnicEntity> entityList = queryFactory
                 .selectFrom(picnicEntity)
-                .where(picnicEntity.userId.eq(userId))
-                .fetchOne();
-
-        return Optional.ofNullable(picnicMapper.picnicEntityToDomain(entity));
+                .where(picnicEntity.userId.eq(userId)
+                        .and(picnicEntity.isAcceptance.eq(false)))
+                .fetch();
+        return entityList.stream().map(picnicMapper::picnicEntityToDomain).toList();
     }
 
     @Override
