@@ -105,8 +105,8 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     public List<Picnic> findAllByUserIdAndIsAcceptance(UUID userId) {
         List<PicnicEntity> entityList = queryFactory
                 .selectFrom(picnicEntity)
-                .where(picnicEntity.userId.eq(userId))
-                .where(picnicEntity.isAcceptance.eq(false))
+                .where(picnicEntity.userId.eq(userId)
+                        .and(picnicEntity.isAcceptance.eq(false)))
                 .fetch();
         return entityList.stream().map(picnicMapper::picnicEntityToDomain).toList();
     }
