@@ -12,7 +12,10 @@ import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
 import lombok.RequiredArgsConstructor;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @DomainService
@@ -29,7 +32,7 @@ public class PicnicApiImpl implements PicnicApi {
         if (!userPicnics.isEmpty()) {
             throw UserExistException.EXCEPTION;
         }
-        if (request.getStartTime().isAfter(request.getEndTime())){
+        if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
 
