@@ -2,6 +2,7 @@ package io.github.v1serviceapplication.picnic.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.common.UserIdFacade;
+import io.github.v1serviceapplication.error.InvalidPicnicApplicationTimeException;
 import io.github.v1serviceapplication.error.PicnicNotFoundException;
 import io.github.v1serviceapplication.error.UserExistException;
 import io.github.v1serviceapplication.picnic.Picnic;
@@ -27,6 +28,9 @@ public class PicnicApiImpl implements PicnicApi {
         List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndIsAcceptance(userId);
         if (!userPicnics.isEmpty()) {
             throw UserExistException.EXCEPTION;
+        }
+        if (request.getStartTime().isAfter(request.getEndTime())){
+            throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
 
         Picnic picnic = Picnic.builder()
