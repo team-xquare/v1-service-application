@@ -20,10 +20,10 @@ public class StayStatusExcel {
         CellStyle headerStyle = workbook.createCellStyle();
         headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
         headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        getThinStyle(headerStyle);
+        applyThinStyle(headerStyle);
 
         CellStyle cellStyle = workbook.createCellStyle();
-        getThinStyle(cellStyle);
+        applyThinStyle(cellStyle);
 
         Sheet sheet = workbook.createSheet("잔류신청명단");
 
@@ -79,7 +79,7 @@ public class StayStatusExcel {
         }
     }
 
-    private void getThinStyle(CellStyle headerStyle) {
+    private void applyThinStyle(CellStyle headerStyle) {
         headerStyle.setBorderTop(BorderStyle.THIN);
         headerStyle.setBorderBottom(BorderStyle.THIN);
         headerStyle.setBorderLeft(BorderStyle.THIN);
