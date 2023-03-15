@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.infrastructure.excel.presentation.dto;
+package io.github.v1serviceapplication.stay.api.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
