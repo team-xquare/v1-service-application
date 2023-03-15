@@ -16,9 +16,14 @@ public class StayStatusExcel {
 
     public Workbook createWorkHook() {
         Workbook workbook = new XSSFWorkbook();
-        CellStyle mergeRowStyle = workbook.createCellStyle();
 
-        mergeRowStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        CellStyle headerStyle = workbook.createCellStyle();
+        headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        applyThinStyle(headerStyle);
+
+        CellStyle cellStyle = workbook.createCellStyle();
+        applyThinStyle(cellStyle);
 
         Sheet sheet = workbook.createSheet("잔류신청명단");
 
@@ -26,9 +31,9 @@ public class StayStatusExcel {
         Row row2 = sheet.createRow(24);
         Row row3 = sheet.createRow(47);
 
-        setHeaderRow(row1);
-        setHeaderRow(row2);
-        setHeaderRow(row3);
+        setHeaderRow(row1, headerStyle);
+        setHeaderRow(row2, headerStyle);
+        setHeaderRow(row3, headerStyle);
 
         List<StayStatus> stayStatuses = stayExcelService.getStayApplyList().getStudents();
 
@@ -43,31 +48,41 @@ public class StayStatusExcel {
             int columnNo = 4 * cls - 3; // 1
 
             Row row = sheet.getRow(rowNo) == null ? sheet.createRow(rowNo) : sheet.getRow(rowNo);
-            row.createCell(columnNo++).setCellValue(stayStatus.getNum());
-            row.createCell(columnNo++).setCellValue(stayStatus.getName());
-            row.createCell(columnNo).setCellValue(stayStatus.getStay());
+            Cell studentId = row.createCell(columnNo++);
+            studentId.setCellValue(stayStatus.getNum());
+            studentId.setCellStyle(cellStyle);
+
+            Cell name = row.createCell(columnNo++);
+            name.setCellValue(stayStatus.getName());
+            name.setCellStyle(cellStyle);
+
+            Cell status = row.createCell(columnNo);
+            status.setCellValue(stayStatus.getStay());
+            status.setCellStyle(cellStyle);
+
+            Cell sign = row.createCell(columnNo + 1);
+            sign.setCellStyle(cellStyle);
         }
 
         return workbook;
     }
 
-    private void setHeaderRow(Row row) {
-        row.createCell(1).setCellValue("학번");
-        row.createCell(2).setCellValue("이름");
-        row.createCell(4).setCellValue("서명");
-        row.createCell(5).setCellValue("학번");
-        row.createCell(6).setCellValue("이름");
-        row.createCell(8).setCellValue("서명");
-        row.createCell(9).setCellValue("학번");
-        row.createCell(10).setCellValue("이름");
-        row.createCell(12).setCellValue("서명");
-        row.createCell(13).setCellValue("학번");
-        row.createCell(14).setCellValue("이름");
-        row.createCell(16).setCellValue("서명");
+    private void setHeaderRow(Row row, CellStyle cellStyle) {
+        String[] header = new String[]{"학번", "이름", "잔류현황", "서명"};
+        int wholeGrade = 16;
+        int oneClass = 4;
+        for (int currentClass = 1; currentClass <= wholeGrade; currentClass++) {
+            Cell cell = row.createCell(currentClass);
+            int index = currentClass % oneClass == 0 ? 3 : currentClass % oneClass - 1;
+            cell.setCellValue(header[index]);
+            cell.setCellStyle(cellStyle);
+        }
     }
 
-/*    private void setColor(CellStyle mergeRowStyle) {
-        mergeRowStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-        mergeRowStyle.setFillPattern(CellStyle);
-    }*/
+    private void applyThinStyle(CellStyle headerStyle) {
+        headerStyle.setBorderTop(BorderStyle.THIN);
+        headerStyle.setBorderBottom(BorderStyle.THIN);
+        headerStyle.setBorderLeft(BorderStyle.THIN);
+        headerStyle.setBorderRight(BorderStyle.THIN);
+    }
 }
