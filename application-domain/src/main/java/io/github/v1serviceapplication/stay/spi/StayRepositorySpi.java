@@ -3,6 +3,7 @@ package io.github.v1serviceapplication.stay.spi;
 import io.github.v1serviceapplication.annotation.Spi;
 import io.github.v1serviceapplication.stay.Stay;
 import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusResponse;
+import io.github.v1serviceapplication.stay.api.dto.response.StayApplyListResponse;
 import io.github.v1serviceapplication.stay.api.dto.response.UserStayStatusValueResponse;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
 
@@ -18,4 +19,6 @@ public interface StayRepositorySpi {
     boolean existsByUserId(UUID userId);
     List<Stay> queryAll();
     void changeStayStatus(UUID userId, StayStatusCode stayStatusCode);
+
+    StayApplyListResponse queryStayApplyList();
 }

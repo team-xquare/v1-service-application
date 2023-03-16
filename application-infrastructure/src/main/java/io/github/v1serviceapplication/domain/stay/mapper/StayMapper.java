@@ -1,8 +1,7 @@
 package io.github.v1serviceapplication.domain.stay.mapper;
 
 import io.github.v1serviceapplication.domain.stay.domain.StayEntity;
-import io.github.v1serviceapplication.infrastructure.excel.presentation.dto.StayStatus;
-import org.mapstruct.Mapper;
+import io.github.v1serviceapplication.stay.api.dto.response.StayStatus;
 
 // @Mapper(componentModel = "spring")
 public interface StayMapper {
