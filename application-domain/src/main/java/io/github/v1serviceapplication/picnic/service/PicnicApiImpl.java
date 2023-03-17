@@ -8,7 +8,11 @@ import io.github.v1serviceapplication.error.PicnicNotFoundException;
 import io.github.v1serviceapplication.error.UserExistException;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
-import io.github.v1serviceapplication.picnic.api.dto.*;
+import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicDetail;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicElement;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicListResponse;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +43,7 @@ public class PicnicApiImpl implements PicnicApi {
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
-        if(nowTime.isAfter(eneTime)) {
+        if (nowTime.isAfter(eneTime)) {
             throw PicnicApplyNotAvailableException.EXCEPTION;
         }
 
