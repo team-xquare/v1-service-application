@@ -12,6 +12,8 @@ import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +31,15 @@ public class PicnicApiImpl implements PicnicApi {
     public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
         UUID userId = userIdFacade.getCurrentUserId();
         List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndIsAcceptance(userId);
+        LocalTime nowTime = LocalTime.now();
+        LocalTime eneTime = LocalTime.of(23, 00);
         if (!userPicnics.isEmpty()) {
             throw UserExistException.EXCEPTION;
         }
         if (request.getStartTime().isAfter(request.getEndTime())) {
+            throw InvalidPicnicApplicationTimeException.EXCEPTION;
+        }
+        if(nowTime.isAfter(eneTime)) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
 
