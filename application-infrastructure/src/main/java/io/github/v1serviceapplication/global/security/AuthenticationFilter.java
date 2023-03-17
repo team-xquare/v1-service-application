@@ -40,6 +40,9 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         for (String userAuthority : userAuthorities) {
             authorities.add(new SimpleGrantedAuthority(userAuthority));
         }
+        System.out.println(userId);
+        System.out.println(userRole);
+        System.out.println(userAuthorities);
 
         authorities.add(new SimpleGrantedAuthority("ROLE_" + userRole.name()));
         UserDetails userDetails = new User(userId, "", authorities);

@@ -41,8 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/stay/signup").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/stay/signup/{user-uuid}").permitAll()
                 .antMatchers("/applications/admin/**").hasAnyRole(DORMITORY)
-                .antMatchers("/swagger-ui/**").permitAll()
-                .antMatchers("/docs/**").permitAll()
+                .antMatchers("/applications/swagger-ui/**").permitAll()
+                .antMatchers("/applications/docs/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new FilterConfig(objectMapper));
