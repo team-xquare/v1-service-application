@@ -35,6 +35,9 @@ public class PicnicApiImpl implements PicnicApi {
     public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
         UUID userId = userIdFacade.getCurrentUserId();
         List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndIsAcceptance(userId);
+        if (!userPicnics.isEmpty()) {
+            throw UserExistException.EXCEPTION;
+        }
         validateRequestTime(request);
 
         Picnic picnic = Picnic.builder()
@@ -50,13 +53,9 @@ public class PicnicApiImpl implements PicnicApi {
     }
 
     private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
-        UUID userId = userIdFacade.getCurrentUserId();
-        List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndIsAcceptance(userId);
         LocalTime nowTime = LocalTime.now();
         LocalTime eneTime = LocalTime.of(23, 00);
-        if (!userPicnics.isEmpty()) {
-            throw UserExistException.EXCEPTION;
-        }
+
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
