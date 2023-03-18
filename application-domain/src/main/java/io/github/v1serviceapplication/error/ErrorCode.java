@@ -49,7 +49,7 @@ public enum ErrorCode {
 
     INVALID_PICNIC_TIME(400, "PICNIC-400-1", "Picnic Time Invalid"),
 
-    PICNIC_APPLY_NOT_AVAILABLE(403, "PICNIC-403-1", "Picnic Apply Not Available");
+    PICNIC_APPLY_NOT_AVAILABLE(400, "PICNIC-403-1", "Picnic Apply Not Available");
 
     private final int status;
     private final String code;
