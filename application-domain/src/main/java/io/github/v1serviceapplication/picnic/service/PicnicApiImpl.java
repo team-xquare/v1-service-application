@@ -34,6 +34,22 @@ public class PicnicApiImpl implements PicnicApi {
     @Override
     public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
         UUID userId = userIdFacade.getCurrentUserId();
+        isConditionMet(request);
+
+        Picnic picnic = Picnic.builder()
+                .userId(userId)
+                .startTime(request.getStartTime())
+                .endTime(request.getEndTime())
+                .reason(request.getReason())
+                .arrangement(request.getArrangement())
+                .isAcceptance(false)
+                .build();
+
+        picnicRepositorySpi.applyWeekendPicnic(picnic);
+    }
+
+    private void isConditionMet(ApplyWeekendPicnicDomainRequest request) {
+        UUID userId = userIdFacade.getCurrentUserId();
         List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndIsAcceptance(userId);
         LocalTime nowTime = LocalTime.now();
         LocalTime eneTime = LocalTime.of(23, 00);
@@ -46,17 +62,6 @@ public class PicnicApiImpl implements PicnicApi {
         if (nowTime.isAfter(eneTime)) {
             throw PicnicApplyNotAvailableException.EXCEPTION;
         }
-
-        Picnic picnic = Picnic.builder()
-                .userId(userId)
-                .startTime(request.getStartTime())
-                .endTime(request.getEndTime())
-                .reason(request.getReason())
-                .arrangement(request.getArrangement())
-                .isAcceptance(false)
-                .build();
-
-        picnicRepositorySpi.applyWeekendPicnic(picnic);
     }
 
 
