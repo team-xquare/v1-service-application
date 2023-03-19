@@ -63,7 +63,7 @@ public class AdminPicnicController {
     @GetMapping("/picnic/excel")
     public void weekendPicnic(HttpServletResponse response) throws IOException {
 
-        Workbook workbook = weekendPicnicExcel.createWeekendOutingListWorkHook();
+        Workbook workbook = weekendPicnicExcel.createWeekendOutingListWorkBook();
 
         String filename = "주말외출명단.xlsx";
 
