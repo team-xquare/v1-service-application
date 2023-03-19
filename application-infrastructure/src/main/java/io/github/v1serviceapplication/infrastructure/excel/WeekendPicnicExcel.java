@@ -34,9 +34,9 @@ public class WeekendPicnicExcel {
 
         Sheet sheet = workbook.createSheet("주말외출현황");
 
-        Row row1 = sheet.createRow(0);
+        Row locationRow = sheet.createRow(0);
 
-        setHeaderRow(row1);
+        setHeaderRow(locationRow);
 
         List<WeekendPicnicExcelElement> weekendPicnicList = picnicApi.weekendPicnicExcel().getWeekendPicnicList()
                 .stream().filter(picnic -> picnic.getIsAcceptance() == true).toList();
