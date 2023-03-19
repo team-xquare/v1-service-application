@@ -121,4 +121,35 @@ public class PicnicApiImpl implements PicnicApi {
                 .arrangement(picnics.getArrangement())
                 .build();
     }
+
+    @Override
+    public WeekendPicnicExcelListResponse weekendPicnicExcel() {
+        List<Picnic> weekendPicnicList = picnicRepositorySpi.findAllByToday();
+        List<UUID> userIdList = picnicRepositorySpi.findUserIdByToday();
+
+        Map<UUID, PicnicUserElement> hashMap = picnicUserFeignSpi.getUserInfoByUserId(userIdList).stream()
+                .collect(Collectors.toMap(PicnicUserElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
+
+        List<WeekendPicnicExcelElement> weekendPicnicExcelElements = weekendPicnicList.stream()
+
+                .map(picnic -> {
+                    PicnicUserElement user = hashMap.get(picnic.getUserId());
+
+                    return WeekendPicnicExcelElement.builder()
+                            .userId(user.getUserId())
+                            .name(user.getName())
+                            .num(user.getNum())
+                            .startTime(picnic.getStartTime())
+                            .endTime(picnic.getEndTime())
+                            .reason(picnic.getReason())
+                            .arrangement(picnic.getArrangement())
+                            .isAcceptance(picnic.getIsAcceptance())
+                            .build();
+
+                }).toList();
+
+        return new WeekendPicnicExcelListResponse(weekendPicnicExcelElements);
+    }
+
+
 }
