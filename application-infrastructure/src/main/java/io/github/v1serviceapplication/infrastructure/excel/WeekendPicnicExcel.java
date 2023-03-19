@@ -4,6 +4,7 @@ import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicDetail;
 import io.github.v1serviceapplication.picnic.api.dto.WeekendPicnicExcelElement;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
@@ -14,6 +15,7 @@ import org.jboss.jandex.Main;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.stream;
@@ -83,14 +85,14 @@ public class WeekendPicnicExcel {
 
         }
         return workbook;
+
     }
 
     private void setHeaderRow(Row row) {
-        row.createCell(1).setCellValue("이름");
-        row.createCell(2).setCellValue("학번");
-        row.createCell(3).setCellValue("외출시간");
-        row.createCell(4).setCellValue("귀가시간");
-        row.createCell(5).setCellValue("외출 사유");
-        row.createCell(6).setCellValue("동행인");
+        String[] cellValues = {"이름", "학번", "외출시간", "귀가시간", "외출사유", "동행인"};
+        int number = 0;
+        for(String values : cellValues) {
+            row.createCell(number++).setCellValue(values);
+        }
     }
 }
