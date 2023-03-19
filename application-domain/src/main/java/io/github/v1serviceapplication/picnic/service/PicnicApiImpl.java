@@ -151,5 +151,4 @@ public class PicnicApiImpl implements PicnicApi {
         return new WeekendPicnicExcelListResponse(weekendPicnicExcelElements);
     }
 
-
 }
