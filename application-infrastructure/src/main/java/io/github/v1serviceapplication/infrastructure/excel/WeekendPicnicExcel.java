@@ -44,14 +44,14 @@ public class WeekendPicnicExcel {
         int cellNum = 1;
         int rowNum = 2;
 
-        for(WeekendPicnicExcelElement weekendPicnicExcelElement : weekendPicnicList) {
+        for (WeekendPicnicExcelElement weekendPicnicExcelElement : weekendPicnicList) {
             Row row = sheet.createRow(rowNum);
             row.createCell(cellNum).setCellValue(weekendPicnicExcelElement.getName());
-            row.createCell(cellNum+1).setCellValue(weekendPicnicExcelElement.getNum());
-            row.createCell(cellNum+2).setCellValue(String.valueOf(weekendPicnicExcelElement.getStartTime()));
-            row.createCell(cellNum+3).setCellValue(String.valueOf(weekendPicnicExcelElement.getEndTime()));
-            row.createCell(cellNum+4).setCellValue(weekendPicnicExcelElement.getReason());
-            row.createCell(cellNum+5).setCellValue(weekendPicnicExcelElement.getArrangement());
+            row.createCell(cellNum + 1).setCellValue(weekendPicnicExcelElement.getNum());
+            row.createCell(cellNum + 2).setCellValue(String.valueOf(weekendPicnicExcelElement.getStartTime()));
+            row.createCell(cellNum + 3).setCellValue(String.valueOf(weekendPicnicExcelElement.getEndTime()));
+            row.createCell(cellNum + 4).setCellValue(weekendPicnicExcelElement.getReason());
+            row.createCell(cellNum + 5).setCellValue(weekendPicnicExcelElement.getArrangement());
 
         }
 
@@ -74,14 +74,14 @@ public class WeekendPicnicExcel {
 
         int cellNum = 1;
         int rowNum = 2;
-        for(WeekendPicnicExcelElement weekendPicnicExcelElement : weekendPicnicList) {
+        for (WeekendPicnicExcelElement weekendPicnicExcelElement : weekendPicnicList) {
             Row row = sheet2.createRow(rowNum);
             row.createCell(cellNum).setCellValue(weekendPicnicExcelElement.getName());
-            row.createCell(cellNum+1).setCellValue(weekendPicnicExcelElement.getNum());
-            row.createCell(cellNum+2).setCellValue(String.valueOf(weekendPicnicExcelElement.getStartTime()));
-            row.createCell(cellNum+3).setCellValue(String.valueOf(weekendPicnicExcelElement.getEndTime()));
-            row.createCell(cellNum+4).setCellValue(weekendPicnicExcelElement.getReason());
-            row.createCell(cellNum+5).setCellValue(weekendPicnicExcelElement.getArrangement());
+            row.createCell(cellNum + 1).setCellValue(weekendPicnicExcelElement.getNum());
+            row.createCell(cellNum + 2).setCellValue(String.valueOf(weekendPicnicExcelElement.getStartTime()));
+            row.createCell(cellNum + 3).setCellValue(String.valueOf(weekendPicnicExcelElement.getEndTime()));
+            row.createCell(cellNum + 4).setCellValue(weekendPicnicExcelElement.getReason());
+            row.createCell(cellNum + 5).setCellValue(weekendPicnicExcelElement.getArrangement());
 
         }
         return workbook;
@@ -91,7 +91,7 @@ public class WeekendPicnicExcel {
     private void setHeaderRow(Row row) {
         String[] cellValues = {"이름", "학번", "외출시간", "귀가시간", "외출사유", "동행인"};
         int number = 0;
-        for(String values : cellValues) {
+        for (String values : cellValues) {
             row.createCell(number++).setCellValue(values);
         }
     }
