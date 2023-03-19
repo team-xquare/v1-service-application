@@ -1,24 +1,17 @@
 package io.github.v1serviceapplication.infrastructure.excel;
 
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
-import io.github.v1serviceapplication.picnic.api.dto.PicnicDetail;
 import io.github.v1serviceapplication.picnic.api.dto.WeekendPicnicExcelElement;
 import lombok.RequiredArgsConstructor;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.jboss.jandex.Main;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.Arrays.stream;
 
 @RequiredArgsConstructor
 @Component
@@ -38,8 +31,8 @@ public class WeekendPicnicExcel {
 
         setHeaderRow(locationRow);
 
-        List<WeekendPicnicExcelElement> weekendPicnicList = picnicApi.weekendPicnicExcel().getWeekendPicnicList()
-                .stream().filter(picnic -> picnic.getIsAcceptance() == true).toList();
+        List<WeekendPicnicExcelElement> weekendPicnicList =
+                picnicApi.weekendPicnicExcel().getWeekendPicnicList().stream().filter(picnic -> picnic.getIsAcceptance() == true).toList();
 
         int cellNum = 1;
         int rowNum = 2;
@@ -69,8 +62,8 @@ public class WeekendPicnicExcel {
 
         setHeaderRow(locationRow);
 
-        List<WeekendPicnicExcelElement> weekendPicnicList = picnicApi.weekendPicnicExcel().getWeekendPicnicList()
-                .stream().filter(picnic -> picnic.getIsAcceptance() == false).toList();
+        List<WeekendPicnicExcelElement> weekendPicnicList =
+                picnicApi.weekendPicnicExcel().getWeekendPicnicList().stream().filter(picnic -> picnic.getIsAcceptance() == false).toList();
 
         int cellNum = 1;
         int rowNum = 2;
