@@ -19,7 +19,7 @@ public class WeekendPicnicExcel {
 
     private final PicnicApi picnicApi;
 
-    public Workbook createWeekendOutingListWorkHook() {
+    public Workbook createWeekendOutingListWorkBook() {
         Workbook workbook = new XSSFWorkbook();
 
         CellStyle cellStyle = workbook.createCellStyle();
