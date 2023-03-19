@@ -24,7 +24,7 @@ public class WeekendPicnicExcel {
 
     private final PicnicApi picnicApi;
 
-    public Workbook createWorkHook() {
+    public Workbook createWeekendOutingListWorkHook() {
         Workbook workbook = new XSSFWorkbook();
 
         CellStyle cellStyle = workbook.createCellStyle();
@@ -53,11 +53,11 @@ public class WeekendPicnicExcel {
 
         }
 
-        createWorkBook2(workbook);
+        createWeekendOutingWaitingListWorkBook(workbook);
         return workbook;
     }
 
-    public Workbook createWorkBook2(Workbook workbook) {
+    public Workbook createWeekendOutingWaitingListWorkBook(Workbook workbook) {
         CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 
