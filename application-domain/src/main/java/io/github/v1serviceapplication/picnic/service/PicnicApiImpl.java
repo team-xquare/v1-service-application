@@ -5,7 +5,7 @@ import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.error.InvalidPicnicApplicationTimeException;
 import io.github.v1serviceapplication.error.PicnicApplyNotAvailableException;
 import io.github.v1serviceapplication.error.PicnicNotFoundException;
-import io.github.v1serviceapplication.error.UserExistException;
+import io.github.v1serviceapplication.error.UserNotEmptyException;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
@@ -36,7 +36,7 @@ public class PicnicApiImpl implements PicnicApi {
         UUID userId = userIdFacade.getCurrentUserId();
         List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndIsAcceptance(userId);
         if (!userPicnics.isEmpty()) {
-            throw UserExistException.EXCEPTION;
+            throw UserNotEmptyException.EXCEPTION;
         }
         validateRequestTime(request);
 
