@@ -10,6 +10,7 @@ import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.*;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
+import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
@@ -124,14 +125,13 @@ public class PicnicApiImpl implements PicnicApi {
 
     @Override
     public WeekendPicnicExcelListResponse weekendPicnicExcel() {
+        List<UUID> userIdList = picnicUserFeignSpi.queryAllUser().stream().map(StudentElement::getUserId).toList();
         List<Picnic> weekendPicnicList = picnicRepositorySpi.findAllByToday();
-        List<UUID> userIdList = picnicRepositorySpi.findUserIdByToday();
 
         Map<UUID, PicnicUserElement> hashMap = picnicUserFeignSpi.getUserInfoByUserId(userIdList).stream()
                 .collect(Collectors.toMap(PicnicUserElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
 
         List<WeekendPicnicExcelElement> weekendPicnicExcelElements = weekendPicnicList.stream()
-
                 .map(picnic -> {
                     PicnicUserElement user = hashMap.get(picnic.getUserId());
 
