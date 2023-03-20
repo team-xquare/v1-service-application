@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.global.error.exception;
+package io.github.v1serviceapplication.stay.exception;
 
 import io.github.v1serviceapplication.error.ApplicationException;
 import io.github.v1serviceapplication.error.ErrorCode;
