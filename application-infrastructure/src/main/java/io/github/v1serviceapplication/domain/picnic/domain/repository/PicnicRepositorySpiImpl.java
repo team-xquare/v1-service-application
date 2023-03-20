@@ -8,8 +8,6 @@ import io.github.v1serviceapplication.infrastructure.feign.client.user.UserClien
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
-import io.github.v1serviceapplication.stay.api.dto.response.StayUserElement;
-import io.github.v1serviceapplication.stay.service.StayApiImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

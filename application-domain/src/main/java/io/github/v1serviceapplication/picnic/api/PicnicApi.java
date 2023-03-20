@@ -9,7 +9,6 @@ import java.util.UUID;
 public interface PicnicApi {
     void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request);
 
-
     PicnicListResponse weekendPicnicList(String type);
 
     void updateDormitoryReturnTime(UUID picnicId);
