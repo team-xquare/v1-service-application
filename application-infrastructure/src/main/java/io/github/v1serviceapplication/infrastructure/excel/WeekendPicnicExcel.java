@@ -11,6 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -21,9 +22,6 @@ public class WeekendPicnicExcel {
 
     public Workbook createWeekendOutingListWorkBook() {
         Workbook workbook = new XSSFWorkbook();
-
-        CellStyle cellStyle = workbook.createCellStyle();
-        cellStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 
         Sheet sheet = workbook.createSheet("주말외출현황");
         Sheet sheet2 = workbook.createSheet("주말외출대기현황");
