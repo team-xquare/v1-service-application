@@ -47,7 +47,13 @@ public enum ErrorCode {
 
     USER_ID_NOT_FOUND(404, "PICNIC-404-1", "Not Found User Id"),
 
-    INVALID_PICNIC_TIME(400, "PICNIC-400-1", "Picnic Time Invalid");
+    INVALID_PICNIC_TIME(400, "PICNIC-400-1", "Picnic Time Invalid"),
+
+    CANNOT_RESERVE_PICNIC_TIME(400, "RESERVATION-400-1", "Cannot Reserve picnic this time"),
+
+    PICNIC_RESERVATION_NOT_FOUND(404, "RESERVATION-404-1", "Picnic Reservation Not Found"),
+
+    PICNIC_RESERVE_NOT_AVAILABLE(400, "RESERVATION-403-1", "Picnic Reserve Not Available");
 
     private final int status;
     private final String code;
