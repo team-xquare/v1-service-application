@@ -20,7 +20,7 @@ import java.util.UUID;
 @SuperBuilder
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseEntity {
+public abstract class BaseUserInfoEntity {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -28,6 +28,7 @@ public abstract class BaseEntity {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
+    @NotNull
     @Column(columnDefinition = "BINARY(16)")
     private UUID userId;
 

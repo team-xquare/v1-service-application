@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.picnic.domain;
 
-import io.github.v1serviceapplication.global.entity.BaseEntity;
+import io.github.v1serviceapplication.global.entity.BaseUserInfoEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import java.time.LocalTime;
 @SuperBuilder
 @Table(name = "tbl_picnic_apply")
 @Entity
-public class PicnicEntity extends BaseEntity {
+public class PicnicEntity extends BaseUserInfoEntity {
     private LocalTime startTime;
 
     @NotNull

@@ -1,7 +1,7 @@
 package io.github.v1serviceapplication.domain.stay.domain;
 
 import io.github.v1serviceapplication.domain.stay.converter.StayStatusCodeConverter;
-import io.github.v1serviceapplication.global.entity.BaseEntity;
+import io.github.v1serviceapplication.global.entity.BaseUserInfoEntity;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @SuperBuilder
 @Table(name = "tbl_stay_apply")
 @Entity
-public class StayEntity extends BaseEntity {
+public class StayEntity extends BaseUserInfoEntity {
     @NotNull
     @Column(columnDefinition = "CHAR(6)")
     @Convert(converter = StayStatusCodeConverter.class)
