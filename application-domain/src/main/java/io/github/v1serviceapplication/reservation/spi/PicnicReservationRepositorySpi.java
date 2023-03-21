@@ -13,9 +13,9 @@ interface PicnicReservationRepositorySpi {
 
     void reserveWeekendPicnic(PicnicReservation picnicReservation);
 
-    void cancelWeekendPicnic(UUID picnicReservationId);
-
-    PicnicReservation getPicnicReservationById(UUID picnicReservationId);
+    void cancelWeekendPicnicById(UUID picnicReservationId);
 
     List<PicnicReservation> getPicnicReservationListByDate(LocalDate date);
+
+    boolean isExistsPicnicReservationById(UUID picnicReservationId);
 }

@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface PicnicReservationRepository extends JpaRepository<PicnicReservationEntity, UUID> {
     List<PicnicReservationEntity> findAllByDate(LocalDate localDate);
+
+    boolean existsById(UUID picnicReservationId);
 }

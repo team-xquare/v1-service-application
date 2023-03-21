@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 
 import static io.github.v1serviceapplication.domain.reservation.domain.QPicnicReservationEntity.picnicReservationEntity;
 
-@Repository
 @RequiredArgsConstructor
+@Repository
 public class PicnicReservationSpiImpl implements PicnicReservationRepositorySpi {
     private final PicnicReservationRepository picnicReservationRepository;
     private final PicnicReservationMapper picnicReservationMapper;
@@ -31,25 +31,21 @@ public class PicnicReservationSpiImpl implements PicnicReservationRepositorySpi 
 
     @Transactional
     @Override
-    public void cancelWeekendPicnic(UUID picnicReservationId) {
+    public void cancelWeekendPicnicById(UUID picnicReservationId) {
         queryFactory
                 .delete(picnicReservationEntity)
                 .where(picnicReservationEntity.id.eq(picnicReservationId))
                 .execute();
     }
 
-    @Transactional
-    @Override
-    public PicnicReservation getPicnicReservationById(UUID picnicReservationId) {
-        PicnicReservationEntity picnicReservationEntity = picnicReservationRepository.findById(picnicReservationId)
-                .orElseThrow(() -> PicnicReservationNotFoundException.EXCEPTION);
-
-        return picnicReservationMapper.picnicReservationEntityToDomain(picnicReservationEntity);
-    }
-
     @Override
     public List<PicnicReservation> getPicnicReservationListByDate(LocalDate date) {
         List<PicnicReservationEntity> picnicReservationEntityList = picnicReservationRepository.findAllByDate(date);
         return picnicReservationEntityList.stream().map(picnicReservationMapper::picnicReservationEntityToDomain).collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isExistsPicnicReservationById(UUID picnicReservationId) {
+        return picnicReservationRepository.existsById(picnicReservationId);
     }
 }
