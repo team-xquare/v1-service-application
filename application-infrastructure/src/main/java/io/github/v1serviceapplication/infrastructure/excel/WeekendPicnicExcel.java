@@ -23,8 +23,8 @@ public class WeekendPicnicExcel {
     public Workbook createWeekendOutingListWorkBook() {
         Workbook workbook = new XSSFWorkbook();
 
-        Sheet sheet = workbook.createSheet("주말외출현황");
-        Sheet sheet2 = workbook.createSheet("주말외출대기현황");
+        Sheet weekendOutingListSheet = workbook.createSheet("주말외출현황");
+        Sheet weekendOutingWaitListSheet = workbook.createSheet("주말외출대기현황");
 
         List<WeekendPicnicExcelElement> weekendPicnicList =
                 picnicApi.weekendPicnicExcel().getWeekendPicnicList().stream().filter(picnic -> picnic.getIsAcceptance() == true).toList();
@@ -32,8 +32,8 @@ public class WeekendPicnicExcel {
         List<WeekendPicnicExcelElement> weekendPicnicAwaitList =
                 picnicApi.weekendPicnicExcel().getWeekendPicnicList().stream().filter(picnic -> picnic.getIsAcceptance() == false).toList();
 
-        createWorkBook(workbook, sheet, weekendPicnicList);
-        createWorkBook(workbook, sheet2, weekendPicnicAwaitList);
+        createWorkBook(workbook, weekendOutingListSheet, weekendPicnicList);
+        createWorkBook(workbook, weekendOutingWaitListSheet, weekendPicnicAwaitList);
 
         return workbook;
     }
