@@ -32,12 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/applications/study-room/**").hasAnyRole(STUDENT, SCHOOL)
-                .antMatchers("/applications/weekend-meal").hasAnyRole(STUDENT, SCHOOL)
-                .antMatchers(HttpMethod.POST, "/applications/picnic").hasAnyRole(STUDENT, SCHOOL)
-                .antMatchers(HttpMethod.PUT, "/applications/stay").hasAnyRole(STUDENT, SCHOOL)
-                .antMatchers(HttpMethod.GET, "/applications/stay").hasAnyRole(STUDENT, SCHOOL)
-                .antMatchers(HttpMethod.GET, "/applications/stay/codes/status").hasAnyRole(STUDENT, SCHOOL)
+                .antMatchers("/applications/study-room/**", "/applications/weekend-meal", "/applications/picnic", "/applications/stay/**").hasAnyRole(STUDENT, SCHOOL)
                 .antMatchers(HttpMethod.POST, "/stay/signup").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/stay/signup/{user-uuid}").permitAll()
                 .antMatchers("/applications/admin/**").hasAnyRole(DORMITORY)
