@@ -109,4 +109,18 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
                 userInfo.getName()
         );
     }
+
+    @Override
+    public List<StayUserElement> getStudent() {
+        return userClient.queryAllUser()
+                .getUsers()
+                .stream()
+                .map(
+                        user -> new StayUserElement(
+                                user.getId(),
+                                user.getGrade().toString() + user.getClassNum().toString() + String.format("%02d", user.getNum()),
+                                user.getName()
+                        )
+                ).toList();
+    }
 }
