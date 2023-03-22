@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,4 +13,12 @@ import javax.persistence.*;
 @Table(name = "tbl_picnic_reservation")
 @Entity
 public class PicnicReservationEntity extends BaseEntity {
+
+    @NotNull
+    @Column(columnDefinition = "TINYINT(1)")
+    private Boolean isReserved;
+
+    public void updateReserved(boolean isReserved) {
+        this.isReserved = isReserved;
+    }
 }

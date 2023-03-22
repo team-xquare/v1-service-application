@@ -14,4 +14,5 @@ public class PicnicReservation {
     private final UUID id;
     private final UUID userId;
     private final LocalDate date;
+    private final Boolean isReserved;
 }

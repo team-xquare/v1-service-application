@@ -11,4 +11,5 @@ public class PicnicReservationElement {
     private final UUID id;
     private final String num;
     private final String name;
+    private final boolean reserved;
 }

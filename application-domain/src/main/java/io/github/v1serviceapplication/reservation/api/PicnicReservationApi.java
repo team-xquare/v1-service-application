@@ -6,9 +6,7 @@ import java.util.UUID;
 
 public interface PicnicReservationApi {
 
-    void reserveWeekendPicnic();
-
-    void cancelWeekendPicnic(UUID picnicReservationId);
+    void reserveWeekendPicnic(boolean reserve);
 
     PicnicReservationListResponse getPicnicReservationList();
 }

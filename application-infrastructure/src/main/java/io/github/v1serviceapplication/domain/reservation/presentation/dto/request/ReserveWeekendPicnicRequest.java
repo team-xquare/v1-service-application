@@ -4,14 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor
 public class ReserveWeekendPicnicRequest {
 
-    @NotBlank
-    private String name;
-
-    @NotBlank
-    private String num;
+    @NotNull
+    private boolean reserve;
 }
