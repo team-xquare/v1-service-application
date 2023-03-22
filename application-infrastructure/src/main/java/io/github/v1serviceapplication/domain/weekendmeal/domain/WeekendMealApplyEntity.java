@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.weekendmeal.domain;
 
-import io.github.v1serviceapplication.global.entity.BaseUserInfoEntity;
+import io.github.v1serviceapplication.global.entity.BaseEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -14,7 +14,7 @@ import java.util.UUID;
 @SuperBuilder
 @Table(name = "tbl_weekend_meal_apply")
 @Entity
-public class WeekendMealApplyEntity extends BaseUserInfoEntity {
+public class WeekendMealApplyEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "weekend_meal_id")

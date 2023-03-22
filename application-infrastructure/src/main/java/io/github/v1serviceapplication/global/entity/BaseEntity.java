@@ -20,7 +20,7 @@ import java.util.UUID;
 @SuperBuilder
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class BaseUserInfoEntity {
+public abstract class BaseEntity {
 
     @Id
     @GeneratedValue(generator = "uuid2")

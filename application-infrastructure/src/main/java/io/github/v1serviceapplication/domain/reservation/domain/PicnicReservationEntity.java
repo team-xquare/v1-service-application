@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.domain.reservation.domain;
 
-import io.github.v1serviceapplication.global.entity.BaseUserInfoEntity;
+import io.github.v1serviceapplication.global.entity.BaseEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -11,5 +11,5 @@ import javax.persistence.*;
 @SuperBuilder
 @Table(name = "tbl_picnic_reservation")
 @Entity
-public class PicnicReservationEntity extends BaseUserInfoEntity {
+public class PicnicReservationEntity extends BaseEntity {
 }
