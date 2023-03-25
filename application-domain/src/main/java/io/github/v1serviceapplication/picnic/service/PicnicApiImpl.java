@@ -125,20 +125,19 @@ public class PicnicApiImpl implements PicnicApi {
 
     @Override
     public WeekendPicnicExcelListResponse weekendPicnicExcel() {
-        List<UUID> userIdList = picnicUserFeignSpi.queryAllUser().stream().map(StudentElement::getUserId).toList();
         List<Picnic> weekendPicnicList = picnicRepositorySpi.findAllByToday();
 
-        Map<UUID, PicnicUserElement> hashMap = picnicUserFeignSpi.getUserInfoByUserId(userIdList).stream()
-                .collect(Collectors.toMap(PicnicUserElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
+        Map<UUID, StudentElement> hashMap = picnicUserFeignSpi.queryAllUser().stream()
+                .collect(Collectors.toMap(StudentElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
 
         List<WeekendPicnicExcelElement> weekendPicnicExcelElements = weekendPicnicList.stream()
                 .map(picnic -> {
-                    PicnicUserElement user = hashMap.get(picnic.getUserId());
+                    StudentElement user = hashMap.get(picnic.getUserId());
 
                     return WeekendPicnicExcelElement.builder()
                             .userId(user.getUserId())
-                            .name(user.getName())
-                            .num(user.getNum())
+                            .name(user.getStudentName())
+                            .num(String.valueOf(user.getGrade()) + user.getClassNum() + String.format("%02d", user.getNum()))
                             .startTime(picnic.getStartTime())
                             .endTime(picnic.getEndTime())
                             .reason(picnic.getReason())
