@@ -9,4 +9,6 @@ public interface StayUserFeignSpi {
     List<StayUserElement> getUserInfoByUserIds(List<UUID> userIds);
 
     StayUserElement getUserInfo(UUID userId);
+
+    List<StayUserElement> getStudent();
 }

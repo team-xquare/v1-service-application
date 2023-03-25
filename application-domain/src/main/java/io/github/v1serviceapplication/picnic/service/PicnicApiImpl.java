@@ -3,8 +3,9 @@ package io.github.v1serviceapplication.picnic.service;
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.error.InvalidPicnicApplicationTimeException;
+import io.github.v1serviceapplication.error.PicnicApplyNotAvailableException;
 import io.github.v1serviceapplication.error.PicnicNotFoundException;
-import io.github.v1serviceapplication.error.UserExistException;
+import io.github.v1serviceapplication.error.UserNotEmptyException;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.*;
@@ -13,6 +14,7 @@ import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,11 +33,9 @@ public class PicnicApiImpl implements PicnicApi {
         UUID userId = userIdFacade.getCurrentUserId();
         List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndIsAcceptance(userId);
         if (!userPicnics.isEmpty()) {
-            throw UserExistException.EXCEPTION;
+            throw UserNotEmptyException.EXCEPTION;
         }
-        if (request.getStartTime().isAfter(request.getEndTime())) {
-            throw InvalidPicnicApplicationTimeException.EXCEPTION;
-        }
+        validateRequestTime(request);
 
         Picnic picnic = Picnic.builder()
                 .userId(userId)
@@ -47,6 +47,18 @@ public class PicnicApiImpl implements PicnicApi {
                 .build();
 
         picnicRepositorySpi.applyWeekendPicnic(picnic);
+    }
+
+    private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
+        LocalTime nowTime = LocalTime.now();
+        LocalTime eneTime = LocalTime.of(23, 00);
+
+        if (request.getStartTime().isAfter(request.getEndTime())) {
+            throw InvalidPicnicApplicationTimeException.EXCEPTION;
+        }
+        if (nowTime.isAfter(eneTime)) {
+            throw PicnicApplyNotAvailableException.EXCEPTION;
+        }
     }
 
 
