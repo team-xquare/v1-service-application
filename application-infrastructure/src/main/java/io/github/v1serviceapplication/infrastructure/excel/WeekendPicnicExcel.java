@@ -38,17 +38,21 @@ public class WeekendPicnicExcel {
         return workbook;
     }
 
-    public void createWorkBook(Workbook workbook, Sheet sheet, List<WeekendPicnicExcelElement> weekendPicnicAwaitList) {
+    public void createWorkBook(Workbook workbook, Sheet sheet, List<WeekendPicnicExcelElement> weekendPicnicList) {
         CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 
         Row locationRow = sheet.createRow(0);
 
         setHeaderRow(locationRow);
+        setBodyRow(sheet, weekendPicnicList);
+    }
 
+    private void setBodyRow(Sheet sheet, List<WeekendPicnicExcelElement> weekendPicnicList) {
         int cellNum = 1;
         int rowNum = 2;
-        for (WeekendPicnicExcelElement weekendPicnicExcelElement : weekendPicnicAwaitList) {
+
+        for (WeekendPicnicExcelElement weekendPicnicExcelElement : weekendPicnicList) {
             Row row = sheet.createRow(rowNum);
             row.createCell(cellNum).setCellValue(weekendPicnicExcelElement.getName());
             row.createCell(cellNum + 1).setCellValue(weekendPicnicExcelElement.getNum());
@@ -58,7 +62,6 @@ public class WeekendPicnicExcel {
             row.createCell(cellNum + 5).setCellValue(weekendPicnicExcelElement.getArrangement());
             rowNum++;
         }
-
     }
 
     private void setHeaderRow(Row row) {
