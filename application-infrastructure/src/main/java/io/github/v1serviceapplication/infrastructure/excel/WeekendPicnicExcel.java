@@ -26,13 +26,10 @@ public class WeekendPicnicExcel {
         Sheet weekendOutingWaitListSheet = workbook.createSheet("주말외출대기현황");
 
         List<WeekendPicnicExcelElement> weekendPicnicList =
-                picnicApi.weekendPicnicExcel().getWeekendPicnicList().stream().filter(picnic -> picnic.getIsAcceptance() == true).toList();
+                picnicApi.weekendPicnicExcel().getWeekendPicnicList();
 
-        List<WeekendPicnicExcelElement> weekendPicnicAwaitList =
-                picnicApi.weekendPicnicExcel().getWeekendPicnicList().stream().filter(picnic -> picnic.getIsAcceptance() == false).toList();
-
-        createWorkBook(workbook, weekendOutingListSheet, weekendPicnicList);
-        createWorkBook(workbook, weekendOutingWaitListSheet, weekendPicnicAwaitList);
+        createWorkBook(workbook, weekendOutingListSheet, weekendPicnicList.stream().filter(picnic -> picnic.getIsAcceptance() == true).toList());
+        createWorkBook(workbook, weekendOutingWaitListSheet, weekendPicnicList.stream().filter(picnic -> picnic.getIsAcceptance() == false).toList());
 
         return workbook;
     }
