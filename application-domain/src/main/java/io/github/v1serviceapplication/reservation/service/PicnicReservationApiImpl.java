@@ -2,7 +2,6 @@ package io.github.v1serviceapplication.reservation.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.common.UserIdFacade;
-import io.github.v1serviceapplication.error.CannotReservePicnicException;
 import io.github.v1serviceapplication.error.PicnicReserveNotAvailableException;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
@@ -39,11 +38,7 @@ public class PicnicReservationApiImpl implements PicnicReservationApi {
         LocalTime currentTime = LocalTime.now();
         DayOfWeek day = currentDate.getDayOfWeek();
 
-        if (day != DayOfWeek.FRIDAY) {
-            throw CannotReservePicnicException.EXCEPTION;
-        }
-
-        if (currentTime.isAfter(endTime)) {
+        if (day != DayOfWeek.FRIDAY || currentTime.isAfter(endTime)) {
             throw PicnicReserveNotAvailableException.EXCEPTION;
         }
 
