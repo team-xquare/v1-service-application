@@ -18,8 +18,10 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @DomainService
 @RequiredArgsConstructor
@@ -139,8 +141,12 @@ public class PicnicApiImpl implements PicnicApi {
     public WeekendPicnicExcelListResponse weekendPicnicExcel() {
         List<Picnic> weekendPicnicList = picnicRepositorySpi.findAllByToday();
 
-        Map<UUID, StudentElement> hashMap = picnicUserFeignSpi.queryAllUser().stream()
-                .collect(Collectors.toMap(StudentElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
+        List<StudentElement> userList = picnicUserFeignSpi.queryAllUser();
+        Map<UUID, StudentElement> hashMap = new HashMap<>();
+
+        for (StudentElement student : userList) {
+            hashMap.put(student.getUserId(), student);
+        }
 
         List<WeekendPicnicExcelElement> weekendPicnicExcelElements = weekendPicnicList.stream()
                 .map(picnic -> {
@@ -163,3 +169,4 @@ public class PicnicApiImpl implements PicnicApi {
     }
 
 }
+
