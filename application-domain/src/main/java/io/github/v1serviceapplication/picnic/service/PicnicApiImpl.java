@@ -141,12 +141,8 @@ public class PicnicApiImpl implements PicnicApi {
     public WeekendPicnicExcelListResponse weekendPicnicExcel() {
         List<Picnic> weekendPicnicList = picnicRepositorySpi.findAllByToday();
 
-        List<StudentElement> userList = picnicUserFeignSpi.queryAllUser();
-        Map<UUID, StudentElement> hashMap = new HashMap<>();
-
-        for (StudentElement student : userList) {
-            hashMap.put(student.getUserId(), student);
-        }
+        Map<UUID, StudentElement> hashMap = picnicUserFeignSpi.queryAllUser().stream()
+                .collect(Collectors.toMap(StudentElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
 
         List<WeekendPicnicExcelElement> weekendPicnicExcelElements = weekendPicnicList.stream()
                 .map(picnic -> {
