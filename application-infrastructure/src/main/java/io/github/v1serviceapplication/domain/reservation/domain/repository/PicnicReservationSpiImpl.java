@@ -1,13 +1,9 @@
 package io.github.v1serviceapplication.domain.reservation.domain.repository;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.reservation.domain.PicnicReservationEntity;
 import io.github.v1serviceapplication.domain.reservation.mapper.PicnicReservationMapper;
-import io.github.v1serviceapplication.domain.weekendmeal.domain.WeekendMealApplyEntity;
-import io.github.v1serviceapplication.error.PicnicReservationNotFoundException;
 import io.github.v1serviceapplication.reservation.PicnicReservation;
 import io.github.v1serviceapplication.reservation.spi.PicnicReservationRepositorySpi;
-import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealApplyNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,10 +27,7 @@ public class PicnicReservationSpiImpl implements PicnicReservationRepositorySpi 
     @Transactional
     @Override
     public void updateWeekendPicnicReserve(UUID userId, LocalDate date, boolean reserved) {
-        PicnicReservationEntity reservationEntity = picnicReservationRepository.findByUserIdAndDate(userId, date)
-                .orElseThrow(() -> PicnicReservationNotFoundException.EXCEPTION);
-
-        reservationEntity.updateReserved(reserved);
+        picnicReservationRepository.updatePicnicReservation(userId, date, reserved);
     }
 
     @Override
