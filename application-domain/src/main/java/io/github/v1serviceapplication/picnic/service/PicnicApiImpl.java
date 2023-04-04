@@ -8,21 +8,20 @@ import io.github.v1serviceapplication.error.PicnicNotFoundException;
 import io.github.v1serviceapplication.error.UserNotEmptyException;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
-import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
-import io.github.v1serviceapplication.picnic.api.dto.PicnicDetail;
-import io.github.v1serviceapplication.picnic.api.dto.PicnicElement;
-import io.github.v1serviceapplication.picnic.api.dto.PicnicListResponse;
-import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
+import io.github.v1serviceapplication.picnic.api.dto.*;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
+import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @DomainService
 @RequiredArgsConstructor
@@ -137,4 +136,33 @@ public class PicnicApiImpl implements PicnicApi {
                 .arrangement(picnics.getArrangement())
                 .build();
     }
+
+    @Override
+    public WeekendPicnicExcelListResponse weekendPicnicExcel() {
+        List<Picnic> weekendPicnicList = picnicRepositorySpi.findAllByToday();
+
+        Map<UUID, StudentElement> hashMap = picnicUserFeignSpi.queryAllUser().stream()
+                .collect(Collectors.toMap(StudentElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
+
+        List<WeekendPicnicExcelElement> weekendPicnicExcelElements = weekendPicnicList.stream()
+                .map(picnic -> {
+                    StudentElement user = hashMap.get(picnic.getUserId());
+
+                    return WeekendPicnicExcelElement.builder()
+                            .userId(user.getUserId())
+                            .name(user.getStudentName())
+                            .num(String.valueOf(user.getGrade()) + user.getClassNum() + String.format("%02d", user.getNum()))
+                            .startTime(picnic.getStartTime())
+                            .endTime(picnic.getEndTime())
+                            .reason(picnic.getReason())
+                            .arrangement(picnic.getArrangement())
+                            .isAcceptance(picnic.getIsAcceptance())
+                            .build();
+
+                }).toList();
+
+        return new WeekendPicnicExcelListResponse(weekendPicnicExcelElements);
+    }
+
 }
+
