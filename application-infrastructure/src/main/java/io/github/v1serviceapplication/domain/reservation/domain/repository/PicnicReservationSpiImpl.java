@@ -19,25 +19,20 @@ public class PicnicReservationSpiImpl implements PicnicReservationRepositorySpi 
     private final PicnicReservationRepository picnicReservationRepository;
     private final PicnicReservationMapper picnicReservationMapper;
 
-    @Override
-    public void reserveWeekendPicnic(PicnicReservation picnicReservation) {
-        picnicReservationRepository.save(picnicReservationMapper.picnicReservationDomainToEntity(picnicReservation));
-    }
-
     @Transactional
     @Override
-    public void updateWeekendPicnicReserve(UUID userId, LocalDate date, boolean reserved) {
-        picnicReservationRepository.updatePicnicReservation(userId, date, reserved);
+    public void saveOrUpdateWeekendPicnicReserve(LocalDate date, UUID userId, boolean isReserved) {
+        picnicReservationRepository.saveOrUpdatePicnicReservation(
+                date, userId, isReserved
+        );
     }
 
     @Override
     public List<PicnicReservation> getPicnicReservationListByDate(LocalDate date) {
-        List<PicnicReservationEntity> picnicReservationEntityList = picnicReservationRepository.findAllByDate(date);
+        List<PicnicReservationEntity> picnicReservationEntityList = picnicReservationRepository.findAll()
+                .stream()
+                .filter(picnicReservationEntity -> picnicReservationEntity.getId().getDate().equals(date))
+                .toList();
         return picnicReservationEntityList.stream().map(picnicReservationMapper::picnicReservationEntityToDomain).collect(Collectors.toList());
-    }
-
-    @Override
-    public boolean isExistsPicnicReservationByUserIdAndDate(UUID userId, LocalDate date) {
-        return picnicReservationRepository.existsByUserIdAndDate(userId, date);
     }
 }

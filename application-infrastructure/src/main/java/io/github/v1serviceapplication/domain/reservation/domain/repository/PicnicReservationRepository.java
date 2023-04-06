@@ -7,16 +7,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface PicnicReservationRepository extends JpaRepository<PicnicReservationEntity, UUID> {
-    List<PicnicReservationEntity> findAllByDate(LocalDate date);
-
-    boolean existsByUserIdAndDate(UUID userId, LocalDate date);
-
     @Modifying
-    @Query("update PicnicReservationEntity r set r.isReserved = :isReserved where r.userId = :userId and r.date = :date")
-    void updatePicnicReservation(UUID userId, LocalDate date, boolean isReserved);
+    @Query(value = "INSERT INTO tbl_picnic_reservation (date, user_id, is_reserved) VALUES (:date, :userId, :isReserved) ON DUPLICATE KEY UPDATE is_reserved = :isReserved", nativeQuery = true)
+    void saveOrUpdatePicnicReservation(LocalDate date, UUID userId, boolean isReserved);
 }

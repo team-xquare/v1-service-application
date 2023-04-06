@@ -37,12 +37,15 @@ public class PicnicReservationApiImpl implements PicnicReservationApi {
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
         DayOfWeek day = currentDate.getDayOfWeek();
+        UUID currentUserId = userIdFacade.getCurrentUserId();
 
         if (day != DayOfWeek.FRIDAY || currentTime.isAfter(endTime)) {
             throw PicnicReserveNotAvailableException.EXCEPTION;
         }
 
-        saveOrUpdate(userIdFacade.getCurrentUserId(), currentDate, reserved);
+        picnicReservationRepositorySpi.saveOrUpdateWeekendPicnicReserve(
+                currentDate, currentUserId, reserved
+        );
     }
 
     @Override
@@ -62,7 +65,6 @@ public class PicnicReservationApiImpl implements PicnicReservationApi {
                 .map(picnicReservation -> {
                     PicnicUserElement user = userByIdMap.get(picnicReservation.getUserId());
                     return PicnicReservationElement.builder()
-                            .id(picnicReservation.getId())
                             .num(user.getNum())
                             .name(user.getName())
                             .reserved(picnicReservation.getIsReserved())
@@ -71,19 +73,5 @@ public class PicnicReservationApiImpl implements PicnicReservationApi {
                 .toList();
 
         return new PicnicReservationListResponse(picnicReservationElementList);
-    }
-
-    private void saveOrUpdate(UUID userId, LocalDate date, boolean reserved) {
-        LocalDate currentDate = LocalDate.now();
-        if (picnicReservationRepositorySpi.isExistsPicnicReservationByUserIdAndDate(userId, date)) {
-            picnicReservationRepositorySpi.updateWeekendPicnicReserve(userId, date, reserved);
-        } else {
-            picnicReservationRepositorySpi.reserveWeekendPicnic(
-                    PicnicReservation.builder()
-                            .userId(userId)
-                            .date(currentDate)
-                            .isReserved(reserved)
-                            .build());
-        }
     }
 }

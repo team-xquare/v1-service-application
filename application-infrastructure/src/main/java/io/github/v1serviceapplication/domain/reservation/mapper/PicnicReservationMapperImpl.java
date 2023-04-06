@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.domain.reservation.mapper;
 
 import io.github.v1serviceapplication.domain.reservation.domain.PicnicReservationEntity;
+import io.github.v1serviceapplication.domain.reservation.domain.PicnicReservationId;
 import io.github.v1serviceapplication.reservation.PicnicReservation;
 import org.springframework.stereotype.Component;
 
@@ -10,9 +11,10 @@ public class PicnicReservationMapperImpl implements PicnicReservationMapper {
     @Override
     public PicnicReservationEntity picnicReservationDomainToEntity(PicnicReservation picnicReservation) {
         return PicnicReservationEntity.builder()
-                .id(picnicReservation.getId())
-                .userId(picnicReservation.getUserId())
-                .date(picnicReservation.getDate())
+                .id(PicnicReservationId.builder()
+                        .date(picnicReservation.getDate())
+                        .userId(picnicReservation.getUserId())
+                        .build())
                 .isReserved(picnicReservation.getIsReserved())
                 .build();
     }
@@ -24,9 +26,8 @@ public class PicnicReservationMapperImpl implements PicnicReservationMapper {
         }
 
         return PicnicReservation.builder()
-                .id(picnicReservationEntity.getId())
-                .userId(picnicReservationEntity.getUserId())
-                .date(picnicReservationEntity.getDate())
+                .date(picnicReservationEntity.getId().getDate())
+                .userId(picnicReservationEntity.getId().getUserId())
                 .isReserved(picnicReservationEntity.getIsReserved())
                 .build();
     }
