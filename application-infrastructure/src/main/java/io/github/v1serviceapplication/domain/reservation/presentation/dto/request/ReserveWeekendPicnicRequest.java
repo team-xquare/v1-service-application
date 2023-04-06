@@ -10,5 +10,5 @@ import javax.validation.constraints.NotNull;
 public class ReserveWeekendPicnicRequest {
 
     @NotNull
-    private boolean reserve;
+    private boolean reserved;
 }
