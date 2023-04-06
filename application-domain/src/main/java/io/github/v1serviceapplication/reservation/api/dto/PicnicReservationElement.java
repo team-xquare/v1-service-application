@@ -8,5 +8,4 @@ import lombok.Getter;
 public class PicnicReservationElement {
     private final String num;
     private final String name;
-    private final boolean reserved;
 }

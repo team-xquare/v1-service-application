@@ -62,12 +62,12 @@ public class PicnicReservationApiImpl implements PicnicReservationApi {
                 .collect(Collectors.toMap(PicnicUserElement::getUserId, Function.identity()));
 
         List<PicnicReservationElement> picnicReservationElementList = picnicReservationList.stream()
+                .filter(picnicReservation -> picnicReservation.getIsReserved().equals(true))
                 .map(picnicReservation -> {
                     PicnicUserElement user = userByIdMap.get(picnicReservation.getUserId());
                     return PicnicReservationElement.builder()
                             .num(user.getNum())
                             .name(user.getName())
-                            .reserved(picnicReservation.getIsReserved())
                             .build();
                 })
                 .toList();
