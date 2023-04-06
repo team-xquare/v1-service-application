@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Tag(name = "주말 외출 예약 API")
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +22,8 @@ public class PicnicReservationController {
     @Operation(summary = "주말 외출 예약 및 업데이트 API")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void reserveWeekendPicnic(@RequestBody ReserveWeekendPicnicRequest request) {
-        picnicReservationApi.reserveWeekendPicnic(request.isReserve());
+    public void reserveWeekendPicnic(@Valid @RequestBody ReserveWeekendPicnicRequest request) {
+        picnicReservationApi.reserveWeekendPicnic(request.isReserved());
     }
 
     @Operation(summary = "주말 외출 예약자 조회 API")
