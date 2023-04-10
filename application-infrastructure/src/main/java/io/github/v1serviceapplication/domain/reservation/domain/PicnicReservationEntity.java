@@ -1,7 +1,6 @@
 package io.github.v1serviceapplication.domain.reservation.domain;
 
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
