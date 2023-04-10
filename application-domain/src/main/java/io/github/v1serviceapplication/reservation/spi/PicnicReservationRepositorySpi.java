@@ -11,7 +11,7 @@ import java.util.UUID;
 public
 interface PicnicReservationRepositorySpi {
 
-    void saveOrUpdateWeekendPicnicReserve(LocalDate date, UUID userId, boolean reserved);
+    void saveOrUpdateWeekendPicnicReserve(LocalDate picnicReservationDate, UUID userId, boolean reserved);
 
-    List<PicnicReservation> getPicnicReservationListByDate(LocalDate date);
+    List<PicnicReservation> getPicnicReservationListByDateAndIsReserved(LocalDate date);
 }

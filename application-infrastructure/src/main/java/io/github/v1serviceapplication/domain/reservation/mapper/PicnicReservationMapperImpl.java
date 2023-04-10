@@ -12,7 +12,7 @@ public class PicnicReservationMapperImpl implements PicnicReservationMapper {
     public PicnicReservationEntity picnicReservationDomainToEntity(PicnicReservation picnicReservation) {
         return PicnicReservationEntity.builder()
                 .id(PicnicReservationId.builder()
-                        .date(picnicReservation.getDate())
+                        .picnicReservationDate(picnicReservation.getPicnicReservationDate())
                         .userId(picnicReservation.getUserId())
                         .build())
                 .isReserved(picnicReservation.getIsReserved())
@@ -26,7 +26,7 @@ public class PicnicReservationMapperImpl implements PicnicReservationMapper {
         }
 
         return PicnicReservation.builder()
-                .date(picnicReservationEntity.getId().getDate())
+                .picnicReservationDate(picnicReservationEntity.getId().getPicnicReservationDate())
                 .userId(picnicReservationEntity.getId().getUserId())
                 .isReserved(picnicReservationEntity.getIsReserved())
                 .build();

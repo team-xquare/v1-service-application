@@ -16,7 +16,7 @@ import java.util.UUID;
 @Embeddable
 public class PicnicReservationId implements Serializable {
 
-    private LocalDate date;
+    private LocalDate picnicReservationDate;
 
     @Column(columnDefinition = "BINARY(16)")
     private UUID userId;

@@ -11,7 +11,7 @@ import java.util.UUID;
 @Getter
 @Builder
 public class PicnicReservation {
-    private final LocalDate date;
+    private final LocalDate picnicReservationDate;
     private final UUID userId;
     private final Boolean isReserved;
 }

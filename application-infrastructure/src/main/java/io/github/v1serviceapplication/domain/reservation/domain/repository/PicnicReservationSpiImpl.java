@@ -1,6 +1,5 @@
 package io.github.v1serviceapplication.domain.reservation.domain.repository;
 
-import io.github.v1serviceapplication.domain.reservation.domain.PicnicReservationEntity;
 import io.github.v1serviceapplication.domain.reservation.mapper.PicnicReservationMapper;
 import io.github.v1serviceapplication.reservation.PicnicReservation;
 import io.github.v1serviceapplication.reservation.spi.PicnicReservationRepositorySpi;
@@ -11,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
@@ -21,18 +19,17 @@ public class PicnicReservationSpiImpl implements PicnicReservationRepositorySpi 
 
     @Transactional
     @Override
-    public void saveOrUpdateWeekendPicnicReserve(LocalDate date, UUID userId, boolean isReserved) {
+    public void saveOrUpdateWeekendPicnicReserve(LocalDate picnicReservationDate, UUID userId, boolean isReserved) {
         picnicReservationRepository.saveOrUpdatePicnicReservation(
-                date, userId, isReserved
+                picnicReservationDate, userId, isReserved
         );
     }
 
     @Override
-    public List<PicnicReservation> getPicnicReservationListByDate(LocalDate date) {
-        List<PicnicReservationEntity> picnicReservationEntityList = picnicReservationRepository.findAll()
+    public List<PicnicReservation> getPicnicReservationListByDateAndIsReserved(LocalDate picnicReservationDate) {
+        return picnicReservationRepository.findAllById_PicnicReservationDateAndIsReserved(picnicReservationDate, true)
                 .stream()
-                .filter(picnicReservationEntity -> picnicReservationEntity.getId().getDate().equals(date))
+                .map(picnicReservationMapper::picnicReservationEntityToDomain)
                 .toList();
-        return picnicReservationEntityList.stream().map(picnicReservationMapper::picnicReservationEntityToDomain).collect(Collectors.toList());
     }
 }
