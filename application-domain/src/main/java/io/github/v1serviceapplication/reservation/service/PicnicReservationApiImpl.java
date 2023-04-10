@@ -3,7 +3,6 @@ package io.github.v1serviceapplication.reservation.service;
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.error.PicnicReserveNotAvailableException;
-import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
 import io.github.v1serviceapplication.reservation.PicnicReservation;
 import io.github.v1serviceapplication.reservation.api.PicnicReservationApi;
@@ -17,10 +16,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @DomainService
@@ -50,27 +46,20 @@ public class PicnicReservationApiImpl implements PicnicReservationApi {
 
     @Override
     public PicnicReservationListResponse getPicnicReservationList() {
-        LocalDate currentDate = LocalDate.now();
-        LocalDate friday = currentDate.with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
-        List<PicnicReservation> picnicReservationList = picnicReservationRepositorySpi.getPicnicReservationListByDate(friday);
-        List<UUID> picnicReservationIdList = picnicReservationList.stream()
+        LocalDate friday = LocalDate.now().with(TemporalAdjusters.next(DayOfWeek.FRIDAY));
+
+        List<UUID> picnicReservationIdList = picnicReservationRepositorySpi.getPicnicReservationListByDateAndIsReserved(friday)
+                .stream()
                 .map(PicnicReservation::getUserId)
                 .toList();
 
-        Map<UUID, PicnicUserElement> userByIdMap = picnicUserFeignSpi.getUserInfoByUserId(picnicReservationIdList)
+        List<PicnicReservationElement> picnicReservationElementList = picnicUserFeignSpi.getUserInfoByUserId(picnicReservationIdList)
                 .stream()
-                .collect(Collectors.toMap(PicnicUserElement::getUserId, Function.identity()));
-
-        List<PicnicReservationElement> picnicReservationElementList = picnicReservationList.stream()
-                .filter(picnicReservation -> picnicReservation.getIsReserved().equals(true))
-                .map(picnicReservation -> {
-                    PicnicUserElement user = userByIdMap.get(picnicReservation.getUserId());
-                    return PicnicReservationElement.builder()
-                            .num(user.getNum())
-                            .name(user.getName())
-                            .build();
-                })
-                .toList();
+                .map(user -> PicnicReservationElement.builder()
+                        .num(user.getNum())
+                        .name(user.getName())
+                        .build()
+                ).toList();
 
         return new PicnicReservationListResponse(picnicReservationElementList);
     }
