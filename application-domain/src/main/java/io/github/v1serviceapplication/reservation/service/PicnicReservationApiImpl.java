@@ -26,7 +26,7 @@ public class PicnicReservationApiImpl implements PicnicReservationApi {
     private final UserIdFacade userIdFacade;
     private final PicnicUserFeignSpi picnicUserFeignSpi;
 
-    static final LocalTime endTime = LocalTime.of(23, 0);
+    private static final LocalTime END_TIME = LocalTime.of(23, 0);
 
     @Override
     public void reserveWeekendPicnic(boolean reserved) {
@@ -35,7 +35,7 @@ public class PicnicReservationApiImpl implements PicnicReservationApi {
         DayOfWeek day = currentDate.getDayOfWeek();
         UUID currentUserId = userIdFacade.getCurrentUserId();
 
-        if (day != DayOfWeek.FRIDAY || currentTime.isAfter(endTime)) {
+        if (day != DayOfWeek.FRIDAY || currentTime.isAfter(END_TIME)) {
             throw PicnicReserveNotAvailableException.EXCEPTION;
         }
 
