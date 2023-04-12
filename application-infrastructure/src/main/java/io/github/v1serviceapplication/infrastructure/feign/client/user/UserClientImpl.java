@@ -1,5 +1,6 @@
 package io.github.v1serviceapplication.infrastructure.feign.client.user;
 
+import io.github.v1serviceapplication.infrastructure.feign.client.dto.request.UserInfoRequest;
 import io.github.v1serviceapplication.infrastructure.feign.client.dto.response.UserInfoResponseElement;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
@@ -24,10 +25,13 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
 
     @Override
     public List<StudentElement> queryUserInfoByUserId(List<UUID> userId) {
+        UserInfoRequest request = UserInfoRequest.builder()
+                .userIds(userId)
+                .build();
         if (userId.isEmpty()) {
             return null;
         } else {
-            return userClient.queryUserInfoByUserId(userId)
+            return userClient.queryUserInfoByUserId(request)
                     .getUsers()
                     .stream().map(
                             user -> new StudentElement(
@@ -51,10 +55,13 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
     }
 
     public List<PicnicUserElement> getUserInfoByUserId(List<UUID> userId) {
+        UserInfoRequest request = UserInfoRequest.builder()
+                .userIds(userId)
+                .build();
         if (userId.isEmpty()) {
             return Collections.emptyList();
         }
-        return userClient.queryUserInfoByUserId(userId)
+        return userClient.queryUserInfoByUserId(request)
                 .getUsers()
                 .stream()
                 .map(
@@ -68,10 +75,13 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
 
     @Override
     public List<WeekendMealUserElement> getUserInfoList(List<UUID> ids) {
+        UserInfoRequest request = UserInfoRequest.builder()
+                .userIds(ids)
+                .build();
         if (ids.isEmpty()) {
             return Collections.emptyList();
         }
-        return userClient.queryUserInfoByUserId(ids)
+        return userClient.queryUserInfoByUserId(request)
                 .getUsers()
                 .stream()
                 .map(
@@ -85,10 +95,13 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
 
     @Override
     public List<StayUserElement> getUserInfoByUserIds(List<UUID> userIds) {
+        UserInfoRequest request = UserInfoRequest.builder()
+                .userIds(userIds)
+                .build();
         if (userIds.isEmpty()) {
             return Collections.emptyList();
         }
-        return userClient.queryUserInfoByUserId(userIds)
+        return userClient.queryUserInfoByUserId(request)
                 .getUsers()
                 .stream()
                 .map(
