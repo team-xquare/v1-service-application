@@ -40,21 +40,21 @@ public class StudyRoomApiImpl implements StudyRoomApi {
         StudyRoom studyRoom = postStudyRoomRepositorySpi.findById(studyRoomId);
 
         LocalTime schoolEndTime = LocalTime.of(20, 30);
-        checkBeforeSchoolEndTime(schoolEndTime);
+        checkIsBeforeSchoolEndTime(schoolEndTime);
 
-        checkFullStudyRoom(applicationCount, studyRoom);
+        checkIsFullStudyRoom(applicationCount, studyRoom);
 
         saveOrUpdate(userIdFacade.getCurrentUserId(), studyRoomId);
     }
 
-    private void checkBeforeSchoolEndTime(LocalTime schoolEndTime) {
+    private void checkIsBeforeSchoolEndTime(LocalTime schoolEndTime) {
         boolean isBeforeSchoolEndTime = LocalTime.now().isBefore(schoolEndTime);
         if (isBeforeSchoolEndTime) {
             throw InvalidStudyRoomApplicationTimeException.EXCEPTION;
         }
     }
 
-    private void checkFullStudyRoom(Long applicationCount, StudyRoom studyRoom) {
+    private void checkIsFullStudyRoom(Long applicationCount, StudyRoom studyRoom) {
         boolean isFullStudyRoom = applicationCount >= studyRoom.getMaxPeopleCount();
         if (isFullStudyRoom) {
             throw FullStudyRoomException.EXCEPTION;
