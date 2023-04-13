@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-
     FULL_STUDY_ROOM(400, "STUDY-ROOM-400-1", "Full Study Room."),
+
+    INVALID_STUDY_ROOM_APPLICATION_TIME(400, "STUDY-ROOM-400-2", "Invalid Study Room Application Time."),
 
     JWT_SIGNATURE(401, "APPLICATION-401-1", "Jwt Signature is not valid."),
 

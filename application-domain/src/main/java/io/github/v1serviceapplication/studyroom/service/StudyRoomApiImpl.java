@@ -2,13 +2,13 @@ package io.github.v1serviceapplication.studyroom.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.common.UserIdFacade;
-import io.github.v1serviceapplication.stay.api.dto.response.QueryAllStayStatusElement;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.api.StudyRoomApi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudyRoomElement;
 import io.github.v1serviceapplication.studyroom.exception.ExtensionNotFoundException;
 import io.github.v1serviceapplication.studyroom.exception.FullStudyRoomException;
 import io.github.v1serviceapplication.studyroom.exception.InCorrectStudyRoomIdException;
+import io.github.v1serviceapplication.studyroom.exception.InvalidStudyRoomApplicationTimeException;
 import io.github.v1serviceapplication.studyroom.extension.Extension;
 import io.github.v1serviceapplication.studyroom.spi.PostStudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.QueryStudyRoomRepositorySpi;
@@ -18,7 +18,7 @@ import io.github.v1serviceapplication.studyroom.spi.StudyRoomUserFeignSpi;
 import io.github.v1serviceapplication.studyroom.spi.dto.StudyRoomModel;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Comparator;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -39,11 +39,26 @@ public class StudyRoomApiImpl implements StudyRoomApi {
         Long applicationCount = postStudyRoomRepositorySpi.applicationCount(studyRoomId);
         StudyRoom studyRoom = postStudyRoomRepositorySpi.findById(studyRoomId);
 
-        if (applicationCount >= studyRoom.getMaxPeopleCount()) {
-            throw FullStudyRoomException.EXCEPTION;
-        }
+        checkIsBeforeSchoolEndTime();
+
+        checkIsFullStudyRoom(applicationCount, studyRoom);
 
         saveOrUpdate(userIdFacade.getCurrentUserId(), studyRoomId);
+    }
+
+    private void checkIsBeforeSchoolEndTime() {
+        LocalTime schoolEndTime = LocalTime.of(20, 30);
+        boolean isBeforeSchoolEndTime = LocalTime.now().isBefore(schoolEndTime);
+        if (isBeforeSchoolEndTime) {
+            throw InvalidStudyRoomApplicationTimeException.EXCEPTION;
+        }
+    }
+
+    private void checkIsFullStudyRoom(Long applicationCount, StudyRoom studyRoom) {
+        boolean isFullStudyRoom = applicationCount >= studyRoom.getMaxPeopleCount();
+        if (isFullStudyRoom) {
+            throw FullStudyRoomException.EXCEPTION;
+        }
     }
 
     @Override
