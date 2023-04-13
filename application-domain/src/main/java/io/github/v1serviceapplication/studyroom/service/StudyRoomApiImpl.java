@@ -8,7 +8,7 @@ import io.github.v1serviceapplication.studyroom.api.dto.response.StudyRoomElemen
 import io.github.v1serviceapplication.studyroom.exception.ExtensionNotFoundException;
 import io.github.v1serviceapplication.studyroom.exception.FullStudyRoomException;
 import io.github.v1serviceapplication.studyroom.exception.InCorrectStudyRoomIdException;
-import io.github.v1serviceapplication.studyroom.exception.TimeInvalidException;
+import io.github.v1serviceapplication.studyroom.exception.InvalidStudyRoomApplicationTimeException;
 import io.github.v1serviceapplication.studyroom.extension.Extension;
 import io.github.v1serviceapplication.studyroom.spi.PostStudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.QueryStudyRoomRepositorySpi;
@@ -39,17 +39,18 @@ public class StudyRoomApiImpl implements StudyRoomApi {
         Long applicationCount = postStudyRoomRepositorySpi.applicationCount(studyRoomId);
         StudyRoom studyRoom = postStudyRoomRepositorySpi.findById(studyRoomId);
 
-        checkBefore20hours30Minutes();
+        LocalTime schoolEndTime = LocalTime.of(20, 30);
+        checkBeforeSchoolEndTime(schoolEndTime);
 
         checkFullStudyRoom(applicationCount, studyRoom);
 
         saveOrUpdate(userIdFacade.getCurrentUserId(), studyRoomId);
     }
 
-    private void checkBefore20hours30Minutes() {
-        boolean isBefore20hours30Minutes = LocalTime.now().isBefore(LocalTime.of(20, 30));
-        if (isBefore20hours30Minutes) {
-            throw TimeInvalidException.EXCEPTION;
+    private void checkBeforeSchoolEndTime(LocalTime schoolEndTime) {
+        boolean isBeforeSchoolEndTime = LocalTime.now().isBefore(schoolEndTime);
+        if (isBeforeSchoolEndTime) {
+            throw InvalidStudyRoomApplicationTimeException.EXCEPTION;
         }
     }
 
