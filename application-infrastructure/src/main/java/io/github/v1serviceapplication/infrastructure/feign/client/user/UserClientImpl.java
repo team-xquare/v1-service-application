@@ -1,15 +1,14 @@
 package io.github.v1serviceapplication.infrastructure.feign.client.user;
 
+import io.github.v1serviceapplication.user.dto.response.UserInfoElement;
 import io.github.v1serviceapplication.infrastructure.feign.client.dto.request.UserInfoRequest;
-import io.github.v1serviceapplication.infrastructure.feign.client.dto.response.UserInfoResponse;
 import io.github.v1serviceapplication.infrastructure.feign.client.dto.response.UserInfoResponseElement;
-import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
 import io.github.v1serviceapplication.stay.api.dto.response.StayUserElement;
 import io.github.v1serviceapplication.stay.spi.StayUserFeignSpi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomUserFeignSpi;
-import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealUserElement;
+import io.github.v1serviceapplication.user.spi.UserFeignSpi;
 import io.github.v1serviceapplication.weekendmeal.spi.WeekendMealUserFeignSpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,21 +20,23 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Component
-public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi, StayUserFeignSpi, WeekendMealUserFeignSpi {
+public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi, StayUserFeignSpi, WeekendMealUserFeignSpi, UserFeignSpi {
     private final UserClient userClient;
 
     @Override
     public List<StudentElement> queryUserInfoByUserId(List<UUID> userId) {
+        UserInfoRequest request = UserInfoRequest.builder()
+                .userIds(userId)
+                .build();
         if (userId.isEmpty()) {
             return null;
         } else {
-            return userInfoList(userId)
+            return userClient.queryUserInfoByUserId(request)
                     .getUsers()
                     .stream().map(
                             user -> new StudentElement(
                                     user.getId(), user.getName(), user.getGrade(), user.getClassNum(), user.getNum(), user.getProfileFileName())
                     ).toList();
-
         }
     }
 
@@ -50,56 +51,6 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
                         user -> new StudentElement(
                                 user.getId(), user.getName(), user.getGrade(), user.getClassNum(), user.getNum(), user.getProfileFileName()
                         )).collect(Collectors.toList());
-    }
-
-    public List<PicnicUserElement> getUserInfoByUserId(List<UUID> userId) {
-        if (userId.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return userInfoList(userId)
-                .getUsers()
-                .stream()
-                .map(
-                        user -> new PicnicUserElement(
-                                user.getId(),
-                                user.getGrade().toString() + user.getClassNum().toString() + String.format("%02d", user.getNum()),
-                                user.getName()
-                        )
-                ).toList();
-    }
-
-    @Override
-    public List<WeekendMealUserElement> getUserInfoList(List<UUID> ids) {
-        if (ids.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return userInfoList(ids)
-                .getUsers()
-                .stream()
-                .map(
-                        user -> new WeekendMealUserElement(
-                                user.getId(),
-                                user.getGrade().toString() + user.getClassNum().toString() + String.format("%02d", user.getNum()),
-                                user.getName()
-                        )
-                ).toList();
-    }
-
-    @Override
-    public List<StayUserElement> getUserInfoByUserIds(List<UUID> userIds) {
-        if (userIds.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return userInfoList(userIds)
-                .getUsers()
-                .stream()
-                .map(
-                        user -> new StayUserElement(
-                                user.getId(),
-                                user.getGrade().toString() + user.getClassNum().toString() + String.format("%02d", user.getNum()),
-                                user.getName()
-                        )
-                ).toList();
     }
 
     @Override
@@ -126,11 +77,25 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
                 ).toList();
     }
 
-    private UserInfoResponse userInfoList(List<UUID> userId) {
+    @Override
+    public List<UserInfoElement> getUserInfoList(List<UUID> userIds) {
         UserInfoRequest request = UserInfoRequest.builder()
-                .userIds(userId)
+                .userIds(userIds)
                 .build();
 
-        return userClient.queryUserInfoByUserId(request);
+        if (userIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return userClient.queryUserInfoByUserId(request)
+                .getUsers()
+                .stream()
+                .map(
+                        user -> new UserInfoElement(
+                                user.getId(),
+                                user.getGrade().toString() + user.getClassNum().toString() + String.format("%02d", user.getNum()),
+                                user.getName()
+                        )
+                ).toList();
     }
 }
