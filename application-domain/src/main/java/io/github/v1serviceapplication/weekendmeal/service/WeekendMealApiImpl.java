@@ -10,12 +10,10 @@ import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
 import io.github.v1serviceapplication.weekendmeal.api.dto.QueryWeekendMealResponse;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealElement;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealListResponse;
-import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealUserElement;
 import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealNotFoundException;
 import io.github.v1serviceapplication.weekendmeal.spi.PostWeekendMealApplyRepositorySpi;
 import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealApplyRepositorySpi;
 import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealRepositorySpi;
-import io.github.v1serviceapplication.weekendmeal.spi.WeekendMealUserFeignSpi;
 import lombok.RequiredArgsConstructor;
 
 import java.util.*;

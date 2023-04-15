@@ -1,8 +1,7 @@
 package io.github.v1serviceapplication.studyroom.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
-import io.github.v1serviceapplication.common.UserIdFacade;
-import io.github.v1serviceapplication.stay.api.dto.response.QueryAllStayStatusElement;
+import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.api.StudyRoomApi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudyRoomElement;
@@ -18,7 +17,6 @@ import io.github.v1serviceapplication.studyroom.spi.StudyRoomUserFeignSpi;
 import io.github.v1serviceapplication.studyroom.spi.dto.StudyRoomModel;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
