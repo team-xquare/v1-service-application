@@ -25,9 +25,7 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
 
     @Override
     public List<StudentElement> queryUserInfoByUserId(List<UUID> userId) {
-        UserInfoRequest request = UserInfoRequest.builder()
-                .userIds(userId)
-                .build();
+        UserInfoRequest request = new UserInfoRequest(userId);
         if (userId.isEmpty()) {
             return null;
         } else {
@@ -79,9 +77,7 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
 
     @Override
     public List<UserInfoElement> getUserInfoList(List<UUID> userIds) {
-        UserInfoRequest request = UserInfoRequest.builder()
-                .userIds(userIds)
-                .build();
+        UserInfoRequest request = new UserInfoRequest(userIds);
 
         if (userIds.isEmpty()) {
             return Collections.emptyList();
