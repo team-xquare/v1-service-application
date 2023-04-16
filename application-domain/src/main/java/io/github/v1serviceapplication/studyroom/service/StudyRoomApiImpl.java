@@ -19,7 +19,6 @@ import io.github.v1serviceapplication.studyroom.spi.dto.StudyRoomModel;
 import lombok.RequiredArgsConstructor;
 
 import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -53,9 +52,9 @@ public class StudyRoomApiImpl implements StudyRoomApi {
         LocalDateTime currentDateTime = LocalDateTime.now();
         LocalTime schoolEndTime = LocalTime.of(20, 30);
 
-        boolean isBeforeSchoolEndTime = currentDateTime.toLocalTime().isBefore(schoolEndTime);
         boolean isWeekdays = currentDateTime.toLocalDate().getDayOfWeek().getValue() < DayOfWeek.SATURDAY.getValue();
-        if (isBeforeSchoolEndTime && isWeekdays) {
+        boolean isBeforeSchoolEndTime = currentDateTime.toLocalTime().isBefore(schoolEndTime);
+        if (isWeekdays && isBeforeSchoolEndTime) {
             throw InvalidStudyRoomApplicationTimeException.EXCEPTION;
         }
     }
