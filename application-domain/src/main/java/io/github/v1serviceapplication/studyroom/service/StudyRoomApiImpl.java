@@ -2,7 +2,6 @@ package io.github.v1serviceapplication.studyroom.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.user.UserIdFacade;
-import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.studyroom.StudyRoom;
 import io.github.v1serviceapplication.studyroom.api.StudyRoomApi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudyRoomElement;
