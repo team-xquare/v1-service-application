@@ -28,6 +28,7 @@ public abstract class BaseEntity {
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
+    @NotNull
     @Column(columnDefinition = "BINARY(16)")
     private UUID userId;
 

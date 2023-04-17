@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-
     FULL_STUDY_ROOM(400, "STUDY-ROOM-400-1", "Full Study Room."),
+
+    INVALID_STUDY_ROOM_APPLICATION_TIME(400, "STUDY-ROOM-400-2", "Invalid Study Room Application Time."),
 
     JWT_SIGNATURE(401, "APPLICATION-401-1", "Jwt Signature is not valid."),
 
@@ -27,6 +28,7 @@ public enum ErrorCode {
     STAY_NOT_FOUND(404, "STAY-404-1", "Stay Not Found."),
 
     PICNIC_NOT_FOUND(404, "STAY-404-1", "Picnic Not Found."),
+    
     WEEKEND_MEAL_NOT_FOUND(404, "WEEKEND-404-1", "Weekend Meal Not Found."),
 
     WEEKEND_MEAL_APPLY_NOT_FOUND(404, "WEEKEND-APPLY-404-1", "Weekend Meal Apply Not Found."),
@@ -41,15 +43,19 @@ public enum ErrorCode {
 
     FEIGN_EXPIRED_TOKEN(419, "FEIGN-419-1", "Feign Expired Token."),
 
-    INVALID_STAY_STATUS(401, "STAY-401-1", "Invalid Stay Status"),
+    INVALID_STAY_STATUS(401, "STAY-401-1", "Invalid Stay Status."),
 
-    USER_NOT_EMPTY(409, "PICNIC-409-1", "User Not Empty"),
+    USER_NOT_EMPTY(409, "PICNIC-409-1", "User Not Empty."),
 
-    USER_ID_NOT_FOUND(404, "PICNIC-404-1", "Not Found User Id"),
+    USER_ID_NOT_FOUND(404, "PICNIC-404-1", "Not Found User Id."),
 
-    INVALID_PICNIC_TIME(400, "PICNIC-400-1", "Picnic Time Invalid"),
+    INVALID_PICNIC_TIME(400, "PICNIC-400-1", "Picnic Time Invalid."),
 
-    PICNIC_APPLY_NOT_AVAILABLE(400, "PICNIC-403-1", "Picnic Apply Not Available");
+    PICNIC_RESERVATION_NOT_FOUND(404, "RESERVATION-404-1", "Picnic Reservation Not Found."),
+
+    PICNIC_RESERVE_NOT_AVAILABLE(400, "RESERVATION-403-1", "Picnic Reserve Not Available."),
+
+    PICNIC_APPLY_NOT_AVAILABLE(400, "PICNIC-403-1", "Picnic Apply Not Available.");
 
     private final int status;
     private final String code;
