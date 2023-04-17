@@ -87,11 +87,12 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
                 .getUsers()
                 .stream()
                 .map(
-                        user -> new UserInfoElement(
-                                user.getId(),
-                                user.getGrade().toString() + user.getClassNum().toString() + String.format("%02d", user.getNum()),
-                                user.getName()
-                        )
+                        user -> UserInfoElement.builder()
+                                .userId(user.getId())
+                                .num((user.getGrade().toString() + user.getClassNum().toString() + String.format("%02d", user.getNum())))
+                                .name(user.getName())
+                                .build()
+
                 ).toList();
     }
 }

@@ -1,12 +1,12 @@
 package io.github.v1serviceapplication.user.dto.response;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Getter
-@AllArgsConstructor
+@Builder
 public class UserInfoElement {
 
     private final UUID userId;
