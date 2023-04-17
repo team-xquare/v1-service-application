@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.util.List;
 import java.util.UUID;
+
 @AllArgsConstructor
 @Getter
 public class UserInfoRequest {
