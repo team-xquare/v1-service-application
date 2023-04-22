@@ -33,6 +33,12 @@ public class PicnicEntity extends BaseEntity {
 
     private LocalTime dormitoryReturnCheckTime;
 
+    @NotNull
+    private LocalTime picnicRequestStartTime;
+
+    @NotNull
+    private LocalTime picnicAllowStartTime;
+
     @Column(columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean isAcceptance = false;
 }
