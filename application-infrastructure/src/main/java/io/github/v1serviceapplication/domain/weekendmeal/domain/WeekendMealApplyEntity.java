@@ -3,9 +3,11 @@ package io.github.v1serviceapplication.domain.weekendmeal.domain;
 import io.github.v1serviceapplication.global.entity.BaseEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -15,6 +17,10 @@ import java.util.UUID;
 @Table(name = "tbl_weekend_meal_apply")
 @Entity
 public class WeekendMealApplyEntity extends BaseEntity {
+
+    @NotNull
+    @CreatedDate
+    private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "weekend_meal_id")

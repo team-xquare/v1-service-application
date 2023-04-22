@@ -5,9 +5,11 @@ import io.github.v1serviceapplication.global.entity.BaseEntity;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,6 +18,11 @@ import javax.validation.constraints.NotNull;
 @Table(name = "tbl_stay_apply")
 @Entity
 public class StayEntity extends BaseEntity {
+
+    @NotNull
+    @CreatedDate
+    private LocalDate date;
+
     @NotNull
     @Column(columnDefinition = "CHAR(6)")
     @Convert(converter = StayStatusCodeConverter.class)

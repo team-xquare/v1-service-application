@@ -31,8 +31,4 @@ public abstract class BaseEntity {
     @NotNull
     @Column(columnDefinition = "BINARY(16)")
     private UUID userId;
-
-    @NotNull
-    @CreatedDate
-    private LocalDate date;
 }

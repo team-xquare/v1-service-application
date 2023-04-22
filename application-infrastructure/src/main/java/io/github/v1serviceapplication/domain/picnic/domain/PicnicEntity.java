@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -20,6 +21,10 @@ import java.time.LocalTime;
 @Table(name = "tbl_picnic_apply")
 @Entity
 public class PicnicEntity extends BaseEntity {
+
+    @NotNull
+    private LocalDateTime date;
+
     private LocalTime startTime;
 
     @NotNull
