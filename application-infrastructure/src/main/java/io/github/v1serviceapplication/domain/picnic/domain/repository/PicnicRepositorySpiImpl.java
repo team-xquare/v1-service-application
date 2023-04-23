@@ -47,14 +47,14 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         LocalDateTime dateStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).withNano(0);
         LocalDateTime dateEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0);
 
-        LocalDateTime a = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(20, 30));
-        LocalDateTime b = LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 30));
+        LocalDateTime picnicRequestStartTime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(20, 30));
+        LocalDateTime picnicRequestEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 30));
 
         return queryFactory
                 .selectFrom(picnicEntity)
                 .where(
                         picnicEntity.dateTime.between(dateStartTime, dateEndTime),
-                        picnicEntity.dateTime.between(a, b)
+                        picnicEntity.dateTime.between(picnicRequestStartTime, picnicRequestEndTime)
                 )
                 .fetch()
                 .stream().map(picnicMapper::picnicEntityToDomain)
@@ -66,15 +66,15 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         LocalDateTime dateStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).withNano(0);
         LocalDateTime dateEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0);
 
-        LocalDateTime a = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(20, 30));
-        LocalDateTime b = LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 30));
+        LocalDateTime picnicRequestStartTime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(20, 30));
+        LocalDateTime picnicRequestEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 30));
 
         return queryFactory
                 .select(picnicEntity.userId)
                 .from(picnicEntity)
                 .where(
                         picnicEntity.dateTime.between(dateStartTime, dateEndTime),
-                        picnicEntity.dateTime.between(a, b)
+                        picnicEntity.dateTime.between(picnicRequestStartTime, picnicRequestEndTime)
                 )
                 .fetch();
     }
