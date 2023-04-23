@@ -14,7 +14,7 @@ import java.util.UUID;
 public class Picnic {
     private final UUID id;
     private final UUID userId;
-    private final LocalDateTime date;
+    private final LocalDateTime dateTime;
     private final LocalTime startTime;
     private final LocalTime endTime;
     private final String reason;

@@ -23,7 +23,7 @@ import java.time.LocalTime;
 public class PicnicEntity extends BaseEntity {
 
     @NotNull
-    private LocalDateTime date;
+    private LocalDateTime dateTime;
 
     private LocalTime startTime;
 
