@@ -1,12 +1,5 @@
 package io.github.v1serviceapplication.domain.picnic.domain.repository;
 
-import com.querydsl.core.types.Constant;
-import com.querydsl.core.types.ConstantImpl;
-import com.querydsl.core.types.dsl.DateTemplate;
-import com.querydsl.core.types.dsl.Expressions;
-import com.querydsl.core.types.dsl.NumberExpression;
-import com.querydsl.core.types.dsl.StringExpression;
-import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.picnic.domain.PicnicEntity;
 import io.github.v1serviceapplication.domain.picnic.mapper.PicnicMapper;
@@ -22,14 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.temporal.TemporalAccessor;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static io.github.v1serviceapplication.domain.picnic.domain.QPicnicEntity.picnicEntity;
+import static java.lang.String.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -38,6 +29,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     private final PicnicMapper picnicMapper;
     private final JPAQueryFactory queryFactory;
     private final UserClient userClient;
+
     @Override
     public void applyWeekendPicnic(Picnic picnic) {
         picnicRepository.save(picnicMapper.picnicDomainToEntity(picnic));
@@ -52,10 +44,12 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<Picnic> findAllByToday() {
+        LocalDateTime dateTimeStart = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).withNano(0);
+        LocalDateTime dateTimeEnd = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0);
 
         return queryFactory
                 .selectFrom(picnicEntity)
-                .where(picnicEntity.date.between(LocalDate.now().atStartOfDay(), LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0)))
+                .where(picnicEntity.dateTime.between(dateTimeStart, dateTimeEnd))
                 .fetch()
                 .stream().map(picnicMapper::picnicEntityToDomain)
                 .toList();
@@ -63,13 +57,15 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<UUID> findUserIdByToday() {
-
-        List<PicnicEntity> test = queryFactory
+        LocalDateTime dateTimeStart = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).withNano(0);
+        LocalDateTime dateTimeEnd = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0);
+        List<PicnicEntity> test;
+        test = queryFactory
                 .selectFrom(picnicEntity)
-                .where(picnicEntity.date.between(LocalDate.now().atStartOfDay(), LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0)))
+                .where(picnicEntity.dateTime.between(dateTimeStart, dateTimeEnd))
                 .fetch();
-
         return test.stream().map(PicnicEntity::getUserId).toList();
+
     }
 
     @Transactional
@@ -129,7 +125,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         UserInfoResponseElement userInfo = userClient.queryUserInfo(userId);
         return new PicnicUserElement(
                 userInfo.getId(),
-                userInfo.getGrade().toString() + userInfo.getClassNum().toString() + String.format("%02d", userInfo.getNum()),
+                userInfo.getGrade().toString() + userInfo.getClassNum().toString() + format("%02d", userInfo.getNum()),
                 userInfo.getName()
         );
     }
