@@ -42,6 +42,9 @@ public class PicnicEntity extends BaseEntity {
     private LocalTime picnicRequestStartTime;
 
     @NotNull
+    private LocalTime picnicRequestEndTime;
+
+    @NotNull
     private LocalTime picnicAllowStartTime;
 
     @Column(columnDefinition = "TINYINT(1) DEFAULT 0")

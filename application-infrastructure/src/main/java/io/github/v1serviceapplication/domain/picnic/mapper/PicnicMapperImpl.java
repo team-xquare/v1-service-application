@@ -21,6 +21,7 @@ public class PicnicMapperImpl implements PicnicMapper{
                 .isAcceptance(picnic.getIsAcceptance())
                 .picnicRequestStartTime(picnic.getPicnicRequestStartTime())
                 .picnicAllowStartTime(picnic.getPicnicAllowStartTime())
+                .picnicRequestEndTime(picnic.getPicnicRequestEndTime())
                 .build();
     }
 
@@ -38,6 +39,7 @@ public class PicnicMapperImpl implements PicnicMapper{
                 .isAcceptance(picnicEntity.getIsAcceptance())
                 .picnicRequestStartTime(picnicEntity.getPicnicRequestStartTime())
                 .picnicAllowStartTime(picnicEntity.getPicnicAllowStartTime())
+                .picnicRequestEndTime(picnicEntity.getPicnicRequestEndTime())
                 .build();
     }
 }

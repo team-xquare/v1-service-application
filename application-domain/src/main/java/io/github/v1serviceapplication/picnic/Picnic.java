@@ -22,6 +22,7 @@ public class Picnic {
     private final LocalTime dormitoryReturnCheckTime;
     private final Boolean isAcceptance;
     private final LocalTime picnicRequestStartTime;
+    private final LocalTime picnicRequestEndTime;
     private final LocalTime picnicAllowStartTime;
 
 }
