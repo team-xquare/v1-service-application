@@ -64,8 +64,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     @Override
     public List<UUID> findUserIdByToday() {
 
-        System.out.println(picnicEntity.date.between(LocalDate.now().atStartOfDay(), LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0)));
-
         List<PicnicEntity> test = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.date.between(LocalDate.now().atStartOfDay(), LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0)))
