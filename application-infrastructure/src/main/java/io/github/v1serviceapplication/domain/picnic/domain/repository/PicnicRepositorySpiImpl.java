@@ -44,12 +44,18 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<Picnic> findAllByToday() {
-        LocalDateTime dateTimeStart = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).withNano(0);
-        LocalDateTime dateTimeEnd = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0);
+        LocalDateTime dateStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).withNano(0);
+        LocalDateTime dateEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0);
+
+        LocalDateTime a = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(20, 30));
+        LocalDateTime b = LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 30));
 
         return queryFactory
                 .selectFrom(picnicEntity)
-                .where(picnicEntity.dateTime.between(dateTimeStart, dateTimeEnd))
+                .where(
+                        picnicEntity.dateTime.between(dateStartTime, dateEndTime),
+                        picnicEntity.dateTime.between(a, b)
+                )
                 .fetch()
                 .stream().map(picnicMapper::picnicEntityToDomain)
                 .toList();
@@ -57,15 +63,20 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<UUID> findUserIdByToday() {
-        LocalDateTime dateTimeStart = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).withNano(0);
-        LocalDateTime dateTimeEnd = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0);
-        List<PicnicEntity> test;
-        test = queryFactory
-                .selectFrom(picnicEntity)
-                .where(picnicEntity.dateTime.between(dateTimeStart, dateTimeEnd))
-                .fetch();
-        return test.stream().map(PicnicEntity::getUserId).toList();
+        LocalDateTime dateStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).withNano(0);
+        LocalDateTime dateEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0);
 
+        LocalDateTime a = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(20, 30));
+        LocalDateTime b = LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 30));
+
+        return queryFactory
+                .select(picnicEntity.userId)
+                .from(picnicEntity)
+                .where(
+                        picnicEntity.dateTime.between(dateStartTime, dateEndTime),
+                        picnicEntity.dateTime.between(a, b)
+                )
+                .fetch();
     }
 
     @Transactional
