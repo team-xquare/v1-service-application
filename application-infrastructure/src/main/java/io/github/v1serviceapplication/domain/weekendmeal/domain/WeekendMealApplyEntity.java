@@ -20,7 +20,7 @@ public class WeekendMealApplyEntity extends BaseEntity {
 
     @NotNull
     @CreatedDate
-    private LocalDate date;
+    private LocalDate createDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "weekend_meal_id")

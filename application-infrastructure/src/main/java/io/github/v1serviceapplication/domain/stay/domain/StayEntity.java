@@ -21,7 +21,7 @@ public class StayEntity extends BaseEntity {
 
     @NotNull
     @CreatedDate
-    private LocalDate date;
+    private LocalDate createDate;
 
     @NotNull
     @Column(columnDefinition = "CHAR(6)")

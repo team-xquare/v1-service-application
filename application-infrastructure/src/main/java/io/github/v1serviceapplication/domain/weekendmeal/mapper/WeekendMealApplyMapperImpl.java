@@ -23,7 +23,7 @@ public class WeekendMealApplyMapperImpl implements WeekendMealApplyMapper {
         return WeekendMealApplyEntity.builder()
                 .id(weekendMealApply.getId())
                 .userId(weekendMealApply.getUserId())
-                .date(weekendMealApply.getDate())
+                .createDate(weekendMealApply.getCreateDate())
                 .weekendMeal(weekendMeal)
                 .isApplied(weekendMealApply.getIsApplied())
                 .build();

@@ -53,8 +53,8 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         return queryFactory
                 .selectFrom(picnicEntity)
                 .where(
-                        picnicEntity.dateTime.between(dateStartTime, dateEndTime),
-                        picnicEntity.dateTime.between(picnicRequestStartTime, picnicRequestEndTime)
+                        picnicEntity.createDateTime.between(dateStartTime, dateEndTime),
+                        picnicEntity.createDateTime.between(picnicRequestStartTime, picnicRequestEndTime)
                 )
                 .fetch()
                 .stream().map(picnicMapper::picnicEntityToDomain)
@@ -73,8 +73,8 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 .select(picnicEntity.userId)
                 .from(picnicEntity)
                 .where(
-                        picnicEntity.dateTime.between(dateStartTime, dateEndTime),
-                        picnicEntity.dateTime.between(picnicRequestStartTime, picnicRequestEndTime)
+                        picnicEntity.createDateTime.between(dateStartTime, dateEndTime),
+                        picnicEntity.createDateTime.between(picnicRequestStartTime, picnicRequestEndTime)
                 )
                 .fetch();
     }
