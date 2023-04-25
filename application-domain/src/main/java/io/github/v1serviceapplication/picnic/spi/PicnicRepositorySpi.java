@@ -29,4 +29,6 @@ public interface PicnicRepositorySpi {
     List<Picnic> findAllByUserIdAndIsAcceptance(UUID userId);
 
     PicnicUserElement getUserInfo(UUID userId);
+
+    void deletePicnic(UUID picnicId);
 }
