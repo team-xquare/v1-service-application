@@ -18,10 +18,8 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @DomainService
 @RequiredArgsConstructor
@@ -164,5 +162,10 @@ public class PicnicApiImpl implements PicnicApi {
         return new WeekendPicnicExcelListResponse(weekendPicnicExcelElements);
     }
 
+    @Override
+    public void updateWeekendPicnic(UUID picnicId, UpdatePicnicDomainRequest request) {
+        UUID userId = userIdFacade.getCurrentUserId();
+        picnicRepositorySpi.updateWeekendPicnic(userId, picnicId, request);
+    }
 }
 
