@@ -77,11 +77,11 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
 
     @Override
     public List<UserInfoElement> getUserInfoList(List<UUID> userIds) {
-        UserInfoRequest request = new UserInfoRequest(userIds);
-
         if (userIds.isEmpty()) {
             return Collections.emptyList();
         }
+
+        UserInfoRequest request = new UserInfoRequest(userIds);
 
         return userClient.queryUserInfoByUserId(request)
                 .getUsers()
