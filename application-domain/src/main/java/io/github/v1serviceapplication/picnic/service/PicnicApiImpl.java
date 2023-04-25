@@ -11,6 +11,7 @@ import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.*;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
+import io.github.v1serviceapplication.picnicdatetime.DateTimeType;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import lombok.RequiredArgsConstructor;
 
@@ -54,15 +55,15 @@ public class PicnicApiImpl implements PicnicApi {
     }
 
     private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
-        LocalDateTime nowDateTime = LocalDateTime.now();
+        LocalTime nowTime = LocalTime.now();
 
-        LocalDateTime picnicRequestStartTime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(20, 30));
-        LocalDateTime picnicRequestEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 30));
+        LocalTime picnicRequestStartTime = DateTimeType.PICNIC_REQUEST_START_TIME.getValue();
+        LocalTime picnicRequestEndTime = DateTimeType.PICNIC_REQUEST_END_TIME.getValue();
 
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
-        if (nowDateTime.isAfter(picnicRequestStartTime) && nowDateTime.isBefore(picnicRequestEndTime)) {
+        if (nowTime.isAfter(picnicRequestStartTime) && nowTime.isBefore(picnicRequestEndTime)) {
             throw PicnicApplyNotAvailableException.EXCEPTION;
         }
     }
