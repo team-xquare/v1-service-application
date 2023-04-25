@@ -8,6 +8,7 @@ import io.github.v1serviceapplication.infrastructure.feign.client.user.UserClien
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
+import io.github.v1serviceapplication.picnicdatetime.DateTimeType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,17 +45,15 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<Picnic> findAllByToday() {
-        LocalDateTime dateStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).withNano(0);
-        LocalDateTime dateEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0);
 
-        LocalDateTime picnicRequestStartTime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(20, 30));
-        LocalDateTime picnicRequestEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 30));
+        LocalTime picnicRequestStartTime = DateTimeType.PICNIC_REQUEST_START_TIME.getValue();
+        LocalTime picnicRequestEndTime = DateTimeType.PICNIC_REQUEST_END_TIME.getValue();
 
         return queryFactory
                 .selectFrom(picnicEntity)
-                .where(
-                        picnicEntity.createDateTime.between(dateStartTime, dateEndTime),
-                        picnicEntity.createDateTime.between(picnicRequestStartTime, picnicRequestEndTime)
+                .where(picnicEntity.createDateTime.between(
+                                LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestStartTime),
+                                LocalDateTime.of(LocalDate.now(), picnicRequestEndTime))
                 )
                 .fetch()
                 .stream().map(picnicMapper::picnicEntityToDomain)
@@ -63,20 +62,21 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<UUID> findUserIdByToday() {
-        LocalDateTime dateStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN).withNano(0);
-        LocalDateTime dateEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.MAX).withNano(0);
+        LocalTime picnicRequestStartTime = DateTimeType.PICNIC_REQUEST_START_TIME.getValue();
+        LocalTime picnicRequestEndTime = DateTimeType.PICNIC_REQUEST_END_TIME.getValue();
 
-        LocalDateTime picnicRequestStartTime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(20, 30));
-        LocalDateTime picnicRequestEndTime = LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 30));
+        System.out.println(LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestStartTime));
+        System.out.println(LocalDateTime.of(LocalDate.now(), picnicRequestEndTime));
 
-        return queryFactory
-                .select(picnicEntity.userId)
-                .from(picnicEntity)
-                .where(
-                        picnicEntity.createDateTime.between(dateStartTime, dateEndTime),
-                        picnicEntity.createDateTime.between(picnicRequestStartTime, picnicRequestEndTime)
+        List<PicnicEntity> test = queryFactory
+                .selectFrom(picnicEntity)
+                .where(picnicEntity.createDateTime.between(
+                        LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestStartTime),
+                        LocalDateTime.of(LocalDate.now(), picnicRequestEndTime))
                 )
                 .fetch();
+
+        return test.stream().map(PicnicEntity::getUserId).toList();
     }
 
     @Transactional
