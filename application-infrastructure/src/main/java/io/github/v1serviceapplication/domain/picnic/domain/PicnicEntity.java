@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,6 +24,7 @@ import java.time.LocalTime;
 public class PicnicEntity extends BaseEntity {
 
     @NotNull
+    @CreatedDate
     private LocalDateTime createDateTime;
 
     private LocalTime startTime;
@@ -37,15 +39,6 @@ public class PicnicEntity extends BaseEntity {
     private String arrangement;
 
     private LocalTime dormitoryReturnCheckTime;
-
-    @NotNull
-    private LocalTime picnicRequestStartTime;
-
-    @NotNull
-    private LocalTime picnicRequestEndTime;
-
-    @NotNull
-    private LocalTime picnicAllowStartTime;
 
     @Column(columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean isAcceptance = false;
