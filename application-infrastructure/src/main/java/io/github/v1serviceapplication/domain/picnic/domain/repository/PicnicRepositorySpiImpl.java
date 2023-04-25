@@ -3,10 +3,13 @@ package io.github.v1serviceapplication.domain.picnic.domain.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.picnic.domain.PicnicEntity;
 import io.github.v1serviceapplication.domain.picnic.mapper.PicnicMapper;
+import io.github.v1serviceapplication.error.PicnicNotFoundException;
+import io.github.v1serviceapplication.error.PicnicPassNotModifyException;
 import io.github.v1serviceapplication.infrastructure.feign.client.dto.response.UserInfoResponseElement;
 import io.github.v1serviceapplication.infrastructure.feign.client.user.UserClient;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
+import io.github.v1serviceapplication.picnic.api.dto.UpdatePicnicDomainRequest;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -119,5 +122,18 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 userInfo.getGrade().toString() + userInfo.getClassNum().toString() + String.format("%02d", userInfo.getNum()),
                 userInfo.getName()
         );
+    }
+
+    @Transactional
+    @Override
+    public void updateWeekendPicnic(UUID userId, UUID picnicId, UpdatePicnicDomainRequest request) {
+        PicnicEntity picnic = picnicRepository.findById(picnicId)
+                .orElseThrow(()-> PicnicNotFoundException.EXCEPTION);
+
+        if (!userId.equals(picnic.getUserId())) {
+            throw PicnicPassNotModifyException.EXCEPTION;
+        }
+
+        picnic.updatePicnic(request.getStartTime(), request.getEndTime(), request.getReason(), request.getArrangement());
     }
 }
