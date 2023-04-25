@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @Tag(name = "주말 외출 API")
 @RestController
@@ -30,5 +31,12 @@ public class PicnicController {
                 .build();
 
         picnicApi.applyWeekendPicnic(domainRequest);
+    }
+
+    @Operation(summary = "주말 외출 신청 삭제 API")
+    @DeleteMapping("/{picnic-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteWeekendPicnic(@PathVariable("picnic-id") UUID picnicId) {
+        picnicApi.deleteWeekendPicnic(picnicId);
     }
 }

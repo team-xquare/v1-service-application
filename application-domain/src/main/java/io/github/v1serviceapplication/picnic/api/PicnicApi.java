@@ -21,4 +21,6 @@ public interface PicnicApi {
     PicnicDetail getPicnicDetail(UUID picnicId);
 
     WeekendPicnicExcelListResponse weekendPicnicExcel();
+
+    void deleteWeekendPicnic(UUID picnicId);
 }
