@@ -173,6 +173,7 @@ public class PicnicApiImpl implements PicnicApi {
                 .endTime(picnic.getEndTime())
                 .arrangement(picnic.getArrangement())
                 .reason(picnic.getReason())
+                .date(picnic.getDate())
                 .build();
     }
 
