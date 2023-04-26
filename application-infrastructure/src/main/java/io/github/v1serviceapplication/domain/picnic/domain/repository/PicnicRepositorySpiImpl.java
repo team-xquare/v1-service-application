@@ -120,4 +120,14 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 userInfo.getName()
         );
     }
+
+    @Override
+    public Optional<Picnic> findByUserId(UUID userId) {
+        PicnicEntity entity = queryFactory
+                .selectFrom(picnicEntity)
+                .where(picnicEntity.userId.eq(userId))
+                .fetchOne();
+
+        return Optional.ofNullable(picnicMapper.picnicEntityToDomain(entity));
+    }
 }
