@@ -31,5 +31,7 @@ public interface PicnicRepositorySpi {
 
     PicnicUserElement getUserInfo(UUID userId);
 
-    void updateWeekendPicnic(UUID userId, UUID picnicId, UpdatePicnicDomainRequest request);
+    void updateWeekendPicnic(UUID picnicId, UpdatePicnicDomainRequest request);
+
+    Optional<Picnic> findByUserId(UUID userId);
 }

@@ -23,5 +23,5 @@ public interface PicnicApi {
 
     WeekendPicnicExcelListResponse weekendPicnicExcel();
 
-    void updateWeekendPicnic(UUID picnicId, UpdatePicnicDomainRequest request);
+    void updateWeekendPicnic(UpdatePicnicDomainRequest request);
 }

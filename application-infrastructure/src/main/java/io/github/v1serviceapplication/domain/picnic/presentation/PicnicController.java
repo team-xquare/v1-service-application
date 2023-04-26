@@ -38,7 +38,7 @@ public class PicnicController {
     @Operation(summary = "주말 외출 신청 수정 API")
     @PatchMapping("/{picnic-id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updatePicnic(@PathVariable("picnic-id") UUID picnicId, @RequestBody @Valid UpdatePicnicRequest request) {
+    public void updatePicnic(@RequestBody @Valid UpdatePicnicRequest request) {
         UpdatePicnicDomainRequest domainRequest = UpdatePicnicDomainRequest.builder()
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
@@ -46,6 +46,6 @@ public class PicnicController {
                 .reason(request.getReason())
                 .build();
 
-        picnicApi.updateWeekendPicnic(picnicId, domainRequest);
+        picnicApi.updateWeekendPicnic(domainRequest);
     }
 }
