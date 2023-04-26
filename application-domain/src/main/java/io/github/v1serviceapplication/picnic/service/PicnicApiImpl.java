@@ -18,10 +18,8 @@ import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @DomainService
 @RequiredArgsConstructor
@@ -162,6 +160,20 @@ public class PicnicApiImpl implements PicnicApi {
                 }).toList();
 
         return new WeekendPicnicExcelListResponse(weekendPicnicExcelElements);
+    }
+
+    @Override
+    public StudentPicnicDetail getStudentPicnicDetail() {
+        UUID userId = userIdFacade.getCurrentUserId();
+        Picnic picnic = picnicRepositorySpi.findByUserId(userId)
+                .orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
+
+        return StudentPicnicDetail.builder()
+                .startTime(picnic.getStartTime())
+                .endTime(picnic.getEndTime())
+                .arrangement(picnic.getArrangement())
+                .reason(picnic.getReason())
+                .build();
     }
 
 }

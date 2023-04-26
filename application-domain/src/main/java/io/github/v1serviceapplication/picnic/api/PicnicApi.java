@@ -3,9 +3,9 @@ package io.github.v1serviceapplication.picnic.api;
 import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicDetail;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicListResponse;
+import io.github.v1serviceapplication.picnic.api.dto.StudentPicnicDetail;
 import io.github.v1serviceapplication.picnic.api.dto.WeekendPicnicExcelListResponse;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface PicnicApi {
@@ -21,4 +21,6 @@ public interface PicnicApi {
     PicnicDetail getPicnicDetail(UUID picnicId);
 
     WeekendPicnicExcelListResponse weekendPicnicExcel();
+
+    StudentPicnicDetail getStudentPicnicDetail();
 }
