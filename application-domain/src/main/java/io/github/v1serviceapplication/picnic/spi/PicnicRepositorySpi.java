@@ -30,5 +30,5 @@ public interface PicnicRepositorySpi {
 
     PicnicUserElement getUserInfo(UUID userId);
 
-    void deletePicnic(UUID picnicId);
+    void deletePicnic(UUID userId);
 }

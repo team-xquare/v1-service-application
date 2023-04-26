@@ -34,9 +34,9 @@ public class PicnicController {
     }
 
     @Operation(summary = "주말 외출 신청 삭제 API")
-    @DeleteMapping("/{picnic-id}")
+    @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteWeekendPicnic(@PathVariable("picnic-id") UUID picnicId) {
-        picnicApi.deleteWeekendPicnic(picnicId);
+    public void deleteWeekendPicnic() {
+        picnicApi.deleteWeekendPicnic();
     }
 }

@@ -123,10 +123,10 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Transactional
     @Override
-    public void deletePicnic(UUID picnicId) {
+    public void deletePicnic(UUID userId) {
         queryFactory
                 .delete(picnicEntity)
-                .where(picnicEntity.id.eq(picnicId))
+                .where(picnicEntity.userId.eq(userId))
                 .execute();
     }
 }

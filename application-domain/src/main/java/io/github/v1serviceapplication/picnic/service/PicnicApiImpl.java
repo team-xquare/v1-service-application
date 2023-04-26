@@ -165,10 +165,9 @@ public class PicnicApiImpl implements PicnicApi {
     }
 
     @Override
-    public void deleteWeekendPicnic(UUID picnicId) {
-        picnicRepositorySpi.findByPicnicId(picnicId)
-                .orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
-        picnicRepositorySpi.deletePicnic(picnicId);
+    public void deleteWeekendPicnic() {
+        UUID userId = userIdFacade.getCurrentUserId();
+        picnicRepositorySpi.deletePicnic(userId);
     }
 }
 
