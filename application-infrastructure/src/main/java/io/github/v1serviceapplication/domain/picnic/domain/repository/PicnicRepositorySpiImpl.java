@@ -124,15 +124,21 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         );
     }
 
+    @Override
+    public Optional<Picnic> findByUserId(UUID userId) {
+        PicnicEntity entity = queryFactory
+                .selectFrom(picnicEntity)
+                .where(picnicEntity.userId.eq(userId))
+                .fetchOne();
+
+        return Optional.ofNullable(picnicMapper.picnicEntityToDomain(entity));
+    }
+
     @Transactional
     @Override
-    public void updateWeekendPicnic(UUID userId, UUID picnicId, UpdatePicnicDomainRequest request) {
+    public void updateWeekendPicnic(UUID picnicId, UpdatePicnicDomainRequest request) {
         PicnicEntity picnic = picnicRepository.findById(picnicId)
                 .orElseThrow(()-> PicnicNotFoundException.EXCEPTION);
-
-        if (!userId.equals(picnic.getUserId())) {
-            throw PicnicPassModifyForbiddenException.EXCEPTION;
-        }
 
         picnic.updatePicnic(request.getStartTime(), request.getEndTime(), request.getReason(), request.getArrangement());
     }

@@ -5,7 +5,9 @@ import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.error.InvalidPicnicApplicationTimeException;
 import io.github.v1serviceapplication.error.PicnicApplyNotAvailableException;
 import io.github.v1serviceapplication.error.PicnicNotFoundException;
+import io.github.v1serviceapplication.error.PicnicPassModifyForbiddenException;
 import io.github.v1serviceapplication.error.UserNotEmptyException;
+import io.github.v1serviceapplication.error.UserNotFoundException;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.*;
@@ -163,9 +165,17 @@ public class PicnicApiImpl implements PicnicApi {
     }
 
     @Override
-    public void updateWeekendPicnic(UUID picnicId, UpdatePicnicDomainRequest request) {
+    public void updateWeekendPicnic(UpdatePicnicDomainRequest request) {
         UUID userId = userIdFacade.getCurrentUserId();
-        picnicRepositorySpi.updateWeekendPicnic(userId, picnicId, request);
+
+        Picnic picnic = picnicRepositorySpi.findByUserId(userId)
+                .orElseThrow(()-> UserNotFoundException.EXCEPTION);
+
+        if (!userId.equals(picnic.getUserId())) {
+            throw PicnicPassModifyForbiddenException.EXCEPTION;
+        }
+
+        picnicRepositorySpi.updateWeekendPicnic(picnic.getId(), request);
     }
 }
 
