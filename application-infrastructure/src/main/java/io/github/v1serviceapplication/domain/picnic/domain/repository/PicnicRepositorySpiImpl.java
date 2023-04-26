@@ -4,7 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.picnic.domain.PicnicEntity;
 import io.github.v1serviceapplication.domain.picnic.mapper.PicnicMapper;
 import io.github.v1serviceapplication.error.PicnicNotFoundException;
-import io.github.v1serviceapplication.error.PicnicPassNotModifyException;
+import io.github.v1serviceapplication.error.PicnicPassModifyForbiddenException;
 import io.github.v1serviceapplication.infrastructure.feign.client.dto.response.UserInfoResponseElement;
 import io.github.v1serviceapplication.infrastructure.feign.client.user.UserClient;
 import io.github.v1serviceapplication.picnic.Picnic;
@@ -131,7 +131,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 .orElseThrow(()-> PicnicNotFoundException.EXCEPTION);
 
         if (!userId.equals(picnic.getUserId())) {
-            throw PicnicPassNotModifyException.EXCEPTION;
+            throw PicnicPassModifyForbiddenException.EXCEPTION;
         }
 
         picnic.updatePicnic(request.getStartTime(), request.getEndTime(), request.getReason(), request.getArrangement());
