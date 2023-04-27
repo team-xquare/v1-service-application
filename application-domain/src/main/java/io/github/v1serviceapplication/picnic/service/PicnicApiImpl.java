@@ -12,6 +12,7 @@ import io.github.v1serviceapplication.picnic.api.dto.*;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
 import io.github.v1serviceapplication.picnicdatetime.DateTimeType;
+import io.github.v1serviceapplication.picnicdatetime.spi.PicnicDateTimeRepositorySpi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import lombok.RequiredArgsConstructor;
 
@@ -32,6 +33,7 @@ public class PicnicApiImpl implements PicnicApi {
     private final PicnicRepositorySpi picnicRepositorySpi;
     private final UserIdFacade userIdFacade;
     private final PicnicUserFeignSpi picnicUserFeignSpi;
+    private final PicnicDateTimeRepositorySpi picnicDateTimeRepositorySpi;
 
     @Override
     public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
@@ -57,8 +59,8 @@ public class PicnicApiImpl implements PicnicApi {
     private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
         LocalTime nowTime = LocalTime.now();
 
-        LocalTime picnicRequestStartTime = DateTimeType.PICNIC_REQUEST_START_TIME.getValue();
-        LocalTime picnicRequestEndTime = DateTimeType.PICNIC_REQUEST_END_TIME.getValue();
+        LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_START_TIME);
+        LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_END_TIME);
 
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;

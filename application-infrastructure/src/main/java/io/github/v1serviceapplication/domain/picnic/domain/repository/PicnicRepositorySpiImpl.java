@@ -9,6 +9,7 @@ import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnicdatetime.DateTimeType;
+import io.github.v1serviceapplication.picnicdatetime.spi.PicnicDateTimeRepositorySpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     private final PicnicMapper picnicMapper;
     private final JPAQueryFactory queryFactory;
     private final UserClient userClient;
+    private final PicnicDateTimeRepositorySpi picnicDateTimeRepositorySpi;
 
     @Override
     public void applyWeekendPicnic(Picnic picnic) {
@@ -46,8 +48,8 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     @Override
     public List<Picnic> findAllByToday() {
 
-        LocalTime picnicRequestStartTime = DateTimeType.PICNIC_REQUEST_START_TIME.getValue();
-        LocalTime picnicRequestEndTime = DateTimeType.PICNIC_REQUEST_END_TIME.getValue();
+        LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_START_TIME);
+        LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_END_TIME);
 
         return queryFactory
                 .selectFrom(picnicEntity)
@@ -62,8 +64,8 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<UUID> findUserIdByToday() {
-        LocalTime picnicRequestStartTime = DateTimeType.PICNIC_REQUEST_START_TIME.getValue();
-        LocalTime picnicRequestEndTime = DateTimeType.PICNIC_REQUEST_END_TIME.getValue();
+        LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_START_TIME);
+        LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_END_TIME);
 
         System.out.println(LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestStartTime));
         System.out.println(LocalDateTime.of(LocalDate.now(), picnicRequestEndTime));
