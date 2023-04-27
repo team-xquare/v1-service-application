@@ -11,21 +11,17 @@ import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.*;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
-import io.github.v1serviceapplication.picnicdatetime.DateTimeType;
-import io.github.v1serviceapplication.picnicdatetime.spi.PicnicDateTimeRepositorySpi;
+import io.github.v1serviceapplication.picnicdatetime.TimeType;
+import io.github.v1serviceapplication.picnicdatetime.spi.PicnicTimeRepositorySpi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @DomainService
 @RequiredArgsConstructor
@@ -33,7 +29,7 @@ public class PicnicApiImpl implements PicnicApi {
     private final PicnicRepositorySpi picnicRepositorySpi;
     private final UserIdFacade userIdFacade;
     private final PicnicUserFeignSpi picnicUserFeignSpi;
-    private final PicnicDateTimeRepositorySpi picnicDateTimeRepositorySpi;
+    private final PicnicTimeRepositorySpi picnicTimeRepositorySpi;
 
     @Override
     public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
@@ -59,8 +55,8 @@ public class PicnicApiImpl implements PicnicApi {
     private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
         LocalTime nowTime = LocalTime.now();
 
-        LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_START_TIME);
-        LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_END_TIME);
+        LocalTime picnicRequestStartTime = picnicTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_START_TIME);
+        LocalTime picnicRequestEndTime = picnicTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_END_TIME);
 
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;

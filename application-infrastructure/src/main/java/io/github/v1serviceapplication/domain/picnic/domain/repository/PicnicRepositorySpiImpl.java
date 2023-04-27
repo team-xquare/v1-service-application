@@ -8,8 +8,8 @@ import io.github.v1serviceapplication.infrastructure.feign.client.user.UserClien
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
-import io.github.v1serviceapplication.picnicdatetime.DateTimeType;
-import io.github.v1serviceapplication.picnicdatetime.spi.PicnicDateTimeRepositorySpi;
+import io.github.v1serviceapplication.picnicdatetime.TimeType;
+import io.github.v1serviceapplication.picnicdatetime.spi.PicnicTimeRepositorySpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +31,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     private final PicnicMapper picnicMapper;
     private final JPAQueryFactory queryFactory;
     private final UserClient userClient;
-    private final PicnicDateTimeRepositorySpi picnicDateTimeRepositorySpi;
+    private final PicnicTimeRepositorySpi picnicDateTimeRepositorySpi;
 
     @Override
     public void applyWeekendPicnic(Picnic picnic) {
@@ -47,8 +47,8 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<Picnic> findAllByToday() {
-        LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_START_TIME);
-        LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_END_TIME);
+        LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_START_TIME);
+        LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_END_TIME);
 
         return queryFactory
                 .selectFrom(picnicEntity)
@@ -63,8 +63,8 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<UUID> findUserIdByToday() {
-        LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_START_TIME);
-        LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_END_TIME);
+        LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_START_TIME);
+        LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_END_TIME);
 
         List<PicnicEntity> test = queryFactory
                 .selectFrom(picnicEntity)
