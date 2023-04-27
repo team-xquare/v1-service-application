@@ -9,7 +9,7 @@ public class PicnicDateTimeMapperImpl implements PicnicDateTimeMapper{
         return PicnicDateTimeEntity.builder()
                 .id(picnicDateTime.getId())
                 .dateTimeType(picnicDateTime.getDateTimeType())
-                .picnicDateTime(picnicDateTime.getPicnicDateTime())
+                .picnicTime(picnicDateTime.getPicnicTime())
                 .build();
     }
 
@@ -18,7 +18,7 @@ public class PicnicDateTimeMapperImpl implements PicnicDateTimeMapper{
         return PicnicDateTime.builder()
                 .id(picnicDateTimeEntity.getId())
                 .dateTimeType(picnicDateTimeEntity.getDateTimeType())
-                .picnicDateTime(picnicDateTimeEntity.getPicnicDateTime())
+                .picnicTime(picnicDateTimeEntity.getPicnicTime())
                 .build();
     }
 }

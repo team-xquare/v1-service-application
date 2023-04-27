@@ -16,7 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Getter
@@ -34,7 +34,7 @@ public class PicnicDateTimeEntity {
     private UUID id;
 
     @NotNull
-    private LocalDateTime picnicDateTime;
+    private LocalTime picnicTime;
 
     @Enumerated(EnumType.ORDINAL)
     @NotNull

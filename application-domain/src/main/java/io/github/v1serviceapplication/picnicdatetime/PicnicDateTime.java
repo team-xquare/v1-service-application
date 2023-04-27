@@ -4,7 +4,7 @@ import io.github.v1serviceapplication.annotation.Aggregate;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Aggregate
@@ -12,6 +12,6 @@ import java.util.UUID;
 @Builder
 public class PicnicDateTime {
     private final UUID id;
-    private final LocalDateTime picnicDateTime;
+    private final LocalTime picnicTime;
     private final DateTimeType dateTimeType;
 }
