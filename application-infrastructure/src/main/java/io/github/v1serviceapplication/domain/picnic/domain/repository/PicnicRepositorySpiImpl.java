@@ -47,7 +47,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<Picnic> findAllByToday() {
-
         LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_START_TIME);
         LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_END_TIME);
 
@@ -66,9 +65,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     public List<UUID> findUserIdByToday() {
         LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_START_TIME);
         LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(DateTimeType.PICNIC_REQUEST_END_TIME);
-
-        System.out.println(LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestStartTime));
-        System.out.println(LocalDateTime.of(LocalDate.now(), picnicRequestEndTime));
 
         List<PicnicEntity> test = queryFactory
                 .selectFrom(picnicEntity)
