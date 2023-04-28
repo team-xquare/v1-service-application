@@ -10,8 +10,8 @@ import java.util.UUID;
 @Aggregate
 @Getter
 @Builder
-public class PicnicDateTime {
+public class PicnicTime {
     private final UUID id;
     private final LocalTime picnicTime;
-    private final DateTimeType dateTimeType;
+    private final TimeType timeType;
 }
