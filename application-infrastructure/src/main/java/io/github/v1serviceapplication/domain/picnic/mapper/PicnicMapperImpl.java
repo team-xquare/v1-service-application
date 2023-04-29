@@ -5,7 +5,7 @@ import io.github.v1serviceapplication.picnic.Picnic;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PicnicMapperImpl implements PicnicMapper{
+public class PicnicMapperImpl implements PicnicMapper {
     @Override
     public PicnicEntity picnicDomainToEntity(Picnic picnic) {
 
