@@ -1,15 +1,13 @@
 package io.github.v1serviceapplication.domain.stay.domain;
 
 import io.github.v1serviceapplication.domain.stay.converter.StayStatusCodeConverter;
-import io.github.v1serviceapplication.global.entity.BaseEntity;
+import io.github.v1serviceapplication.global.entity.BaseDateEntity;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -17,11 +15,7 @@ import java.time.LocalDate;
 @SuperBuilder
 @Table(name = "tbl_stay_apply")
 @Entity
-public class StayEntity extends BaseEntity {
-
-    @NotNull
-    @CreatedDate
-    private LocalDate createDate;
+public class StayEntity extends BaseDateEntity {
 
     @NotNull
     @Column(columnDefinition = "CHAR(6)")
