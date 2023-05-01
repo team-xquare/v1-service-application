@@ -101,7 +101,7 @@ public class CustomStudyRoomRepositoryImpl implements QueryStudyRoomRepositorySp
                 .where(
                         extensionEntity.userId.eq(userId)
                                 .and(
-                                        extensionEntity.date.eq(LocalDate.now())
+                                        extensionEntity.createDate.eq(LocalDate.now())
                                 )
                 )
                 .fetchFirst() != null;
@@ -153,7 +153,7 @@ public class CustomStudyRoomRepositoryImpl implements QueryStudyRoomRepositorySp
     }
 
     private Predicate getCurrentDatePredicate() {
-        return extensionEntity.date.eq(LocalDate.now());
+        return extensionEntity.createDate.eq(LocalDate.now());
     }
 
 }
