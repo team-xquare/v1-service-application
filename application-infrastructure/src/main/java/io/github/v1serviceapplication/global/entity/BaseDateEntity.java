@@ -38,6 +38,6 @@ public abstract class BaseDateEntity {
 
     @NotNull
     @CreatedDate
-    private LocalDate date;
+    private LocalDate createDate;
 }
 
