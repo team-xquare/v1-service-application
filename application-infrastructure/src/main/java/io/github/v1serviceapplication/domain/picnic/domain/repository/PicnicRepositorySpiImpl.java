@@ -120,4 +120,13 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 userInfo.getName()
         );
     }
+
+    @Transactional
+    @Override
+    public void deletePicnic(UUID userId) {
+        queryFactory
+                .delete(picnicEntity)
+                .where(picnicEntity.userId.eq(userId))
+                .execute();
+    }
 }

@@ -164,5 +164,10 @@ public class PicnicApiImpl implements PicnicApi {
         return new WeekendPicnicExcelListResponse(weekendPicnicExcelElements);
     }
 
+    @Override
+    public void deleteWeekendPicnic() {
+        UUID userId = userIdFacade.getCurrentUserId();
+        picnicRepositorySpi.deletePicnic(userId);
+    }
 }
 
