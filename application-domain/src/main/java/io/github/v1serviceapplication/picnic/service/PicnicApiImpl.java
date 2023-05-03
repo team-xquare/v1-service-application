@@ -11,6 +11,8 @@ import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.*;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
+import io.github.v1serviceapplication.picnicdatetime.TimeType;
+import io.github.v1serviceapplication.picnicdatetime.spi.PicnicTimeRepositorySpi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import io.github.v1serviceapplication.user.dto.response.UserInfoElement;
 import io.github.v1serviceapplication.user.spi.UserFeignSpi;
@@ -30,6 +32,7 @@ public class PicnicApiImpl implements PicnicApi {
     private final UserIdFacade userIdFacade;
     private final PicnicUserFeignSpi picnicUserFeignSpi;
     private final UserFeignSpi userFeignSpi;
+    private final PicnicTimeRepositorySpi picnicTimeRepositorySpi;
 
     @Override
     public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
@@ -54,12 +57,14 @@ public class PicnicApiImpl implements PicnicApi {
 
     private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
         LocalTime nowTime = LocalTime.now();
-        LocalTime eneTime = LocalTime.of(23, 00);
+
+        LocalTime picnicRequestStartTime = picnicTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_START_TIME);
+        LocalTime picnicRequestEndTime = picnicTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_END_TIME);
 
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
-        if (nowTime.isAfter(eneTime)) {
+        if (nowTime.isAfter(picnicRequestStartTime) && nowTime.isBefore(picnicRequestEndTime)) {
             throw PicnicApplyNotAvailableException.EXCEPTION;
         }
     }
@@ -165,5 +170,10 @@ public class PicnicApiImpl implements PicnicApi {
         return new WeekendPicnicExcelListResponse(weekendPicnicExcelElements);
     }
 
+    @Override
+    public void deleteWeekendPicnic() {
+        UUID userId = userIdFacade.getCurrentUserId();
+        picnicRepositorySpi.deletePicnic(userId);
+    }
 }
 

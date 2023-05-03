@@ -1,12 +1,11 @@
 package io.github.v1serviceapplication.domain.studyroom.extension.domain;
 
 import io.github.v1serviceapplication.domain.studyroom.domain.StudyRoomEntity;
-import io.github.v1serviceapplication.global.entity.BaseEntity;
+import io.github.v1serviceapplication.global.entity.BaseDateEntity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @SuperBuilder
 @Table(name = "tbl_extension_apply")
 @Entity
-public class ExtensionEntity extends BaseEntity {
+public class ExtensionEntity extends BaseDateEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "study_room_id")

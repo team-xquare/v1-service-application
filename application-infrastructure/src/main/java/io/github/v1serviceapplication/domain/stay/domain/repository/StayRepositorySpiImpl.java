@@ -86,7 +86,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
                         .id(stayEntity.getId())
                         .userId(stayEntity.getUserId())
                         .code(stayEntity.getCode().getValue())
-                        .date(stayEntity.getDate())
+                        .createDate(stayEntity.getCreateDate())
                         .build())
                 .toList();
     }
