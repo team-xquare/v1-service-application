@@ -6,5 +6,4 @@ import java.util.List;
 import java.util.UUID;
 
 public interface WeekendMealUserFeignSpi {
-    List<WeekendMealUserElement> getUserInfoList(List<UUID> ids);
 }

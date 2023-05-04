@@ -1,6 +1,6 @@
 package io.github.v1serviceapplication.global.facade;
 
-import io.github.v1serviceapplication.common.UserIdFacade;
+import io.github.v1serviceapplication.user.UserIdFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;

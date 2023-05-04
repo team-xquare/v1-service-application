@@ -1,7 +1,7 @@
 package io.github.v1serviceapplication.picnic.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
-import io.github.v1serviceapplication.common.UserIdFacade;
+import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.error.InvalidPicnicApplicationTimeException;
 import io.github.v1serviceapplication.error.PicnicApplyNotAvailableException;
 import io.github.v1serviceapplication.error.PicnicNotFoundException;
@@ -14,6 +14,8 @@ import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
 import io.github.v1serviceapplication.picnicdatetime.TimeType;
 import io.github.v1serviceapplication.picnicdatetime.spi.PicnicTimeRepositorySpi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
+import io.github.v1serviceapplication.user.dto.response.UserInfoElement;
+import io.github.v1serviceapplication.user.spi.UserFeignSpi;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalTime;
@@ -29,6 +31,7 @@ public class PicnicApiImpl implements PicnicApi {
     private final PicnicRepositorySpi picnicRepositorySpi;
     private final UserIdFacade userIdFacade;
     private final PicnicUserFeignSpi picnicUserFeignSpi;
+    private final UserFeignSpi userFeignSpi;
     private final PicnicTimeRepositorySpi picnicTimeRepositorySpi;
 
     @Override
@@ -74,8 +77,8 @@ public class PicnicApiImpl implements PicnicApi {
         if (picnicUserIds.isEmpty()) {
             return new PicnicListResponse(List.of());
         }
-        Map<UUID, PicnicUserElement> hashMap = picnicUserFeignSpi.getUserInfoByUserId(picnicUserIds).stream()
-                .collect(Collectors.toMap(PicnicUserElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
+        Map<UUID, UserInfoElement> hashMap = userFeignSpi.getUserInfoList(picnicUserIds).stream()
+                .collect(Collectors.toMap(UserInfoElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
 
         List<PicnicElement> picnicElements = picnics.stream()
                 .filter(
@@ -90,7 +93,7 @@ public class PicnicApiImpl implements PicnicApi {
                         }
                 )
                 .map(picnic -> {
-                            PicnicUserElement user = hashMap.get(picnic.getUserId());
+                            UserInfoElement user = hashMap.get(picnic.getUserId());
                             return PicnicElement.builder()
                                     .id(picnic.getId())
                                     .userId(user.getUserId())

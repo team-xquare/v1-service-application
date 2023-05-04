@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.common;
+package io.github.v1serviceapplication.user;
 
 import java.util.UUID;
 
