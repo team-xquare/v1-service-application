@@ -70,7 +70,7 @@ public class CustomStudyRoomRepositoryImpl implements QueryStudyRoomRepositorySp
     @Transactional
     @Override
     public Optional<StudyRoom> findStudyRoomIdByUserId(UUID userId) {
-        return extensionRepository.findByUserIdAndDate(userId, LocalDate.now())
+        return extensionRepository.findByUserIdAndCreateDate(userId, LocalDate.now())
                 .map(ExtensionEntity::getStudyRoom)
                 .map(studyRoomMapper::studyRoomEntityToDomain);
     }
@@ -147,7 +147,7 @@ public class CustomStudyRoomRepositoryImpl implements QueryStudyRoomRepositorySp
         StudyRoomEntity studyRoom = studyRoomRepository.findById(studyRoomId)
                 .orElseThrow(() -> StudyRoomNotFoundException.EXCEPTION);
 
-        extensionRepository.findByUserIdAndDate(userId, LocalDate.now())
+        extensionRepository.findByUserIdAndCreateDate(userId, LocalDate.now())
                 .orElseThrow(() -> ExtensionNotFoundException.EXCEPTION)
                 .changeStudyRoom(studyRoom);
     }
