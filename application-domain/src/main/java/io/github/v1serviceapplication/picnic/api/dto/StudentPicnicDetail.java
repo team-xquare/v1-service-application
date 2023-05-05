@@ -3,7 +3,7 @@ package io.github.v1serviceapplication.picnic.api.dto;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Builder
@@ -17,5 +17,5 @@ public class StudentPicnicDetail {
 
     private final String arrangement;
 
-    private final LocalDate date;
+    private final LocalDateTime createDateTime;
 }
