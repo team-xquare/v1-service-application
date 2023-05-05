@@ -2,6 +2,7 @@ package io.github.v1serviceapplication.stay.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.code.CodeElement;
+import io.github.v1serviceapplication.error.UserNotFoundException;
 import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.stay.Stay;
 import io.github.v1serviceapplication.stay.api.StayApi;
@@ -84,6 +85,9 @@ public class StayApiImpl implements StayApi {
                 .map(stay -> {
                             StayUserElement user = studentList.get(stay.getUserId());
 
+                            if(user == null) {
+                                throw UserNotFoundException.EXCEPTION;
+                            }
                             return QueryAllStayStatusElement.builder()
                                     .id(stay.getUserId())
                                     .num(user.getNum())
