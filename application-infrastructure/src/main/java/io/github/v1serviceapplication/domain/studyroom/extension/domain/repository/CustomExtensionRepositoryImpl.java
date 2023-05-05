@@ -28,7 +28,7 @@ public class CustomExtensionRepositoryImpl implements StudyRoomQueryExtensionRep
                 .from(extensionEntity)
                 .where(
                         extensionEntity.studyRoom.id.eq(studyRoomId)
-                                .and(extensionEntity.date.eq(LocalDate.now()))
+                                .and(extensionEntity.createDate.eq(LocalDate.now()))
                 )
                 .fetch();
     }
@@ -42,7 +42,7 @@ public class CustomExtensionRepositoryImpl implements StudyRoomQueryExtensionRep
                         .where(
                                 extensionEntity.userId.eq(userId)
                                         .and(
-                                                extensionEntity.date.eq(LocalDate.now())
+                                                extensionEntity.createDate.eq(LocalDate.now())
                                         )
                         )
                         .fetchFirst()

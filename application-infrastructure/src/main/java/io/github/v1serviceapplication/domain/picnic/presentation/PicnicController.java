@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.UUID;
 
 @Tag(name = "주말 외출 API")
 @RestController
@@ -38,5 +39,11 @@ public class PicnicController {
     @ResponseStatus(HttpStatus.OK)
     public StudentPicnicDetail getStudentPicnicDetail() {
         return picnicApi.getStudentPicnicDetail();
+
+    @Operation(summary = "주말 외출 신청 삭제 API")
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteWeekendPicnic() {
+        picnicApi.deleteWeekendPicnic();
     }
 }
