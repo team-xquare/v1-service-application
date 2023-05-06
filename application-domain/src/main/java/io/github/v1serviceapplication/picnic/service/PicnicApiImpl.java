@@ -177,16 +177,20 @@ public class PicnicApiImpl implements PicnicApi {
         UUID userId = userIdFacade.getCurrentUserId();
 
         Picnic picnic = picnicRepositorySpi.findByUserId(userId)
-                .orElseThrow(()-> UserNotFoundException.EXCEPTION);
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         if (!userId.equals(picnic.getUserId())) {
             throw PicnicPassModifyForbiddenException.EXCEPTION;
         }
 
         picnicRepositorySpi.updateWeekendPicnic(picnic.getId(), request);
+    }
+
+    @Override
     public void deleteWeekendPicnic() {
         UUID userId = userIdFacade.getCurrentUserId();
         picnicRepositorySpi.deletePicnic(userId);
     }
+
 }
 
