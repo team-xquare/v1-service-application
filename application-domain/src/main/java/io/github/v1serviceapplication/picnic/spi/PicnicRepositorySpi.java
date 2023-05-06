@@ -30,7 +30,7 @@ public interface PicnicRepositorySpi {
 
     PicnicUserElement getUserInfo(UUID userId);
 
-    Optional<Picnic> findByUserId(UUID userId);
+    Optional<Picnic> findByUserIdAndCreateDateTimeByPresentPicnic(UUID userId);
 
     void deletePicnic(UUID userId);
 }

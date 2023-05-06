@@ -173,7 +173,7 @@ public class PicnicApiImpl implements PicnicApi {
     @Override
     public StudentPicnicDetail getStudentPicnicDetail() {
         UUID userId = userIdFacade.getCurrentUserId();
-        Picnic picnic = picnicRepositorySpi.findByUserId(userId)
+        Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId)
                 .orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
 
         return StudentPicnicDetail.builder()

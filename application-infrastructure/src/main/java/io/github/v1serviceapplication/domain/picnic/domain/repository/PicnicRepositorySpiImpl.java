@@ -140,7 +140,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     }
 
     @Override
-    public Optional<Picnic> findByUserId(UUID userId) {
+    public Optional<Picnic> findByUserIdAndCreateDateTimeByPresentPicnic(UUID userId) {
         LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_START_TIME);
         LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_END_TIME);
         PicnicEntity entity = queryFactory
