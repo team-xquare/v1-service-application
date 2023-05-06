@@ -175,5 +175,13 @@ public class PicnicApiImpl implements PicnicApi {
         UUID userId = userIdFacade.getCurrentUserId();
         picnicRepositorySpi.deletePicnic(userId);
     }
+
+    @Override
+    public PicnicAllowTimeResponse getPicnicAllowTime() {
+        LocalTime picnicAllowStartTime = picnicTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_ALLOW_START_TIME);
+        LocalTime picnicAllowEndTime = picnicTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_ALLOW_END_TIME);
+
+        return new PicnicAllowTimeResponse(picnicAllowStartTime, picnicAllowEndTime);
+    }
 }
 
