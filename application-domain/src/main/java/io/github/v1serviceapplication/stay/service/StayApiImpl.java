@@ -2,7 +2,7 @@ package io.github.v1serviceapplication.stay.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.code.CodeElement;
-import io.github.v1serviceapplication.common.UserIdFacade;
+import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.stay.Stay;
 import io.github.v1serviceapplication.stay.api.StayApi;
 import io.github.v1serviceapplication.stay.api.dto.response.AdminUserInfoResponse;

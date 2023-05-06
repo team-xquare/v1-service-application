@@ -24,4 +24,7 @@ public interface PicnicApi {
     WeekendPicnicExcelListResponse weekendPicnicExcel();
 
     void updateWeekendPicnic(UpdatePicnicDomainRequest request);
+
+    void deleteWeekendPicnic();
+
 }

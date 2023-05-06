@@ -34,4 +34,7 @@ public interface PicnicRepositorySpi {
     void updateWeekendPicnic(UUID picnicId, UpdatePicnicDomainRequest request);
 
     Optional<Picnic> findByUserId(UUID userId);
+
+    void deletePicnic(UUID userId);
+
 }

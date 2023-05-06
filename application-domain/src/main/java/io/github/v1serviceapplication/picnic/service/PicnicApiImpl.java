@@ -1,7 +1,7 @@
 package io.github.v1serviceapplication.picnic.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
-import io.github.v1serviceapplication.common.UserIdFacade;
+import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.error.InvalidPicnicApplicationTimeException;
 import io.github.v1serviceapplication.error.PicnicApplyNotAvailableException;
 import io.github.v1serviceapplication.error.PicnicNotFoundException;
@@ -13,7 +13,11 @@ import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.*;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
+import io.github.v1serviceapplication.picnicdatetime.TimeType;
+import io.github.v1serviceapplication.picnicdatetime.spi.PicnicTimeRepositorySpi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
+import io.github.v1serviceapplication.user.dto.response.UserInfoElement;
+import io.github.v1serviceapplication.user.spi.UserFeignSpi;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalTime;
@@ -29,6 +33,8 @@ public class PicnicApiImpl implements PicnicApi {
     private final PicnicRepositorySpi picnicRepositorySpi;
     private final UserIdFacade userIdFacade;
     private final PicnicUserFeignSpi picnicUserFeignSpi;
+    private final UserFeignSpi userFeignSpi;
+    private final PicnicTimeRepositorySpi picnicTimeRepositorySpi;
 
     @Override
     public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
@@ -53,12 +59,14 @@ public class PicnicApiImpl implements PicnicApi {
 
     private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
         LocalTime nowTime = LocalTime.now();
-        LocalTime eneTime = LocalTime.of(23, 00);
+
+        LocalTime picnicRequestStartTime = picnicTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_START_TIME);
+        LocalTime picnicRequestEndTime = picnicTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_END_TIME);
 
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
-        if (nowTime.isAfter(eneTime)) {
+        if (nowTime.isAfter(picnicRequestStartTime) && nowTime.isBefore(picnicRequestEndTime)) {
             throw PicnicApplyNotAvailableException.EXCEPTION;
         }
     }
@@ -71,8 +79,8 @@ public class PicnicApiImpl implements PicnicApi {
         if (picnicUserIds.isEmpty()) {
             return new PicnicListResponse(List.of());
         }
-        Map<UUID, PicnicUserElement> hashMap = picnicUserFeignSpi.getUserInfoByUserId(picnicUserIds).stream()
-                .collect(Collectors.toMap(PicnicUserElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
+        Map<UUID, UserInfoElement> hashMap = userFeignSpi.getUserInfoList(picnicUserIds).stream()
+                .collect(Collectors.toMap(UserInfoElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
 
         List<PicnicElement> picnicElements = picnics.stream()
                 .filter(
@@ -87,7 +95,7 @@ public class PicnicApiImpl implements PicnicApi {
                         }
                 )
                 .map(picnic -> {
-                            PicnicUserElement user = hashMap.get(picnic.getUserId());
+                            UserInfoElement user = hashMap.get(picnic.getUserId());
                             return PicnicElement.builder()
                                     .id(picnic.getId())
                                     .userId(user.getUserId())
@@ -176,6 +184,9 @@ public class PicnicApiImpl implements PicnicApi {
         }
 
         picnicRepositorySpi.updateWeekendPicnic(picnic.getId(), request);
+    public void deleteWeekendPicnic() {
+        UUID userId = userIdFacade.getCurrentUserId();
+        picnicRepositorySpi.deletePicnic(userId);
     }
 }
 

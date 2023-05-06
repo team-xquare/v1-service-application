@@ -13,5 +13,5 @@ public class Stay {
     private final UUID id;
     private final UUID userId;
     private final String code;
-    private final LocalDate date;
+    private final LocalDate createDate;
 }

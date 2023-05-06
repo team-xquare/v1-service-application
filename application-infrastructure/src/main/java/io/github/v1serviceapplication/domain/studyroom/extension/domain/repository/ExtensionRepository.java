@@ -10,5 +10,5 @@ import java.util.UUID;
 
 @Repository
 public interface ExtensionRepository extends JpaRepository<ExtensionEntity, UUID> {
-    Optional<ExtensionEntity> findByUserIdAndDate(UUID userId, LocalDate date);
+    Optional<ExtensionEntity> findByUserIdAndCreateDate(UUID userId, LocalDate createDate);
 }

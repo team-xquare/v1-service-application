@@ -11,17 +11,21 @@ import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.api.dto.UpdatePicnicDomainRequest;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
+import io.github.v1serviceapplication.picnicdatetime.TimeType;
+import io.github.v1serviceapplication.picnicdatetime.spi.PicnicTimeRepositorySpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static io.github.v1serviceapplication.domain.picnic.domain.QPicnicEntity.picnicEntity;
+import static java.lang.String.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -30,6 +34,8 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     private final PicnicMapper picnicMapper;
     private final JPAQueryFactory queryFactory;
     private final UserClient userClient;
+    private final PicnicTimeRepositorySpi picnicDateTimeRepositorySpi;
+
     @Override
     public void applyWeekendPicnic(Picnic picnic) {
         picnicRepository.save(picnicMapper.picnicDomainToEntity(picnic));
@@ -44,9 +50,15 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<Picnic> findAllByToday() {
+        LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_START_TIME);
+        LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_END_TIME);
+
         return queryFactory
                 .selectFrom(picnicEntity)
-                .where(picnicEntity.date.eq(LocalDate.now()))
+                .where(picnicEntity.createDateTime.between(
+                                LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestStartTime),
+                                LocalDateTime.of(LocalDate.now(), picnicRequestEndTime))
+                )
                 .fetch()
                 .stream().map(picnicMapper::picnicEntityToDomain)
                 .toList();
@@ -54,9 +66,15 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<UUID> findUserIdByToday() {
+        LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_START_TIME);
+        LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_END_TIME);
+
         List<PicnicEntity> test = queryFactory
                 .selectFrom(picnicEntity)
-                .where(picnicEntity.date.eq(LocalDate.now()))
+                .where(picnicEntity.createDateTime.between(
+                        LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestStartTime),
+                        LocalDateTime.of(LocalDate.now(), picnicRequestEndTime))
+                )
                 .fetch();
 
         return test.stream().map(PicnicEntity::getUserId).toList();
@@ -119,7 +137,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         UserInfoResponseElement userInfo = userClient.queryUserInfo(userId);
         return new PicnicUserElement(
                 userInfo.getId(),
-                userInfo.getGrade().toString() + userInfo.getClassNum().toString() + String.format("%02d", userInfo.getNum()),
+                userInfo.getGrade().toString() + userInfo.getClassNum().toString() + format("%02d", userInfo.getNum()),
                 userInfo.getName()
         );
     }
@@ -141,5 +159,13 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 .orElseThrow(()-> PicnicNotFoundException.EXCEPTION);
 
         picnic.updatePicnic(request.getStartTime(), request.getEndTime(), request.getReason(), request.getArrangement());
+        
+    @Transactional
+    @Override
+    public void deletePicnic(UUID userId) {
+        queryFactory
+                .delete(picnicEntity)
+                .where(picnicEntity.userId.eq(userId))
+                .execute();
     }
 }

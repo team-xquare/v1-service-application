@@ -6,11 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Getter
@@ -20,6 +22,11 @@ import java.time.LocalTime;
 @Table(name = "tbl_picnic_apply")
 @Entity
 public class PicnicEntity extends BaseEntity {
+
+    @NotNull
+    @CreatedDate
+    private LocalDateTime createDateTime;
+
     private LocalTime startTime;
 
     @NotNull

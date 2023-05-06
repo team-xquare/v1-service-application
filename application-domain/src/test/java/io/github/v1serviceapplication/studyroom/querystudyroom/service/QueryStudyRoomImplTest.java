@@ -1,22 +1,16 @@
 package io.github.v1serviceapplication.studyroom.querystudyroom.service;
 
-import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.stubs.InMemoryQueryStudyRoomRepository;
-import io.github.v1serviceapplication.studyroom.StudyRoom;
-import io.github.v1serviceapplication.studyroom.api.StudyRoomApi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import io.github.v1serviceapplication.studyroom.extension.Extension;
-import io.github.v1serviceapplication.studyroom.service.StudyRoomApiImpl;
 import io.github.v1serviceapplication.studyroom.spi.PostStudyRoomRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomPostExtensionRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomQueryExtensionRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomUserFeignSpi;
-import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.mock;
 
 class QueryStudyRoomImplTest {

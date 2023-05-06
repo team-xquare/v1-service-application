@@ -47,5 +47,11 @@ public class PicnicController {
                 .build();
 
         picnicApi.updateWeekendPicnic(domainRequest);
+
+    @Operation(summary = "주말 외출 신청 삭제 API")
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteWeekendPicnic() {
+        picnicApi.deleteWeekendPicnic();
     }
 }

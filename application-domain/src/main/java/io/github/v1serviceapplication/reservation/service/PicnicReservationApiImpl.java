@@ -1,14 +1,14 @@
 package io.github.v1serviceapplication.reservation.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
-import io.github.v1serviceapplication.common.UserIdFacade;
 import io.github.v1serviceapplication.error.PicnicReserveNotAvailableException;
-import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
 import io.github.v1serviceapplication.reservation.PicnicReservation;
 import io.github.v1serviceapplication.reservation.api.PicnicReservationApi;
 import io.github.v1serviceapplication.reservation.api.dto.PicnicReservationElement;
 import io.github.v1serviceapplication.reservation.api.dto.PicnicReservationListResponse;
 import io.github.v1serviceapplication.reservation.spi.PicnicReservationRepositorySpi;
+import io.github.v1serviceapplication.user.UserIdFacade;
+import io.github.v1serviceapplication.user.spi.UserFeignSpi;
 import lombok.RequiredArgsConstructor;
 
 import java.time.DayOfWeek;
@@ -24,7 +24,7 @@ public class PicnicReservationApiImpl implements PicnicReservationApi {
 
     private final PicnicReservationRepositorySpi picnicReservationRepositorySpi;
     private final UserIdFacade userIdFacade;
-    private final PicnicUserFeignSpi picnicUserFeignSpi;
+    private final UserFeignSpi userFeignSpi;
 
     private static final LocalTime END_TIME = LocalTime.of(23, 0);
 
@@ -53,7 +53,7 @@ public class PicnicReservationApiImpl implements PicnicReservationApi {
                 .map(PicnicReservation::getUserId)
                 .toList();
 
-        List<PicnicReservationElement> picnicReservationElementList = picnicUserFeignSpi.getUserInfoByUserId(picnicReservationIdList)
+        List<PicnicReservationElement> picnicReservationElementList = userFeignSpi.getUserInfoList(picnicReservationIdList)
                 .stream()
                 .map(user -> PicnicReservationElement.builder()
                         .num(user.getNum())
