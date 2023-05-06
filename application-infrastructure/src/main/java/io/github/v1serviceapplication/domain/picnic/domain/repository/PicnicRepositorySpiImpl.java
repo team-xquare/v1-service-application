@@ -159,6 +159,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 .orElseThrow(()-> PicnicNotFoundException.EXCEPTION);
 
         picnic.updatePicnic(request.getStartTime(), request.getEndTime(), request.getReason(), request.getArrangement());
+    }
         
     @Transactional
     @Override
