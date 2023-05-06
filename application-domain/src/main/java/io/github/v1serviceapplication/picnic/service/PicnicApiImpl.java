@@ -176,7 +176,7 @@ public class PicnicApiImpl implements PicnicApi {
     public void updateWeekendPicnic(UpdatePicnicDomainRequest request) {
         UUID userId = userIdFacade.getCurrentUserId();
 
-        Picnic picnic = picnicRepositorySpi.findByUserId(userId)
+        Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId)
                 .orElseThrow(() -> UserNotFoundException.EXCEPTION);
 
         if (!userId.equals(picnic.getUserId())) {
