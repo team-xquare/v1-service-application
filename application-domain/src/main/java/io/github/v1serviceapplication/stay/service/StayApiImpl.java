@@ -28,11 +28,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @DomainService
 public class StayApiImpl implements StayApi {
+    private static final Logger LOGGER = Logger.getLogger(StayApiImpl.class.getName());
     private final StayRepositorySpi stayRepositorySpi;
     private final UserIdFacade userIdFacade;
     private final StayUserFeignSpi stayUserFeignSpi;
@@ -86,6 +88,7 @@ public class StayApiImpl implements StayApi {
                             StayUserElement user = studentList.get(stay.getUserId());
 
                             if(user == null) {
+                                LOGGER.info(String.valueOf(stay.getUserId()));
                                 throw UserNotFoundException.EXCEPTION;
                             }
                             return QueryAllStayStatusElement.builder()
