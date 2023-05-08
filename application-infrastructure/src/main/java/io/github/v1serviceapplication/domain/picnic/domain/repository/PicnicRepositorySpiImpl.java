@@ -49,8 +49,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     @Override
     public List<Picnic> findAllByToday() {
         List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(Arrays.asList(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
-        System.out.println(picnicRequestAllowTime.get(0));
-        System.out.println(picnicRequestAllowTime.get(1));
 
         return queryFactory
                 .selectFrom(picnicEntity)
