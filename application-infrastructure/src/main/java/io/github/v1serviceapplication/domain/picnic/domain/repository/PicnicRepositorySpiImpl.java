@@ -59,12 +59,12 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<UUID> findUserIdByToday() {
-        List<PicnicEntity> test = queryFactory
+        List<PicnicEntity> entityList = queryFactory
                 .selectFrom(picnicEntity)
                 .where(checkValidTime(picnicEntity.createDateTime))
                 .fetch();
 
-        return test.stream().map(PicnicEntity::getUserId).toList();
+        return entityList.stream().map(PicnicEntity::getUserId).toList();
     }
 
     @Transactional
