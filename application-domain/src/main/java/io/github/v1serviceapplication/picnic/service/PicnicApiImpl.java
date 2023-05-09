@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +60,7 @@ public class PicnicApiImpl implements PicnicApi {
     private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
         LocalTime nowTime = LocalTime.now();
 
-        List<LocalTime> picnicRequestAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(Arrays.asList(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+        List<LocalTime> picnicRequestAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
 
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
@@ -180,7 +179,7 @@ public class PicnicApiImpl implements PicnicApi {
 
     @Override
     public PicnicAllowTimeResponse getPicnicAllowTime() {
-        List<LocalTime> picnicAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(Arrays.asList(TimeType.PICNIC_ALLOW_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+        List<LocalTime> picnicAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_ALLOW_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
         return new PicnicAllowTimeResponse(picnicAllowTime.get(0), picnicAllowTime.get(1));
     }
 }

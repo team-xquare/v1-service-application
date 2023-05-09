@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.domain.picnicdatetime.domain.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.github.v1serviceapplication.domain.picnicdatetime.domain.mapper.PicnicTimeMapper;
 import io.github.v1serviceapplication.picnicdatetime.TimeType;
 import io.github.v1serviceapplication.picnicdatetime.spi.PicnicTimeRepositorySpi;
 import lombok.RequiredArgsConstructor;

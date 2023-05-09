@@ -8,6 +8,7 @@ import io.github.v1serviceapplication.infrastructure.feign.client.user.UserClien
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
+import io.github.v1serviceapplication.picnicdatetime.PicnicTime;
 import io.github.v1serviceapplication.picnicdatetime.TimeType;
 import io.github.v1serviceapplication.picnicdatetime.spi.PicnicTimeRepositorySpi;
 import lombok.RequiredArgsConstructor;
@@ -48,13 +49,13 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<Picnic> findAllByToday() {
-        List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(Arrays.asList(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+        List<PicnicTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
 
         return queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.createDateTime.between(
-                                LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.get(0)),
-                                LocalDateTime.of(LocalDate.now(), picnicRequestAllowTime.get(1)))
+                                LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.get(0).getPicnicTime()),
+                                LocalDateTime.of(LocalDate.now(), picnicRequestAllowTime.get(1).getPicnicTime()))
                 )
                 .fetch()
                 .stream().map(picnicMapper::picnicEntityToDomain)
@@ -63,13 +64,13 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<UUID> findUserIdByToday() {
-        List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(Arrays.asList(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+        List<PicnicTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(Arrays.asList(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
 
         List<PicnicEntity> test = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.createDateTime.between(
-                        LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.get(0)),
-                        LocalDateTime.of(LocalDate.now(), picnicRequestAllowTime.get(1)))
+                        LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.),
+                        LocalDateTime.of(LocalDate.now(), picnicRequestAllowTime.get(1).getPicnicTime()))
                 )
                 .fetch();
 
