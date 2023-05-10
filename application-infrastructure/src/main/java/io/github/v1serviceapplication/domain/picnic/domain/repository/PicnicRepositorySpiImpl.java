@@ -47,13 +47,14 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<Picnic> findAllByToday() {
-        List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+        LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_START_TIME);
+        LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_END_TIME);
 
         return queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.createDateTime.between(
-                                LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.get(0)),
-                                LocalDateTime.of(LocalDate.now(), picnicRequestAllowTime.get(1)))
+                                LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestStartTime),
+                                LocalDateTime.of(LocalDate.now(), picnicRequestEndTime))
                 )
                 .fetch()
                 .stream().map(picnicMapper::picnicEntityToDomain)
@@ -62,13 +63,14 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<UUID> findUserIdByToday() {
-        List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+        LocalTime picnicRequestStartTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_START_TIME);
+        LocalTime picnicRequestEndTime = picnicDateTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_END_TIME);
 
         List<PicnicEntity> test = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.createDateTime.between(
-                        LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.get(0)),
-                        LocalDateTime.of(LocalDate.now(), picnicRequestAllowTime.get(1)))
+                        LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestStartTime),
+                        LocalDateTime.of(LocalDate.now(), picnicRequestEndTime))
                 )
                 .fetch();
 
