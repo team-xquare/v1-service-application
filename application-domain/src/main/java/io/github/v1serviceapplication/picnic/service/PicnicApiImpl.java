@@ -62,7 +62,7 @@ public class PicnicApiImpl implements PicnicApi {
         List<LocalTime> picnicRequestAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
         LocalTime nowTime = LocalTime.now();
         boolean picnicRequestStartTime = nowTime.isAfter(picnicRequestAllowTime.get(0));
-        boolean picnicRequestEndTime = nowTime.isBefore(picnicRequestAllowTime.get(1);
+        boolean picnicRequestEndTime = nowTime.isBefore(picnicRequestAllowTime.get(1));
 
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
