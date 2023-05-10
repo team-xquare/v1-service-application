@@ -21,6 +21,7 @@ import io.github.v1serviceapplication.user.spi.UserFeignSpi;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,13 +61,12 @@ public class PicnicApiImpl implements PicnicApi {
     private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
         LocalTime nowTime = LocalTime.now();
 
-        LocalTime picnicRequestStartTime = picnicTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_START_TIME);
-        LocalTime picnicRequestEndTime = picnicTimeRepositorySpi.getPicnicTime(TimeType.PICNIC_REQUEST_END_TIME);
+        List<LocalTime> picnicRequestAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
 
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
-        if (nowTime.isAfter(picnicRequestStartTime) && nowTime.isBefore(picnicRequestEndTime)) {
+        if (nowTime.isAfter(picnicRequestAllowTime.get(0)) && nowTime.isBefore(picnicRequestAllowTime.get(1))) {
             throw PicnicApplyNotAvailableException.EXCEPTION;
         }
     }
