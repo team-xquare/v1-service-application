@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.picnic.api;
 
 import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicAllowTimeResponse;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicDetail;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicListResponse;
 import io.github.v1serviceapplication.picnic.api.dto.StudentPicnicDetail;
@@ -25,4 +26,6 @@ public interface PicnicApi {
     StudentPicnicDetail getStudentPicnicDetail();
 
     void deleteWeekendPicnic();
+
+    PicnicAllowTimeResponse getPicnicAllowTime();
 }

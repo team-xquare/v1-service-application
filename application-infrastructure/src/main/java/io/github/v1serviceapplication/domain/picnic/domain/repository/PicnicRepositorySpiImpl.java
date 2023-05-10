@@ -52,6 +52,15 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         return queryFactory
                 .selectFrom(picnicEntity)
                 .where(checkValidTime(picnicEntity.createDateTime))
+
+        List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+
+        return queryFactory
+                .selectFrom(picnicEntity)
+                .where(picnicEntity.createDateTime.between(
+                                LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.get(0)),
+                                LocalDateTime.of(LocalDate.now(), picnicRequestAllowTime.get(1)))
+                )
                 .fetch()
                 .stream().map(picnicMapper::picnicEntityToDomain)
                 .toList();
@@ -62,6 +71,15 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         List<PicnicEntity> entityList = queryFactory
                 .selectFrom(picnicEntity)
                 .where(checkValidTime(picnicEntity.createDateTime))
+          
+        List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+
+        List<PicnicEntity> test = queryFactory
+                .selectFrom(picnicEntity)
+                .where(picnicEntity.createDateTime.between(
+                        LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.get(0)),
+                        LocalDateTime.of(LocalDate.now(), picnicRequestAllowTime.get(1)))
+                )
                 .fetch();
 
         return entityList.stream().map(PicnicEntity::getUserId).toList();
