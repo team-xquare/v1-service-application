@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static io.github.v1serviceapplication.domain.picnic.domain.QPicnicEntity.picnicEntity;
-import static java.lang.String.*;
+import static java.lang.String.format;
 
 @Repository
 @RequiredArgsConstructor
@@ -167,25 +167,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
         picnic.updatePicnic(request.getStartTime(), request.getEndTime(), request.getReason(), request.getArrangement());
     }
-
-    @Override
-    public Optional<Picnic> findByUserIdAndCreateDateTimeByPresentPicnic(UUID userId) {
-        List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
-
-        PicnicEntity entity = queryFactory
-                .selectFrom(picnicEntity)
-                .where(picnicEntity.userId.eq(userId)
-                        .and(picnicEntity.dormitoryReturnCheckTime.isNull())
-                        .and(picnicEntity.createDateTime.between(
-                                LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.get(0)),
-                                LocalDateTime.of(LocalDate.now(), picnicRequestAllowTime.get(1)))
-                        )
-                        .and(picnicEntity.isAcceptance.eq(true))
-                )
-                .fetchOne();
-        return Optional.ofNullable(picnicMapper.picnicEntityToDomain(entity));
-    }
-
 
     @Transactional
     @Override
