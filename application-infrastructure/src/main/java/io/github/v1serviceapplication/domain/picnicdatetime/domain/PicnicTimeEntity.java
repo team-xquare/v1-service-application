@@ -1,5 +1,6 @@
 package io.github.v1serviceapplication.domain.picnicdatetime.domain;
 
+import io.github.v1serviceapplication.picnicdatetime.DayType;
 import io.github.v1serviceapplication.picnicdatetime.TimeType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -39,4 +40,8 @@ public class PicnicTimeEntity {
     @Enumerated(EnumType.STRING)
     @NotNull
     private TimeType timeType;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private DayType day;
 }
