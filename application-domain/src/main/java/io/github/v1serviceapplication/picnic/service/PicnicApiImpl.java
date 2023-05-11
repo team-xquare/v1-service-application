@@ -1,13 +1,13 @@
 package io.github.v1serviceapplication.picnic.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
+import io.github.v1serviceapplication.picnicdatetime.PicnicTime;
 import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.error.InvalidPicnicApplicationTimeException;
 import io.github.v1serviceapplication.error.PicnicApplyNotAvailableException;
 import io.github.v1serviceapplication.error.PicnicNotFoundException;
 import io.github.v1serviceapplication.error.PicnicPassModifyForbiddenException;
 import io.github.v1serviceapplication.error.UserNotEmptyException;
-import io.github.v1serviceapplication.error.UserNotFoundException;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.*;
@@ -20,9 +20,11 @@ import io.github.v1serviceapplication.user.dto.response.UserInfoElement;
 import io.github.v1serviceapplication.user.spi.UserFeignSpi;
 import lombok.RequiredArgsConstructor;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Arrays;
+import java.time.chrono.ChronoLocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,25 +63,28 @@ public class PicnicApiImpl implements PicnicApi {
     }
 
     private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
-        List<LocalTime> picnicRequestAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
-        LocalTime nowTime = LocalTime.now();
-      
-        boolean isAfterPicnicRequestStartTime = nowTime.isAfter(picnicRequestAllowTime.get(0));
-        boolean isBeforePicnicRequestEndTime = nowTime.isBefore(picnicRequestAllowTime.get(1));
+        LocalDateTime nowTime = LocalDateTime.now();
+        List<LocalTime> picnicRequestTime = getPicnicRequestTimeList();
 
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
-        if (isAfterPicnicRequestStartTime && isBeforePicnicRequestEndTime) {
+
+        LocalDateTime startDateTime = LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestTime.get(0));
+        LocalDateTime endDateTime = LocalDateTime.of(LocalDate.now(), picnicRequestTime.get(1));
+
+        boolean isNowTimeBetweenStartAndEnd = nowTime.isAfter(startDateTime) && nowTime.isBefore(endDateTime);
+
+        if (!isNowTimeBetweenStartAndEnd) {
             throw PicnicApplyNotAvailableException.EXCEPTION;
         }
     }
 
-
     @Override
     public PicnicListResponse weekendPicnicList(String type) {
-        List<Picnic> picnics = picnicRepositorySpi.findAllByToday();
-        List<UUID> picnicUserIds = picnicRepositorySpi.findUserIdByToday();
+        List<LocalTime> picnicRequestTime = getPicnicRequestTimeList();
+        List<Picnic> picnics = picnicRepositorySpi.findAllByToday(picnicRequestTime);
+        List<UUID> picnicUserIds = picnicRepositorySpi.findUserIdByToday(picnicRequestTime);
         if (picnicUserIds.isEmpty()) {
             return new PicnicListResponse(List.of());
         }
@@ -87,17 +92,6 @@ public class PicnicApiImpl implements PicnicApi {
                 .collect(Collectors.toMap(UserInfoElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
 
         List<PicnicElement> picnicElements = picnics.stream()
-                .filter(
-                        picnic -> {
-                            if (type.equals("AWAIT")) {
-                                return !picnic.getIsAcceptance();
-                            } else if (type.equals("RETURN")) {
-                                return picnic.getIsAcceptance() && picnic.getDormitoryReturnCheckTime() == null;
-                            } else {
-                                return true;
-                            }
-                        }
-                )
                 .map(picnic -> {
                             UserInfoElement user = hashMap.get(picnic.getUserId());
                             return PicnicElement.builder()
@@ -122,18 +116,6 @@ public class PicnicApiImpl implements PicnicApi {
     }
 
     @Override
-    public void acceptPicnic(UUID picnicId) {
-        picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
-        picnicRepositorySpi.acceptPicnic(picnicId);
-    }
-
-    @Override
-    public void refusePicnic(UUID picnicId) {
-        picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
-        picnicRepositorySpi.refusePicnic(picnicId);
-    }
-
-    @Override
     public PicnicDetail getPicnicDetail(UUID picnicId) {
         Picnic picnics = picnicRepositorySpi.findByPicnicId(picnicId)
                 .orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
@@ -151,7 +133,8 @@ public class PicnicApiImpl implements PicnicApi {
 
     @Override
     public WeekendPicnicExcelListResponse weekendPicnicExcel() {
-        List<Picnic> weekendPicnicList = picnicRepositorySpi.findAllByToday();
+        List<LocalTime> picnicRequestTime = getPicnicRequestTimeList();
+        List<Picnic> weekendPicnicList = picnicRepositorySpi.findAllByToday(picnicRequestTime);
 
         Map<UUID, StudentElement> hashMap = picnicUserFeignSpi.queryAllUser().stream()
                 .collect(Collectors.toMap(StudentElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
@@ -179,9 +162,9 @@ public class PicnicApiImpl implements PicnicApi {
     @Override
     public void updateWeekendPicnic(UpdatePicnicDomainRequest request) {
         UUID userId = userIdFacade.getCurrentUserId();
+        List<LocalTime> picnicRequestTime = getPicnicRequestTimeList();
 
-        Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId)
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId, picnicRequestTime);
 
         if (!userId.equals(picnic.getUserId())) {
             throw PicnicPassModifyForbiddenException.EXCEPTION;
@@ -198,8 +181,37 @@ public class PicnicApiImpl implements PicnicApi {
 
     @Override
     public PicnicAllowTimeResponse getPicnicAllowTime() {
-        List<LocalTime> picnicAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_ALLOW_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
-        return new PicnicAllowTimeResponse(picnicAllowTime.get(0), picnicAllowTime.get(1));
+        DayOfWeek nowDay = LocalDate.now().getDayOfWeek();
+        List<PicnicTime> picnicAllowTime;
+
+        if(nowDay == DayOfWeek.SUNDAY) {
+            picnicAllowTime = picnicTimeRepositorySpi.getPicnicTime(List.of(TimeType.PICNIC_ALLOW_START_TIME_SUN, TimeType.PICNIC_ALLOW_END_TIME_SUN));
+        } else {
+            picnicAllowTime = picnicTimeRepositorySpi.getPicnicTime(List.of(TimeType.PICNIC_ALLOW_START_TIME, TimeType.PICNIC_ALLOW_END_TIME));
+        }
+
+        return new PicnicAllowTimeResponse(picnicAllowTime.get(0).getPicnicTime(), picnicAllowTime.get(1).getPicnicTime(), picnicAllowTime.get(0).getDay());
     }
+
+    private List<LocalTime> getPicnicAllowTimeList() {
+        DayOfWeek nowDay = LocalDate.now().getDayOfWeek();
+        List<LocalTime> picnicAllowTime;
+
+        if(nowDay == DayOfWeek.SUNDAY) {
+            picnicAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_ALLOW_START_TIME_SUN, TimeType.PICNIC_ALLOW_END_TIME_SUN));
+        } else {
+            picnicAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_ALLOW_START_TIME, TimeType.PICNIC_ALLOW_END_TIME));
+        }
+
+        return picnicAllowTime;
+    }
+
+
+    private List<LocalTime> getPicnicRequestTimeList() {
+        List<LocalTime> picnicRequestTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+        System.out.println(picnicRequestTime);
+        return picnicRequestTime;
+    }
+
 }
 
