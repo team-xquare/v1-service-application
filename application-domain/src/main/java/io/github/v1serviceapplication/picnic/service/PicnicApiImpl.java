@@ -20,6 +20,7 @@ import io.github.v1serviceapplication.user.dto.response.UserInfoElement;
 import io.github.v1serviceapplication.user.spi.UserFeignSpi;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -50,6 +51,7 @@ public class PicnicApiImpl implements PicnicApi {
                 .userId(userId)
                 .startTime(request.getStartTime())
                 .endTime(request.getEndTime())
+                .createDateTime(LocalDateTime.now())
                 .reason(request.getReason())
                 .arrangement(request.getArrangement())
                 .isAcceptance(false)
@@ -61,8 +63,11 @@ public class PicnicApiImpl implements PicnicApi {
     private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
         List<LocalTime> picnicRequestAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
         LocalTime nowTime = LocalTime.now();
+      
         boolean isAfterPicnicRequestStartTime = nowTime.isAfter(picnicRequestAllowTime.get(0));
         boolean isBeforePicnicRequestEndTime = nowTime.isBefore(picnicRequestAllowTime.get(1));
+
+        List<LocalTime> picnicRequestAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
 
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
@@ -193,5 +198,10 @@ public class PicnicApiImpl implements PicnicApi {
         picnicRepositorySpi.deletePicnic(userId);
     }
 
+    @Override
+    public PicnicAllowTimeResponse getPicnicAllowTime() {
+        List<LocalTime> picnicAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_ALLOW_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+        return new PicnicAllowTimeResponse(picnicAllowTime.get(0), picnicAllowTime.get(1));
+    }
 }
 

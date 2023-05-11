@@ -5,6 +5,7 @@ import io.github.v1serviceapplication.domain.picnic.presentation.dto.request.Upd
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
 import io.github.v1serviceapplication.picnic.api.dto.UpdatePicnicDomainRequest;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicAllowTimeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -54,5 +55,12 @@ public class PicnicController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteWeekendPicnic() {
         picnicApi.deleteWeekendPicnic();
+    }
+
+    @Operation(summary = "주말 외출 가능 시간 조회 API")
+    @GetMapping("/time")
+    @ResponseStatus(HttpStatus.OK)
+    public PicnicAllowTimeResponse getPicnicAllowTime() {
+        return picnicApi.getPicnicAllowTime();
     }
 }
