@@ -176,6 +176,8 @@ public class PicnicApiImpl implements PicnicApi {
         UUID userId = userIdFacade.getCurrentUserId();
         Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId)
                 .orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
+        System.out.println(picnic);
+
 
         return StudentPicnicDetail.builder()
                 .startTime(picnic.getStartTime())
