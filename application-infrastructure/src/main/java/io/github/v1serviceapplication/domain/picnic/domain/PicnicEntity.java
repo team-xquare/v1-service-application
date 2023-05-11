@@ -42,4 +42,11 @@ public class PicnicEntity extends BaseEntity {
 
     @Column(columnDefinition = "TINYINT(1) DEFAULT 0")
     private Boolean isAcceptance = false;
+
+    public void updatePicnic(LocalTime startTime, LocalTime endTime, String reason, String arrangement) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.reason = reason;
+        this.arrangement = arrangement;
+    }
 }

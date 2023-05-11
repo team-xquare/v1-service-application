@@ -1,9 +1,11 @@
 package io.github.v1serviceapplication.domain.picnic.presentation;
 
 import io.github.v1serviceapplication.domain.picnic.presentation.dto.request.ApplyWeekendPicnicRequest;
+import io.github.v1serviceapplication.domain.picnic.presentation.dto.request.UpdatePicnicRequest;
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
 import io.github.v1serviceapplication.picnic.api.dto.StudentPicnicDetail;
+import io.github.v1serviceapplication.picnic.api.dto.UpdatePicnicDomainRequest;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicAllowTimeResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,6 +41,20 @@ public class PicnicController {
     @ResponseStatus(HttpStatus.OK)
     public StudentPicnicDetail getStudentPicnicDetail() {
         return picnicApi.getStudentPicnicDetail();
+    }
+
+    @Operation(summary = "주말 외출 신청 수정 API")
+    @PatchMapping("/{picnic-id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updatePicnic(@RequestBody @Valid UpdatePicnicRequest request) {
+        UpdatePicnicDomainRequest domainRequest = UpdatePicnicDomainRequest.builder()
+                .startTime(request.getStartTime())
+                .endTime(request.getEndTime())
+                .arrangement(request.getArrangement())
+                .reason(request.getReason())
+                .build();
+
+        picnicApi.updateWeekendPicnic(domainRequest);
     }
 
     @Operation(summary = "주말 외출 신청 삭제 API")

@@ -5,7 +5,9 @@ import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.error.InvalidPicnicApplicationTimeException;
 import io.github.v1serviceapplication.error.PicnicApplyNotAvailableException;
 import io.github.v1serviceapplication.error.PicnicNotFoundException;
+import io.github.v1serviceapplication.error.PicnicPassModifyForbiddenException;
 import io.github.v1serviceapplication.error.UserNotEmptyException;
+import io.github.v1serviceapplication.error.UserNotFoundException;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
 import io.github.v1serviceapplication.picnic.api.dto.*;
@@ -20,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,14 +61,16 @@ public class PicnicApiImpl implements PicnicApi {
     }
 
     private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
-        LocalTime nowTime = LocalTime.now();
-
         List<LocalTime> picnicRequestAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+        LocalTime nowTime = LocalTime.now();
+      
+        boolean isAfterPicnicRequestStartTime = nowTime.isAfter(picnicRequestAllowTime.get(0));
+        boolean isBeforePicnicRequestEndTime = nowTime.isBefore(picnicRequestAllowTime.get(1));
 
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
-        if (nowTime.isAfter(picnicRequestAllowTime.get(0)) && nowTime.isBefore(picnicRequestAllowTime.get(1))) {
+        if (isAfterPicnicRequestStartTime && isBeforePicnicRequestEndTime) {
             throw PicnicApplyNotAvailableException.EXCEPTION;
         }
     }
@@ -188,6 +193,21 @@ public class PicnicApiImpl implements PicnicApi {
                 .build();
     }
 
+    @Override
+    public void updateWeekendPicnic(UpdatePicnicDomainRequest request) {
+        UUID userId = userIdFacade.getCurrentUserId();
+
+        Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId)
+                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+
+        if (!userId.equals(picnic.getUserId())) {
+            throw PicnicPassModifyForbiddenException.EXCEPTION;
+        }
+
+        picnicRepositorySpi.updateWeekendPicnic(picnic.getId(), request);
+    }
+
+    @Override
     public void deleteWeekendPicnic() {
         UUID userId = userIdFacade.getCurrentUserId();
         picnicRepositorySpi.deletePicnic(userId);

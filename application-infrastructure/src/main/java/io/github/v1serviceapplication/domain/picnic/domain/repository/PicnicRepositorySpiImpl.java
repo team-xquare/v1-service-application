@@ -5,10 +5,12 @@ import com.querydsl.core.types.dsl.DateTimePath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.picnic.domain.PicnicEntity;
 import io.github.v1serviceapplication.domain.picnic.mapper.PicnicMapper;
+import io.github.v1serviceapplication.error.PicnicNotFoundException;
 import io.github.v1serviceapplication.infrastructure.feign.client.dto.response.UserInfoResponseElement;
 import io.github.v1serviceapplication.infrastructure.feign.client.user.UserClient;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
+import io.github.v1serviceapplication.picnic.api.dto.UpdatePicnicDomainRequest;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnicdatetime.TimeType;
 import io.github.v1serviceapplication.picnicdatetime.spi.PicnicTimeRepositorySpi;
@@ -156,6 +158,34 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
         return Optional.ofNullable(picnicMapper.picnicEntityToDomain(entity));
     }
+
+    @Transactional
+    @Override
+    public void updateWeekendPicnic(UUID picnicId, UpdatePicnicDomainRequest request) {
+        PicnicEntity picnic = picnicRepository.findById(picnicId)
+                .orElseThrow(()-> PicnicNotFoundException.EXCEPTION);
+
+        picnic.updatePicnic(request.getStartTime(), request.getEndTime(), request.getReason(), request.getArrangement());
+    }
+
+    @Override
+    public Optional<Picnic> findByUserIdAndCreateDateTimeByPresentPicnic(UUID userId) {
+        List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+
+        PicnicEntity entity = queryFactory
+                .selectFrom(picnicEntity)
+                .where(picnicEntity.userId.eq(userId)
+                        .and(picnicEntity.dormitoryReturnCheckTime.isNull())
+                        .and(picnicEntity.createDateTime.between(
+                                LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.get(0)),
+                                LocalDateTime.of(LocalDate.now(), picnicRequestAllowTime.get(1)))
+                        )
+                        .and(picnicEntity.isAcceptance.eq(true))
+                )
+                .fetchOne();
+        return Optional.ofNullable(picnicMapper.picnicEntityToDomain(entity));
+    }
+
 
     @Transactional
     @Override
