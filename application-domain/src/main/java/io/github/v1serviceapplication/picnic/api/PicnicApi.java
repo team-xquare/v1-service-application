@@ -16,10 +16,6 @@ public interface PicnicApi {
 
     void updateDormitoryReturnTime(UUID picnicId);
 
-    void acceptPicnic(UUID picnicId);
-
-    void refusePicnic(UUID picnicId);
-
     PicnicDetail getPicnicDetail(UUID picnicId);
 
     WeekendPicnicExcelListResponse weekendPicnicExcel();
