@@ -38,21 +38,7 @@ public class AdminPicnicController {
     public void updateDormitoryReturnTime(@PathVariable("picnic-id") UUID picnicId) {
         picnicApi.updateDormitoryReturnTime(picnicId);
     }
-
-    @Operation(summary = "주말외출 요청 수락 API")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/picnic/accept/{picnic-id}")
-    public void acceptPicnic(@PathVariable("picnic-id") UUID picnicId) {
-        picnicApi.acceptPicnic(picnicId);
-    }
-
-    @Operation(summary = "주말외출 요청 거절 API")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/picnic/refuse/{picnic-id}")
-    public void refusePicnic(@PathVariable("picnic-id") UUID picnicId) {
-        picnicApi.refusePicnic(picnicId);
-    }
-
+    
     @Operation(summary = "주말외출 학생 상세보기")
     @GetMapping("/picnic/detail/{picnic-id}")
     public PicnicDetail getPicnicDetail(@PathVariable("picnic-id") UUID picnicId) {
