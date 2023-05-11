@@ -4,9 +4,9 @@ import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainReq
 import io.github.v1serviceapplication.picnic.api.dto.PicnicAllowTimeResponse;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicDetail;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicListResponse;
+import io.github.v1serviceapplication.picnic.api.dto.UpdatePicnicDomainRequest;
 import io.github.v1serviceapplication.picnic.api.dto.WeekendPicnicExcelListResponse;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface PicnicApi {
@@ -19,9 +19,12 @@ public interface PicnicApi {
     void acceptPicnic(UUID picnicId);
 
     void refusePicnic(UUID picnicId);
+
     PicnicDetail getPicnicDetail(UUID picnicId);
 
     WeekendPicnicExcelListResponse weekendPicnicExcel();
+
+    void updateWeekendPicnic(UpdatePicnicDomainRequest request);
 
     void deleteWeekendPicnic();
 

@@ -3,6 +3,7 @@ package io.github.v1serviceapplication.picnic.spi;
 import io.github.v1serviceapplication.annotation.Spi;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
+import io.github.v1serviceapplication.picnic.api.dto.UpdatePicnicDomainRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,5 +31,10 @@ public interface PicnicRepositorySpi {
 
     PicnicUserElement getUserInfo(UUID userId);
 
+    void updateWeekendPicnic(UUID picnicId, UpdatePicnicDomainRequest request);
+
+    Optional<Picnic> findByUserIdAndCreateDateTimeByPresentPicnic(UUID userId);
+
     void deletePicnic(UUID userId);
+
 }
