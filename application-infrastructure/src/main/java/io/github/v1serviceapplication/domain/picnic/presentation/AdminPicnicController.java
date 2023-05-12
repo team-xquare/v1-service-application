@@ -28,8 +28,8 @@ public class AdminPicnicController {
 
     @Operation(summary = "주말 외출 신청한 학생 조회 API")
     @GetMapping("/picnic")
-    public PicnicListResponse getWeekendPicnicList(@PathParam("type") String type) {
-        return picnicApi.weekendPicnicList(type);
+    public PicnicListResponse getWeekendPicnicList() {
+        return picnicApi.weekendPicnicList();
     }
 
     @Operation(summary = "주말외출 도착확인 API")
@@ -38,7 +38,7 @@ public class AdminPicnicController {
     public void updateDormitoryReturnTime(@PathVariable("picnic-id") UUID picnicId) {
         picnicApi.updateDormitoryReturnTime(picnicId);
     }
-    
+
     @Operation(summary = "주말외출 학생 상세보기")
     @GetMapping("/picnic/detail/{picnic-id}")
     public PicnicDetail getPicnicDetail(@PathVariable("picnic-id") UUID picnicId) {
