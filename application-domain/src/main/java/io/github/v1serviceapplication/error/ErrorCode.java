@@ -54,7 +54,7 @@ public enum ErrorCode {
     PICNIC_RESERVATION_NOT_FOUND(404, "RESERVATION-404-1", "Picnic Reservation Not Found."),
 
     PICNIC_RESERVE_NOT_AVAILABLE(400, "RESERVATION-400-1", "Picnic Reserve Not Available."),
-
+  
     PICNIC_PASS_MODIFY_FORBIDDEN(403, "PICNIC-403-2", "Picnic Pass Modify Forbidden."),
 
     PICNIC_APPLY_NOT_AVAILABLE(400, "PICNIC-400-2", "Picnic Apply Not Available.");

@@ -1,5 +1,7 @@
 package io.github.v1serviceapplication.domain.picnic.domain.repository;
 
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.DateTimePath;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.picnic.domain.PicnicEntity;
 import io.github.v1serviceapplication.domain.picnic.mapper.PicnicMapper;
@@ -24,7 +26,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static io.github.v1serviceapplication.domain.picnic.domain.QPicnicEntity.picnicEntity;
-import static java.lang.String.*;
+import static java.lang.String.format;
 
 @Repository
 @RequiredArgsConstructor
@@ -66,7 +68,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     public List<UUID> findUserIdByToday() {
         List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
 
-        List<PicnicEntity> test = queryFactory
+        List<PicnicEntity> entityList = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.createDateTime.between(
                         LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.get(0)),
@@ -74,7 +76,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 )
                 .fetch();
 
-        return test.stream().map(PicnicEntity::getUserId).toList();
+        return entityList.stream().map(PicnicEntity::getUserId).toList();
     }
 
     @Transactional
@@ -139,6 +141,23 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         );
     }
 
+    @Override
+    public Picnic findByUserIdAndCreateDateTimeByPresentPicnic(UUID userId) {
+        PicnicEntity entity = queryFactory
+                .selectFrom(picnicEntity)
+                .where(picnicEntity.userId.eq(userId)
+                        .and(picnicEntity.dormitoryReturnCheckTime.isNull())
+                        .and(checkValidTime(picnicEntity.createDateTime))
+                )
+                .fetchOne();
+
+        if (entity == null) {
+            throw PicnicNotFoundException.EXCEPTION;
+        }
+
+        return picnicMapper.picnicEntityToDomain(entity);
+    }
+
     @Transactional
     @Override
     public void updateWeekendPicnic(UUID picnicId, UpdatePicnicDomainRequest request) {
@@ -148,25 +167,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         picnic.updatePicnic(request.getStartTime(), request.getEndTime(), request.getReason(), request.getArrangement());
     }
 
-    @Override
-    public Optional<Picnic> findByUserIdAndCreateDateTimeByPresentPicnic(UUID userId) {
-        List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
-
-        PicnicEntity entity = queryFactory
-                .selectFrom(picnicEntity)
-                .where(picnicEntity.userId.eq(userId)
-                        .and(picnicEntity.dormitoryReturnCheckTime.isNull())
-                        .and(picnicEntity.createDateTime.between(
-                                LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.get(0)),
-                                LocalDateTime.of(LocalDate.now(), picnicRequestAllowTime.get(1)))
-                        )
-                        .and(picnicEntity.isAcceptance.eq(true))
-                )
-                .fetchOne();
-        return Optional.ofNullable(picnicMapper.picnicEntityToDomain(entity));
-    }
-
-
     @Transactional
     @Override
     public void deletePicnic(UUID userId) {
@@ -174,5 +174,14 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 .delete(picnicEntity)
                 .where(picnicEntity.userId.eq(userId))
                 .execute();
+    }
+
+    private BooleanExpression checkValidTime(DateTimePath<LocalDateTime> createDateTime) {
+        List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+
+        return createDateTime.between(
+                LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestAllowTime.get(0)),
+                LocalDateTime.of(LocalDate.now(), picnicRequestAllowTime.get(1))
+        );
     }
 }
