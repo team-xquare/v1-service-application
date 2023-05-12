@@ -161,6 +161,20 @@ public class PicnicApiImpl implements PicnicApi {
     }
 
     @Override
+    public StudentPicnicDetail getStudentPicnicDetail() {
+        UUID userId = userIdFacade.getCurrentUserId();
+        Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId);
+
+        return StudentPicnicDetail.builder()
+                .startTime(picnic.getStartTime())
+                .endTime(picnic.getEndTime())
+                .arrangement(picnic.getArrangement())
+                .reason(picnic.getReason())
+                .createDateTime(picnic.getCreateDateTime())
+                .build();
+    }
+
+    @Override
     public void updateWeekendPicnic(UpdatePicnicDomainRequest request) {
         UUID userId = userIdFacade.getCurrentUserId();
         List<LocalTime> picnicRequestTime = getPicnicRequestTimeList();
