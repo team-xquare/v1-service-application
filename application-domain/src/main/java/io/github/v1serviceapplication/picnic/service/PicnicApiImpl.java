@@ -207,12 +207,9 @@ public class PicnicApiImpl implements PicnicApi {
         return picnicAllowTime;
     }
 
-
     private List<LocalTime> getPicnicRequestTimeList() {
         List<LocalTime> picnicRequestTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
         System.out.println(picnicRequestTime);
         return picnicRequestTime;
     }
-
 }
-
