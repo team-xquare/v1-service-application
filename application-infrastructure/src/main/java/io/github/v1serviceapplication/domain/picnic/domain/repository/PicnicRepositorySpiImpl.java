@@ -12,9 +12,6 @@ import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
 import io.github.v1serviceapplication.picnic.api.dto.UpdatePicnicDomainRequest;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
-import io.github.v1serviceapplication.picnicdatetime.PicnicTime;
-import io.github.v1serviceapplication.picnicdatetime.TimeType;
-import io.github.v1serviceapplication.picnicdatetime.spi.PicnicTimeRepositorySpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,8 +58,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<UUID> findUserIdByToday(List<LocalTime> picnicRequestTime) {
-        List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
-
         List<PicnicEntity> entityList = queryFactory
                 .selectFrom(picnicEntity)
                 .where(checkValidLocalDateTime(picnicEntity.createDateTime, picnicRequestTime))
@@ -93,7 +88,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Transactional
     @Override
-    public List<Picnic> findAllByUserIdAndIsAcceptance(UUID userId) {
+    public List<Picnic> findAllByUserIdAndDormitoryReturnCheckTime(UUID userId) {
         List<PicnicEntity> entityList = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.userId.eq(userId)
@@ -115,7 +110,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public Picnic findByUserIdAndCreateDateTimeByPresentPicnic(UUID userId, List<LocalTime> picnicRequestTime) {
-      
+
         PicnicEntity entity = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.userId.eq(userId)
@@ -135,7 +130,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     @Override
     public void updateWeekendPicnic(UUID picnicId, UpdatePicnicDomainRequest request) {
         PicnicEntity picnic = picnicRepository.findById(picnicId)
-                .orElseThrow(()-> PicnicNotFoundException.EXCEPTION);
+                .orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
 
         picnic.updatePicnic(request.getStartTime(), request.getEndTime(), request.getReason(), request.getArrangement());
     }
@@ -149,15 +144,10 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 .execute();
     }
 
-    private BooleanExpression checkValidLocalDateTime(DateTimePath<LocalDateTime> createDateTime, List<LocalTime> picnicAllowTime) {
+    private BooleanExpression checkValidLocalDateTime(DateTimePath<LocalDateTime> createDateTime, List<LocalTime> picnicTime) {
         return createDateTime.between(
-                LocalDateTime.of(LocalDate.now().minusDays(1), picnicAllowTime.get(0)),
-                LocalDateTime.of(LocalDate.now(), picnicAllowTime.get(1))
+                LocalDateTime.of(LocalDate.now().minusDays(1), picnicTime.get(0)),
+                LocalDateTime.of(LocalDate.now(), picnicTime.get(1))
         );
     }
-
-    private BooleanExpression checkValidRequestTime(DateTimePath<LocalDateTime> createDateTime, List<LocalTime> picnicRequestTime) {
-        return createDateTime.between(
-                LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestTime.get(0)),
-                LocalDateTime.of(LocalDate.now(), picnicRequestTime.get(1))
 }
