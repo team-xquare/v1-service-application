@@ -43,7 +43,7 @@ public class PicnicApiImpl implements PicnicApi {
     @Override
     public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
         UUID userId = userIdFacade.getCurrentUserId();
-        List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndIsAcceptance(userId);
+        List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndDormitoryReturnCheckTime(userId);
         if (!userPicnics.isEmpty()) {
             throw UserNotEmptyException.EXCEPTION;
         }
@@ -163,7 +163,8 @@ public class PicnicApiImpl implements PicnicApi {
     @Override
     public StudentPicnicDetail getStudentPicnicDetail() {
         UUID userId = userIdFacade.getCurrentUserId();
-        Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId);
+        List<LocalTime> picnicRequestTime = getPicnicRequestTimeList();
+        Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId, picnicRequestTime);
 
         return StudentPicnicDetail.builder()
                 .startTime(picnic.getStartTime())
@@ -223,7 +224,6 @@ public class PicnicApiImpl implements PicnicApi {
 
     private List<LocalTime> getPicnicRequestTimeList() {
         List<LocalTime> picnicRequestTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
-        System.out.println(picnicRequestTime);
         return picnicRequestTime;
     }
 }
