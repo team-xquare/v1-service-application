@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.picnic.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
+import io.github.v1serviceapplication.error.UserNotFoundException;
 import io.github.v1serviceapplication.picnicdatetime.PicnicTime;
 import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.error.InvalidPicnicApplicationTimeException;
@@ -24,7 +25,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +56,6 @@ public class PicnicApiImpl implements PicnicApi {
                 .createDateTime(LocalDateTime.now())
                 .reason(request.getReason())
                 .arrangement(request.getArrangement())
-                .isAcceptance(false)
                 .build();
 
         picnicRepositorySpi.applyWeekendPicnic(picnic);
@@ -81,7 +80,7 @@ public class PicnicApiImpl implements PicnicApi {
     }
 
     @Override
-    public PicnicListResponse weekendPicnicList(String type) {
+    public PicnicListResponse weekendPicnicList() {
         List<LocalTime> picnicRequestTime = getPicnicRequestTimeList();
         List<Picnic> picnics = picnicRepositorySpi.findAllByToday(picnicRequestTime);
         List<UUID> picnicUserIds = picnicRepositorySpi.findUserIdByToday(picnicRequestTime);
@@ -94,6 +93,10 @@ public class PicnicApiImpl implements PicnicApi {
         List<PicnicElement> picnicElements = picnics.stream()
                 .map(picnic -> {
                             UserInfoElement user = hashMap.get(picnic.getUserId());
+
+                            if(user == null) {
+                                throw UserNotFoundException.EXCEPTION;
+                            }
                             return PicnicElement.builder()
                                     .id(picnic.getId())
                                     .userId(user.getUserId())
@@ -101,7 +104,6 @@ public class PicnicApiImpl implements PicnicApi {
                                     .num(user.getNum())
                                     .startTime(picnic.getStartTime())
                                     .endTime(picnic.getEndTime())
-                                    .isAcceptance(picnic.getIsAcceptance())
                                     .build();
                         }
                 ).toList();
@@ -151,7 +153,6 @@ public class PicnicApiImpl implements PicnicApi {
                             .endTime(picnic.getEndTime())
                             .reason(picnic.getReason())
                             .arrangement(picnic.getArrangement())
-                            .isAcceptance(picnic.getIsAcceptance())
                             .build();
 
                 }).toList();
