@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static io.github.v1serviceapplication.domain.picnic.domain.QPicnicEntity.picnicEntity;
-import static java.lang.String.*;
+import static java.lang.String.format;
 
 @Repository
 @RequiredArgsConstructor
@@ -60,6 +60,8 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public List<UUID> findUserIdByToday(List<LocalTime> picnicRequestTime) {
+        List<LocalTime> picnicRequestAllowTime = picnicDateTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
+
         List<PicnicEntity> entityList = queryFactory
                 .selectFrom(picnicEntity)
                 .where(checkValidLocalDateTime(picnicEntity.createDateTime, picnicRequestTime))
@@ -110,17 +112,9 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         );
     }
 
-    @Transactional
-    @Override
-    public void updateWeekendPicnic(UUID picnicId, UpdatePicnicDomainRequest request) {
-        PicnicEntity picnic = picnicRepository.findById(picnicId)
-                .orElseThrow(()-> PicnicNotFoundException.EXCEPTION);
-
-        picnic.updatePicnic(request.getStartTime(), request.getEndTime(), request.getReason(), request.getArrangement());
-    }
-
     @Override
     public Picnic findByUserIdAndCreateDateTimeByPresentPicnic(UUID userId, List<LocalTime> picnicRequestTime) {
+      
         PicnicEntity entity = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.userId.eq(userId)
@@ -136,6 +130,14 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         return picnicMapper.picnicEntityToDomain(entity);
     }
 
+    @Transactional
+    @Override
+    public void updateWeekendPicnic(UUID picnicId, UpdatePicnicDomainRequest request) {
+        PicnicEntity picnic = picnicRepository.findById(picnicId)
+                .orElseThrow(()-> PicnicNotFoundException.EXCEPTION);
+
+        picnic.updatePicnic(request.getStartTime(), request.getEndTime(), request.getReason(), request.getArrangement());
+    }
 
     @Transactional
     @Override
@@ -157,6 +159,4 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         return createDateTime.between(
                 LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestTime.get(0)),
                 LocalDateTime.of(LocalDate.now(), picnicRequestTime.get(1))
-        );
-    }
 }
