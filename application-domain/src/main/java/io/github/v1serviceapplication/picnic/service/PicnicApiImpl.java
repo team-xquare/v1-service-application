@@ -73,9 +73,9 @@ public class PicnicApiImpl implements PicnicApi {
         LocalDateTime startDateTime = LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestTime.get(0));
         LocalDateTime endDateTime = LocalDateTime.of(LocalDate.now(), picnicRequestTime.get(1));
 
-        boolean isNowTimeBetweenStartAndEnd = nowTime.isAfter(startDateTime) && nowTime.isBefore(endDateTime);
+        boolean isNowTimeBetweenStartAndEnd = nowTime.isBefore(startDateTime) || nowTime.isAfter(endDateTime);
 
-        if (!isNowTimeBetweenStartAndEnd) {
+        if (isNowTimeBetweenStartAndEnd) {
             throw PicnicApplyNotAvailableException.EXCEPTION;
         }
     }
