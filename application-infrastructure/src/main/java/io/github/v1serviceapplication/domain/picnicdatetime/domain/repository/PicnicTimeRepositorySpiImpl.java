@@ -22,8 +22,7 @@ public class PicnicTimeRepositorySpiImpl implements PicnicTimeRepositorySpi {
     @Override
     public List<PicnicTime> getPicnicTime(List<TimeType> types) {
         List<PicnicTime> entity = queryFactory
-                .select(picnicTimeEntity)
-                .from(picnicTimeEntity)
+                .selectFrom(picnicTimeEntity)
                 .where(picnicTimeEntity.timeType.in(types))
                 .fetch()
                 .stream().map(picnicTimeMapper::picnicTimeEntityToDomain).toList();
