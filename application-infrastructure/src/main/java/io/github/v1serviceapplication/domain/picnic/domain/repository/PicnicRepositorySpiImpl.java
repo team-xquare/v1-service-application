@@ -142,7 +142,7 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     }
 
     @Override
-    public Optional<Picnic> findByUserIdAndCreateDateTimeByPresentPicnic(UUID userId) {
+    public Picnic findByUserIdAndCreateDateTimeByPresentPicnic(UUID userId) {
         PicnicEntity entity = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.userId.eq(userId)
@@ -153,10 +153,10 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 .fetchOne();
 
         if (entity.equals(null)) {
-            System.out.println("adk;lfjasl;kdfjk;saldflke");
+            throw PicnicNotFoundException.EXCEPTION;
         }
 
-        return Optional.ofNullable(picnicMapper.picnicEntityToDomain(entity));
+        return picnicMapper.picnicEntityToDomain(entity);
     }
 
     @Transactional

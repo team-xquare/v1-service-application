@@ -179,10 +179,7 @@ public class PicnicApiImpl implements PicnicApi {
     @Override
     public StudentPicnicDetail getStudentPicnicDetail() {
         UUID userId = userIdFacade.getCurrentUserId();
-        Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId)
-                .orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
-        System.out.println(picnic);
-
+        Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId);
 
         return StudentPicnicDetail.builder()
                 .startTime(picnic.getStartTime())
@@ -197,8 +194,7 @@ public class PicnicApiImpl implements PicnicApi {
     public void updateWeekendPicnic(UpdatePicnicDomainRequest request) {
         UUID userId = userIdFacade.getCurrentUserId();
 
-        Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId)
-                .orElseThrow(() -> UserNotFoundException.EXCEPTION);
+        Picnic picnic = picnicRepositorySpi.findByUserIdAndCreateDateTimeByPresentPicnic(userId);
 
         if (!userId.equals(picnic.getUserId())) {
             throw PicnicPassModifyForbiddenException.EXCEPTION;
