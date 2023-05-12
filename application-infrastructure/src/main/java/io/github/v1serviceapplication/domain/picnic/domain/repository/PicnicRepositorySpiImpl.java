@@ -148,11 +148,10 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
                 .where(picnicEntity.userId.eq(userId)
                         .and(picnicEntity.dormitoryReturnCheckTime.isNull())
                         .and(checkValidTime(picnicEntity.createDateTime))
-                        .and(picnicEntity.isAcceptance.eq(true))
                 )
                 .fetchOne();
 
-        if (entity.equals(null)) {
+        if (entity == null) {
             throw PicnicNotFoundException.EXCEPTION;
         }
 
