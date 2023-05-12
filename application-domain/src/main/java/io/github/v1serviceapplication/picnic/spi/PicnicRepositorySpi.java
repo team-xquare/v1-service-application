@@ -24,7 +24,7 @@ public interface PicnicRepositorySpi {
 
     Optional<Picnic> findByPicnicId(UUID picnicId);
 
-    List<Picnic> findAllByUserIdAndIsAcceptance(UUID userId);
+    List<Picnic> findAllByUserIdAndDormitoryReturnCheckTime(UUID userId);
 
     PicnicUserElement getUserInfo(UUID userId);
 
