@@ -27,8 +27,7 @@ public class PicnicTimeRepositorySpiImpl implements PicnicTimeRepositorySpi {
                 .where(picnicTimeEntity.timeType.in(types))
                 .fetch()
                 .stream().map(picnicTimeMapper::picnicTimeEntityToDomain).toList();
-
-
+        
         return entity;
     }
 
