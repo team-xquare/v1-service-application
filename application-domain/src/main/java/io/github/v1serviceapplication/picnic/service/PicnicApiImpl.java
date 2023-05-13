@@ -1,22 +1,31 @@
 package io.github.v1serviceapplication.picnic.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
-import io.github.v1serviceapplication.error.UserNotFoundException;
-import io.github.v1serviceapplication.picnicdatetime.PicnicTime;
-import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.error.InvalidPicnicApplicationTimeException;
 import io.github.v1serviceapplication.error.PicnicApplyNotAvailableException;
 import io.github.v1serviceapplication.error.PicnicNotFoundException;
 import io.github.v1serviceapplication.error.PicnicPassModifyForbiddenException;
 import io.github.v1serviceapplication.error.UserNotEmptyException;
+import io.github.v1serviceapplication.error.UserNotFoundException;
 import io.github.v1serviceapplication.picnic.Picnic;
 import io.github.v1serviceapplication.picnic.api.PicnicApi;
-import io.github.v1serviceapplication.picnic.api.dto.*;
+import io.github.v1serviceapplication.picnic.api.dto.ApplyWeekendPicnicDomainRequest;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicAllowTimeResponse;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicDetail;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicElement;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicListResponse;
+import io.github.v1serviceapplication.picnic.api.dto.PicnicUserElement;
+import io.github.v1serviceapplication.picnic.api.dto.StudentPicnicDetail;
+import io.github.v1serviceapplication.picnic.api.dto.UpdatePicnicDomainRequest;
+import io.github.v1serviceapplication.picnic.api.dto.WeekendPicnicExcelElement;
+import io.github.v1serviceapplication.picnic.api.dto.WeekendPicnicExcelListResponse;
 import io.github.v1serviceapplication.picnic.spi.PicnicRepositorySpi;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
+import io.github.v1serviceapplication.picnicdatetime.PicnicTime;
 import io.github.v1serviceapplication.picnicdatetime.TimeType;
 import io.github.v1serviceapplication.picnicdatetime.spi.PicnicTimeRepositorySpi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
+import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.user.dto.response.UserInfoElement;
 import io.github.v1serviceapplication.user.spi.UserFeignSpi;
 import lombok.RequiredArgsConstructor;
@@ -94,7 +103,7 @@ public class PicnicApiImpl implements PicnicApi {
                 .map(picnic -> {
                             UserInfoElement user = hashMap.get(picnic.getUserId());
 
-                            if(user == null) {
+                            if (user == null) {
                                 throw UserNotFoundException.EXCEPTION;
                             }
                             return PicnicElement.builder()
@@ -200,7 +209,10 @@ public class PicnicApiImpl implements PicnicApi {
         DayOfWeek nowDay = LocalDate.now().getDayOfWeek();
         List<PicnicTime> picnicAllowTime;
 
-        if(nowDay == DayOfWeek.SUNDAY) {
+        boolean isSundayAndAfterPicnicRequestStartTime = nowDay == DayOfWeek.SUNDAY && LocalTime.now().isAfter(LocalTime.of(21, 0));
+        boolean isSaturdayAndBeforePicnicRequestEndTime = nowDay == DayOfWeek.SATURDAY && LocalTime.now().isBefore(LocalTime.of(11, 0));
+
+        if (isSundayAndAfterPicnicRequestStartTime || isSaturdayAndBeforePicnicRequestEndTime) {
             picnicAllowTime = picnicTimeRepositorySpi.getPicnicTime(List.of(TimeType.PICNIC_ALLOW_START_TIME_SUN, TimeType.PICNIC_ALLOW_END_TIME_SUN));
         } else {
             picnicAllowTime = picnicTimeRepositorySpi.getPicnicTime(List.of(TimeType.PICNIC_ALLOW_START_TIME, TimeType.PICNIC_ALLOW_END_TIME));
@@ -209,21 +221,7 @@ public class PicnicApiImpl implements PicnicApi {
         return new PicnicAllowTimeResponse(picnicAllowTime.get(0).getPicnicTime(), picnicAllowTime.get(1).getPicnicTime(), picnicAllowTime.get(0).getDay());
     }
 
-    private List<LocalTime> getPicnicAllowTimeList() {
-        DayOfWeek nowDay = LocalDate.now().getDayOfWeek();
-        List<LocalTime> picnicAllowTime;
-
-        if(nowDay == DayOfWeek.SUNDAY) {
-            picnicAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_ALLOW_START_TIME_SUN, TimeType.PICNIC_ALLOW_END_TIME_SUN));
-        } else {
-            picnicAllowTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_ALLOW_START_TIME, TimeType.PICNIC_ALLOW_END_TIME));
-        }
-
-        return picnicAllowTime;
-    }
-
     private List<LocalTime> getPicnicRequestTimeList() {
-        List<LocalTime> picnicRequestTime = picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
-        return picnicRequestTime;
+        return picnicTimeRepositorySpi.getPicnicAllowTime(List.of(TimeType.PICNIC_REQUEST_START_TIME, TimeType.PICNIC_REQUEST_END_TIME));
     }
 }
