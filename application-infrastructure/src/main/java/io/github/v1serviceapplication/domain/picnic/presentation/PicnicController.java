@@ -44,7 +44,7 @@ public class PicnicController {
     }
 
     @Operation(summary = "주말 외출 신청 수정 API")
-    @PatchMapping("/{picnic-id}")
+    @PatchMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updatePicnic(@RequestBody @Valid UpdatePicnicRequest request) {
         UpdatePicnicDomainRequest domainRequest = UpdatePicnicDomainRequest.builder()
