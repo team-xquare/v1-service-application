@@ -28,8 +28,8 @@ public class AdminPicnicController {
 
     @Operation(summary = "주말 외출 신청한 학생 조회 API")
     @GetMapping("/picnic")
-    public PicnicListResponse getWeekendPicnicList(@PathParam("type") String type) {
-        return picnicApi.weekendPicnicList(type);
+    public PicnicListResponse getWeekendPicnicList() {
+        return picnicApi.weekendPicnicList();
     }
 
     @Operation(summary = "주말외출 도착확인 API")
@@ -37,20 +37,6 @@ public class AdminPicnicController {
     @PatchMapping("/picnic/arrive/{picnic-id}")
     public void updateDormitoryReturnTime(@PathVariable("picnic-id") UUID picnicId) {
         picnicApi.updateDormitoryReturnTime(picnicId);
-    }
-
-    @Operation(summary = "주말외출 요청 수락 API")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/picnic/accept/{picnic-id}")
-    public void acceptPicnic(@PathVariable("picnic-id") UUID picnicId) {
-        picnicApi.acceptPicnic(picnicId);
-    }
-
-    @Operation(summary = "주말외출 요청 거절 API")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @DeleteMapping("/picnic/refuse/{picnic-id}")
-    public void refusePicnic(@PathVariable("picnic-id") UUID picnicId) {
-        picnicApi.refusePicnic(picnicId);
     }
 
     @Operation(summary = "주말외출 학생 상세보기")
