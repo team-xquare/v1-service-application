@@ -42,7 +42,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     @Override
     public List<Picnic> findAll() {
         List<PicnicEntity> picnicEntity = picnicRepository.findAll();
-
         return picnicEntity.stream().map(picnicMapper::picnicEntityToDomain).toList();
     }
 
@@ -110,7 +109,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Override
     public Picnic findByUserIdAndCreateDateTimeByPresentPicnic(UUID userId, List<LocalTime> picnicRequestTime) {
-
         PicnicEntity entity = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.userId.eq(userId)
