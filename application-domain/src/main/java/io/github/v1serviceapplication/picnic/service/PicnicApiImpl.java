@@ -75,27 +75,27 @@ public class PicnicApiImpl implements PicnicApi {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
 
-        LocalDateTime nowTime = LocalDateTime.now();
+        LocalDateTime nowDateTime = LocalDateTime.now();
         List<LocalTime> picnicRequestTime = getPicnicRequestTimeList();
 
         LocalDateTime startDateTime = LocalDateTime.of(LocalDate.now(), picnicRequestTime.get(0));
         LocalDateTime endDateTime = LocalDateTime.of(LocalDate.now(), picnicRequestTime.get(1));
 
-        switch (nowTime.toLocalDate().getDayOfWeek()) {
+        switch (nowDateTime.toLocalDate().getDayOfWeek()) {
             case FRIDAY -> {
-                boolean isBeforeStartDateTime = nowTime.isBefore(startDateTime);
+                boolean isBeforeStartDateTime = nowDateTime.isBefore(startDateTime);
                 if (isBeforeStartDateTime) {
                     throw PicnicApplyNotAvailableException.EXCEPTION;
                 }
             }
             case SATURDAY -> {
-                boolean isBeforeStartDateTimeAndAfterEndDateTime = nowTime.isBefore(startDateTime) && nowTime.isAfter(endDateTime);
+                boolean isBeforeStartDateTimeAndAfterEndDateTime = nowDateTime.isBefore(startDateTime) && nowDateTime.isAfter(endDateTime);
                 if (isBeforeStartDateTimeAndAfterEndDateTime) {
                     throw PicnicApplyNotAvailableException.EXCEPTION;
                 }
             }
             case SUNDAY -> {
-                boolean isAfterEndDateTime = nowTime.isAfter(endDateTime);
+                boolean isAfterEndDateTime = nowDateTime.isAfter(endDateTime);
                 if (isAfterEndDateTime) {
                     throw PicnicApplyNotAvailableException.EXCEPTION;
                 }
