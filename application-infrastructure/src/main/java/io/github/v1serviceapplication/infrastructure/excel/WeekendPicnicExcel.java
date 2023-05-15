@@ -53,28 +53,30 @@ public class WeekendPicnicExcel {
     }
 
     private void setBodyRow(Sheet sheet, CellStyle cellStyle, List<WeekendPicnicExcelElement> weekendPicnicList) {
-        int i = 1;
+        int i = 2;
 
         for (WeekendPicnicExcelElement weekendPicnicExcelElement : weekendPicnicList) {
-            Row row = sheet.createRow(1);
-            Cell num = row.createCell(i++);
+            int j = 1;
+            
+            Row row = sheet.createRow(i);
+            Cell num = row.createCell(j++);
             num.setCellValue(weekendPicnicExcelElement.getNum());
             num.setCellStyle(cellStyle);
 
-            Cell name = row.createCell(i++);
+            Cell name = row.createCell(j++);
             name.setCellValue(weekendPicnicExcelElement.getName());
             name.setCellStyle(cellStyle);
 
-            Cell startTime = row.createCell(i++);
+            Cell startTime = row.createCell(j++);
             startTime.setCellValue(String.valueOf(weekendPicnicExcelElement.getStartTime()));
             startTime.setCellStyle(cellStyle);
 
-            Cell endTime = row.createCell(i++);
+            Cell endTime = row.createCell(j++);
             endTime.setCellValue(String.valueOf(weekendPicnicExcelElement.getEndTime()));
             endTime.setCellStyle(cellStyle);
 
-            row.createCell(i++).setCellStyle(cellStyle);
-            row.createCell(i++).setCellStyle(cellStyle);
+            row.createCell(j++).setCellStyle(cellStyle);
+            row.createCell(j++).setCellStyle(cellStyle);
         }
     }
 }
