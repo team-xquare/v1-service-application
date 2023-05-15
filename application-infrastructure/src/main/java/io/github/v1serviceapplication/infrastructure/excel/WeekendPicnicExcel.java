@@ -37,13 +37,10 @@ public class WeekendPicnicExcel {
     }
 
     private void setHeaderRow(Row row, CellStyle cellStyle) {
-        String[] header = {"학번 ", "이름", "외출시간", "복귀시간", "외출서명", "복귀학인"};
-        int wholeGrade = 24;
-        int oneClass = 6;
-        for (int currentClass = 1; currentClass <= wholeGrade; currentClass++) {
-            Cell cell = row.createCell(currentClass);
-            int index = currentClass % oneClass == 0 ? 3 : currentClass % oneClass - 1;
-            cell.setCellValue(header[index]);
+        String[] header = {"학번", "이름", "외출시간", "복귀시간", "외출서명", "복귀학인"};
+        for (int i = 0; i < header.length; i++) {
+            Cell cell = row.createCell(i + 1);
+            cell.setCellValue(header[i]);
             cell.setCellStyle(cellStyle);
         }
     }
@@ -56,35 +53,28 @@ public class WeekendPicnicExcel {
     }
 
     private void setBodyRow(Sheet sheet, CellStyle cellStyle, List<WeekendPicnicExcelElement> weekendPicnicList) {
+        int i = 1;
+
         for (WeekendPicnicExcelElement weekendPicnicExcelElement : weekendPicnicList) {
-
-            int grade = Integer.parseInt(String.valueOf(weekendPicnicExcelElement.getNum().charAt(0)));
-            int cls = Integer.parseInt(String.valueOf(weekendPicnicExcelElement.getNum().charAt(1)));
-            int number = Integer.parseInt(weekendPicnicExcelElement.getNum().substring(2, 4));
-
-            int rowNo = 23 * grade - 22 + number; // 2
-            int columnNo = 4 * cls - 3; // 1
-
-            Row row = sheet.getRow(rowNo) == null ? sheet.createRow(rowNo) : sheet.getRow(rowNo);
-
-            Cell num = row.createCell(columnNo++);
+            Row row = sheet.createRow(1);
+            Cell num = row.createCell(i++);
             num.setCellValue(weekendPicnicExcelElement.getNum());
             num.setCellStyle(cellStyle);
 
-            Cell name = row.createCell(columnNo++);
+            Cell name = row.createCell(i++);
             name.setCellValue(weekendPicnicExcelElement.getName());
             name.setCellStyle(cellStyle);
 
-            Cell startTime = row.createCell(columnNo);
+            Cell startTime = row.createCell(i++);
             startTime.setCellValue(String.valueOf(weekendPicnicExcelElement.getStartTime()));
             startTime.setCellStyle(cellStyle);
 
-            Cell endTime = row.createCell(columnNo);
+            Cell endTime = row.createCell(i++);
             endTime.setCellValue(String.valueOf(weekendPicnicExcelElement.getEndTime()));
             endTime.setCellStyle(cellStyle);
 
-            row.createCell(columnNo + 1).setCellStyle(cellStyle);
-            row.createCell(columnNo + 2).setCellStyle(cellStyle);
+            row.createCell(i++).setCellStyle(cellStyle);
+            row.createCell(i++).setCellStyle(cellStyle);
         }
     }
 }
