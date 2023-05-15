@@ -37,7 +37,7 @@ public class WeekendPicnicExcel {
     }
 
     private void setHeaderRow(Row row, CellStyle cellStyle) {
-        String[] header = {"학번 ", "이름", "외출시간", "귀가시간", "", ""};
+        String[] header = {"학번 ", "이름", "외출시간", "복귀시간", "외출서명", "복귀학인"};
         int wholeGrade = 24;
         int oneClass = 6;
         for (int currentClass = 1; currentClass <= wholeGrade; currentClass++) {
