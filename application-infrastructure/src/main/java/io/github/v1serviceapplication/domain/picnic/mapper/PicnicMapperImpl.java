@@ -17,7 +17,6 @@ public class PicnicMapperImpl implements PicnicMapper {
                 .endTime(picnic.getEndTime())
                 .reason(picnic.getReason())
                 .arrangement(picnic.getArrangement())
-                .dormitoryReturnCheckTime(picnic.getDormitoryReturnCheckTime())
                 .build();
     }
 
@@ -31,7 +30,6 @@ public class PicnicMapperImpl implements PicnicMapper {
                 .endTime(picnicEntity.getEndTime())
                 .reason(picnicEntity.getReason())
                 .arrangement(picnicEntity.getArrangement())
-                .dormitoryReturnCheckTime(picnicEntity.getDormitoryReturnCheckTime())
                 .build();
     }
 }
