@@ -55,9 +55,9 @@ public class WeekendPicnicExcel {
 
     private void setBodyRow(Sheet sheet, CellStyle cellStyle, List<WeekendPicnicExcelElement> weekendPicnicList) {
         int i = 2;
-        int j = 1;
 
         for (WeekendPicnicExcelElement weekendPicnicExcelElement : weekendPicnicList) {
+            int j = 1;
             Row row = sheet.createRow(i);
             Cell num = row.createCell(j++);
             num.setCellValue(weekendPicnicExcelElement.getNum());
@@ -76,7 +76,7 @@ public class WeekendPicnicExcel {
             endTime.setCellStyle(cellStyle);
 
             row.createCell(j++).setCellStyle(cellStyle);
-            row.createCell(j++).setCellStyle(cellStyle);
+            row.createCell(j).setCellStyle(cellStyle);
             i++;
         }
     }
