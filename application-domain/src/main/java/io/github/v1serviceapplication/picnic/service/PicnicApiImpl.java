@@ -71,20 +71,38 @@ public class PicnicApiImpl implements PicnicApi {
     }
 
     private void validateRequestTime(ApplyWeekendPicnicDomainRequest request) {
-        LocalDateTime nowTime = LocalDateTime.now();
-        List<LocalTime> picnicRequestTime = getPicnicRequestTimeList();
-
         if (request.getStartTime().isAfter(request.getEndTime())) {
             throw InvalidPicnicApplicationTimeException.EXCEPTION;
         }
 
-        LocalDateTime startDateTime = LocalDateTime.of(LocalDate.now().minusDays(1), picnicRequestTime.get(0));
+        LocalDateTime nowDateTime = LocalDateTime.now();
+        List<LocalTime> picnicRequestTime = getPicnicRequestTimeList();
+
+        LocalDateTime startDateTime = LocalDateTime.of(LocalDate.now(), picnicRequestTime.get(0));
         LocalDateTime endDateTime = LocalDateTime.of(LocalDate.now(), picnicRequestTime.get(1));
 
-        boolean isNowTimeBetweenStartAndEnd = nowTime.isBefore(startDateTime) || nowTime.isAfter(endDateTime);
-
-        if (isNowTimeBetweenStartAndEnd) {
-            throw PicnicApplyNotAvailableException.EXCEPTION;
+        switch (nowDateTime.toLocalDate().getDayOfWeek()) {
+            case FRIDAY -> {
+                boolean isBeforeStartDateTime = nowDateTime.isBefore(startDateTime);
+                if (isBeforeStartDateTime) {
+                    throw PicnicApplyNotAvailableException.EXCEPTION;
+                }
+            }
+            case SATURDAY -> {
+                boolean isBeforeStartDateTimeAndAfterEndDateTime = nowDateTime.isBefore(startDateTime) && nowDateTime.isAfter(endDateTime);
+                if (isBeforeStartDateTimeAndAfterEndDateTime) {
+                    throw PicnicApplyNotAvailableException.EXCEPTION;
+                }
+            }
+            case SUNDAY -> {
+                boolean isAfterEndDateTime = nowDateTime.isAfter(endDateTime);
+                if (isAfterEndDateTime) {
+                    throw PicnicApplyNotAvailableException.EXCEPTION;
+                }
+            }
+            default -> {
+                throw PicnicApplyNotAvailableException.EXCEPTION;
+            }
         }
     }
 
@@ -200,8 +218,7 @@ public class PicnicApiImpl implements PicnicApi {
 
     @Override
     public void deleteWeekendPicnic() {
-        UUID userId = userIdFacade.getCurrentUserId();
-        picnicRepositorySpi.deletePicnic(userId);
+        picnicRepositorySpi.deletePicnic(userIdFacade.getCurrentUserId());
     }
 
     @Override
