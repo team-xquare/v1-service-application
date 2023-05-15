@@ -39,7 +39,7 @@ public class WeekendPicnicExcel {
     private void setHeaderRow(Row row, CellStyle cellStyle) {
         String[] header = {"학번", "이름", "외출시간", "복귀시간", "외출서명", "복귀학인"};
         cellStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-        for (int i = 0; i < header.length; i++) {
+        for (int i = 1; i <= header.length; i++) {
             Cell cell = row.createCell(i + 1);
             cell.setCellValue(header[i]);
             cell.setCellStyle(cellStyle);
@@ -77,6 +77,7 @@ public class WeekendPicnicExcel {
 
             row.createCell(j++).setCellStyle(cellStyle);
             row.createCell(j++).setCellStyle(cellStyle);
+            i++;
         }
     }
 }
