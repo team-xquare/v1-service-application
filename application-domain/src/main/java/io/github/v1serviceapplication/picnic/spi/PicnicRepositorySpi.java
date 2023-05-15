@@ -20,8 +20,6 @@ public interface PicnicRepositorySpi {
 
     List<UUID> findUserIdByToday(List<LocalTime> picnicRequestTime);
 
-    void updateDormitoryReturnTime(UUID picnicId);
-
     Optional<Picnic> findByPicnicId(UUID picnicId);
 
     List<Picnic> findAllByUserIdAndDormitoryReturnCheckTime(UUID userId);

@@ -139,12 +139,6 @@ public class PicnicApiImpl implements PicnicApi {
     }
 
     @Override
-    public void updateDormitoryReturnTime(UUID picnicId) {
-        picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
-        picnicRepositorySpi.updateDormitoryReturnTime(picnicId);
-    }
-
-    @Override
     public PicnicDetail getPicnicDetail(UUID picnicId) {
         Picnic picnics = picnicRepositorySpi.findByPicnicId(picnicId)
                 .orElseThrow(() -> PicnicNotFoundException.EXCEPTION);

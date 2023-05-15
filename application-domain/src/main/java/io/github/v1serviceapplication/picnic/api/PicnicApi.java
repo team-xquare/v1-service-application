@@ -15,8 +15,6 @@ public interface PicnicApi {
 
     PicnicListResponse weekendPicnicList();
 
-    void updateDormitoryReturnTime(UUID picnicId);
-
     PicnicDetail getPicnicDetail(UUID picnicId);
 
     WeekendPicnicExcelListResponse weekendPicnicExcel();

@@ -65,16 +65,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         return entityList.stream().map(PicnicEntity::getUserId).toList();
     }
 
-    @Transactional
-    @Override
-    public void updateDormitoryReturnTime(UUID picnicId) {
-        queryFactory
-                .update(picnicEntity)
-                .set(picnicEntity.dormitoryReturnCheckTime, LocalTime.now())
-                .where(picnicEntity.id.eq(picnicId))
-                .execute();
-    }
-
     @Override
     public Optional<Picnic> findByPicnicId(UUID picnicId) {
         PicnicEntity entity = queryFactory
