@@ -17,7 +17,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final ObjectMapper objectMapper;
 
-
     private static final String STUDENT = "ROLE_" + UserRole.STU.name();
     private static final String SCHOOL = "ROLE_" + UserRole.SCH.name();
     private static final String DORMITORY = "ROLE_" + UserRole.DOR.name();
@@ -38,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/picnic-reservation").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/picnic-reservation/{picnic-reservation-id}").permitAll()
                 .antMatchers(HttpMethod.GET, "/picnic-reservation").authenticated()
+                .antMatchers(HttpMethod.GET, "/picnic-reservation/excel").permitAll()
                 .antMatchers("/applications/admin/**").hasAnyRole(DORMITORY)
                 .antMatchers("/applications/swagger-ui/**").permitAll()
                 .antMatchers("/applications/docs/**").permitAll()

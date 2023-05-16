@@ -6,9 +6,12 @@ import io.github.v1serviceapplication.reservation.api.dto.PicnicReservationListR
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Tag(name = "주말 외출 예약 API")
 @RestController
