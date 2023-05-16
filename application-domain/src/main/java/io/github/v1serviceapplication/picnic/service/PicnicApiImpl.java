@@ -52,7 +52,8 @@ public class PicnicApiImpl implements PicnicApi {
     @Override
     public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
         UUID userId = userIdFacade.getCurrentUserId();
-        List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndDormitoryReturnCheckTime(userId);
+        List<LocalTime> picnicRequestTime = getPicnicRequestTimeList();
+        List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndDormitoryReturnCheckTime(userId, picnicRequestTime);
         if (!userPicnics.isEmpty()) {
             throw UserNotEmptyException.EXCEPTION;
         }

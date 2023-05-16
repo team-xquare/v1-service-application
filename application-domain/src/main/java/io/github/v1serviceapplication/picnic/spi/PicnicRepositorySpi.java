@@ -22,7 +22,7 @@ public interface PicnicRepositorySpi {
 
     Optional<Picnic> findByPicnicId(UUID picnicId);
 
-    List<Picnic> findAllByUserIdAndDormitoryReturnCheckTime(UUID userId);
+    List<Picnic> findAllByUserIdAndDormitoryReturnCheckTime(UUID userId, List<LocalTime> picnicRequestTime);
 
     PicnicUserElement getUserInfo(UUID userId);
 

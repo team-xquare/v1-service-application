@@ -77,11 +77,11 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Transactional
     @Override
-    public List<Picnic> findAllByUserIdAndDormitoryReturnCheckTime(UUID userId) {
+    public List<Picnic> findAllByUserIdAndDormitoryReturnCheckTime(UUID userId, List<LocalTime> picnicRequestTime) {
         List<PicnicEntity> entityList = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.userId.eq(userId)
-                        .and(picnicEntity.dormitoryReturnCheckTime.isNull())
+                        .and(checkValidLocalDateTime(picnicEntity.createDateTime, picnicRequestTime))
                 )
                 .fetch();
         return entityList.stream().map(picnicMapper::picnicEntityToDomain).toList();
@@ -102,7 +102,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         PicnicEntity entity = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.userId.eq(userId)
-                        .and(picnicEntity.dormitoryReturnCheckTime.isNull())
                         .and(checkValidLocalDateTime(picnicEntity.createDateTime, picnicRequestTime))
                 )
                 .fetchOne();
