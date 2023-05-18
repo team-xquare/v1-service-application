@@ -32,17 +32,19 @@ public class WeekendPicnicExcel {
         applyThinStyle(cellStyle);
         Row row = sheet.createRow(0);
 
-        setHeaderRow(row, cellStyle);
+        setHeaderRow(row, cellStyle, sheet);
         setBodyRow(sheet, cellStyle, weekendPicnicList);
     }
 
-    private void setHeaderRow(Row row, CellStyle cellStyle) {
-        String[] header = {"학번", "이름", "외출시간", "복귀시간", "외출서명", "복귀학인"};
-        cellStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+    private void setHeaderRow(Row row, CellStyle cellStyle, Sheet sheet) {
+        String[] header = {"학번", "이름", "외출시간", "복귀시간", "외출서명", "복귀확인"};
+
         for (int i = 0; i < header.length; i++) {
+            sheet.setColumnWidth(i+1, (sheet.getColumnWidth(i+1))+1024);
             Cell cell = row.createCell(i + 1);
             cell.setCellValue(header[i]);
             cell.setCellStyle(cellStyle);
+            cellStyle.setFillBackgroundColor(IndexedColors.YELLOW1.getIndex());
         }
     }
 
