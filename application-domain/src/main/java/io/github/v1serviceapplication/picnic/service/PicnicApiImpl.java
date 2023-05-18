@@ -34,6 +34,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,7 +134,7 @@ public class PicnicApiImpl implements PicnicApi {
                                     .endTime(picnic.getEndTime())
                                     .build();
                         }
-                ).toList();
+                ).sorted(Comparator.comparing(PicnicElement::getNum)).toList();
 
         return new PicnicListResponse(picnicElements);
     }
