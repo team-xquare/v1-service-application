@@ -52,7 +52,8 @@ public class PicnicApiImpl implements PicnicApi {
     @Override
     public void applyWeekendPicnic(ApplyWeekendPicnicDomainRequest request) {
         UUID userId = userIdFacade.getCurrentUserId();
-        List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndDormitoryReturnCheckTime(userId);
+        List<LocalTime> picnicRequestTime = getPicnicRequestTimeList();
+        List<Picnic> userPicnics = picnicRepositorySpi.findAllByUserIdAndDormitoryReturnCheckTime(userId, picnicRequestTime);
         if (!userPicnics.isEmpty()) {
             throw UserNotEmptyException.EXCEPTION;
         }
@@ -136,12 +137,6 @@ public class PicnicApiImpl implements PicnicApi {
                 ).toList();
 
         return new PicnicListResponse(picnicElements);
-    }
-
-    @Override
-    public void updateDormitoryReturnTime(UUID picnicId) {
-        picnicRepositorySpi.findByPicnicId(picnicId).orElseThrow(() -> PicnicNotFoundException.EXCEPTION);
-        picnicRepositorySpi.updateDormitoryReturnTime(picnicId);
     }
 
     @Override

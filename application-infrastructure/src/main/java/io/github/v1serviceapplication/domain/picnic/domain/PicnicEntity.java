@@ -37,8 +37,6 @@ public class PicnicEntity extends BaseEntity {
     @NotNull
     private String arrangement;
 
-    private LocalTime dormitoryReturnCheckTime;
-
     public void updatePicnic(LocalTime startTime, LocalTime endTime, String reason, String arrangement) {
         this.startTime = startTime;
         this.endTime = endTime;

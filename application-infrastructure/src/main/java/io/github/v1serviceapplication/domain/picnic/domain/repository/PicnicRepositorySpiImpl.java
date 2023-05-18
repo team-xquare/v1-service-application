@@ -65,16 +65,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         return entityList.stream().map(PicnicEntity::getUserId).toList();
     }
 
-    @Transactional
-    @Override
-    public void updateDormitoryReturnTime(UUID picnicId) {
-        queryFactory
-                .update(picnicEntity)
-                .set(picnicEntity.dormitoryReturnCheckTime, LocalTime.now())
-                .where(picnicEntity.id.eq(picnicId))
-                .execute();
-    }
-
     @Override
     public Optional<Picnic> findByPicnicId(UUID picnicId) {
         PicnicEntity entity = queryFactory
@@ -87,11 +77,11 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Transactional
     @Override
-    public List<Picnic> findAllByUserIdAndDormitoryReturnCheckTime(UUID userId) {
+    public List<Picnic> findAllByUserIdAndDormitoryReturnCheckTime(UUID userId, List<LocalTime> picnicRequestTime) {
         List<PicnicEntity> entityList = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.userId.eq(userId)
-                        .and(picnicEntity.dormitoryReturnCheckTime.isNull())
+                        .and(checkValidLocalDateTime(picnicEntity.createDateTime, picnicRequestTime))
                 )
                 .fetch();
         return entityList.stream().map(picnicMapper::picnicEntityToDomain).toList();
@@ -112,7 +102,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         PicnicEntity entity = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.userId.eq(userId)
-                        .and(picnicEntity.dormitoryReturnCheckTime.isNull())
                         .and(checkValidLocalDateTime(picnicEntity.createDateTime, picnicRequestTime))
                 )
                 .fetchOne();

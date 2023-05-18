@@ -32,13 +32,6 @@ public class AdminPicnicController {
         return picnicApi.weekendPicnicList();
     }
 
-    @Operation(summary = "주말외출 도착확인 API")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PatchMapping("/picnic/arrive/{picnic-id}")
-    public void updateDormitoryReturnTime(@PathVariable("picnic-id") UUID picnicId) {
-        picnicApi.updateDormitoryReturnTime(picnicId);
-    }
-
     @Operation(summary = "주말외출 학생 상세보기")
     @GetMapping("/picnic/detail/{picnic-id}")
     public PicnicDetail getPicnicDetail(@PathVariable("picnic-id") UUID picnicId) {
