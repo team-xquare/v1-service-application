@@ -132,17 +132,17 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     }
 
     private BooleanExpression checkValidLocalDateTime(DateTimePath<LocalDateTime> createDateTime, List<LocalTime> picnicTime) {
-        LocalDate yesterdayLocalDate = LocalDate.now().minusDays(1);
-        LocalDate todayLocalDate = LocalDate.now();
+        LocalDate startDate = LocalDate.now().minusDays(1);
+        LocalDate endDate = LocalDate.now();
 
         if (LocalTime.now().isAfter(picnicTime.get(0))) {
-            yesterdayLocalDate = LocalDate.now();
-            todayLocalDate = LocalDate.now().plusDays(1);
+            startDate = LocalDate.now();
+            endDate = LocalDate.now().plusDays(1);
         }
 
         return createDateTime.between(
-                LocalDateTime.of(yesterdayLocalDate, picnicTime.get(0)),
-                LocalDateTime.of(todayLocalDate, picnicTime.get(1))
+                LocalDateTime.of(startDate, picnicTime.get(0)),
+                LocalDateTime.of(endDate, picnicTime.get(1))
         );
     }
 }
