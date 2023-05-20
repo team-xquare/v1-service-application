@@ -166,19 +166,20 @@ public class PicnicApiImpl implements PicnicApi {
 
         List<WeekendPicnicExcelElement> weekendPicnicExcelElements = weekendPicnicList.stream()
                 .map(picnic -> {
-                    StudentElement user = hashMap.get(picnic.getUserId());
+                            StudentElement user = hashMap.get(picnic.getUserId());
 
-                    return WeekendPicnicExcelElement.builder()
-                            .userId(user.getUserId())
-                            .name(user.getStudentName())
-                            .num(String.valueOf(user.getGrade()) + user.getClassNum() + String.format("%02d", user.getNum()))
-                            .startTime(picnic.getStartTime())
-                            .endTime(picnic.getEndTime())
-                            .reason(picnic.getReason())
-                            .arrangement(picnic.getArrangement())
-                            .build();
+                            return WeekendPicnicExcelElement.builder()
+                                    .userId(user.getUserId())
+                                    .name(user.getStudentName())
+                                    .num(String.valueOf(user.getGrade()) + user.getClassNum() + String.format("%02d", user.getNum()))
+                                    .startTime(picnic.getStartTime())
+                                    .endTime(picnic.getEndTime())
+                                    .reason(picnic.getReason())
+                                    .arrangement(picnic.getArrangement())
+                                    .build();
 
-                }).toList();
+                        }
+                ).sorted(Comparator.comparing(WeekendPicnicExcelElement::getNum)).toList();
 
         return new WeekendPicnicExcelListResponse(weekendPicnicExcelElements);
     }
@@ -219,13 +220,16 @@ public class PicnicApiImpl implements PicnicApi {
 
     @Override
     public PicnicAllowTimeResponse getPicnicAllowTime() {
-        DayOfWeek nowDay = LocalDate.now().getDayOfWeek();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DayOfWeek currentDayOfWeek = currentDateTime.getDayOfWeek();
         List<PicnicTime> picnicAllowTime;
 
-        boolean isSundayAndAfterPicnicRequestStartTime = nowDay == DayOfWeek.SUNDAY && LocalTime.now().isAfter(LocalTime.of(21, 0));
-        boolean isSaturdayAndBeforePicnicRequestEndTime = nowDay == DayOfWeek.SATURDAY && LocalTime.now().isBefore(LocalTime.of(11, 0));
+        boolean isSaturdayAndAfterPicnicRequestStartTime = currentDayOfWeek == DayOfWeek.SATURDAY &&
+                currentDateTime.toLocalTime().isAfter(LocalTime.of(20, 29));
+        boolean isSundayAndBeforePicnicRequestEndTime = currentDayOfWeek == DayOfWeek.SUNDAY &&
+                currentDateTime.toLocalTime().isBefore(LocalTime.of(17, 1));
 
-        if (isSundayAndAfterPicnicRequestStartTime || isSaturdayAndBeforePicnicRequestEndTime) {
+        if (isSaturdayAndAfterPicnicRequestStartTime || isSundayAndBeforePicnicRequestEndTime) {
             picnicAllowTime = picnicTimeRepositorySpi.getPicnicTime(List.of(TimeType.PICNIC_ALLOW_START_TIME_SUN, TimeType.PICNIC_ALLOW_END_TIME_SUN));
         } else {
             picnicAllowTime = picnicTimeRepositorySpi.getPicnicTime(List.of(TimeType.PICNIC_ALLOW_START_TIME, TimeType.PICNIC_ALLOW_END_TIME));
