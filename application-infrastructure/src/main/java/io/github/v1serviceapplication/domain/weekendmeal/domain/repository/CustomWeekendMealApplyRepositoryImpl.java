@@ -54,8 +54,8 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
         return jpaQueryFactory
                 .selectFrom(weekendMealApplyEntity)
                 .where(
-                        weekendMealApplyEntity.status.eq(WeekendMealApplicationStatus.APPLY),
-                        weekendMealApplyEntity.status.eq(WeekendMealApplicationStatus.NOTAPPLY)
+                        weekendMealApplyEntity.status.eq(WeekendMealApplicationStatus.APPLY)
+                                .or(weekendMealApplyEntity.status.eq(WeekendMealApplicationStatus.NOTAPPLY))
                 )
                 .fetch()
                 .stream()
