@@ -3,6 +3,7 @@ package io.github.v1serviceapplication.domain.weekendmeal.domain.repository;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.github.v1serviceapplication.domain.weekendmeal.domain.WeekendMealApplyEntity;
 import io.github.v1serviceapplication.domain.weekendmeal.mapper.WeekendMealApplyMapper;
+import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealApplyNotFoundException;
 import io.github.v1serviceapplication.weekendmeal.spi.PostWeekendMealApplyRepositorySpi;
@@ -25,40 +26,19 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public boolean currentWeekendMealApplyExist(UUID userId, UUID weekendMealId) {
-        return jpaQueryFactory
-                .select(weekendMealApplyEntity)
-                .from(weekendMealApplyEntity)
-                .where(
-                        weekendMealApplyEntity.userId.eq(userId)
-                                .and(
-                                        weekendMealApplyEntity.weekendMeal.id.eq(weekendMealId)
-                                )
-                )
-                .fetchFirst() != null;
-    }
-
-    @Override
-    public void saveWeekendMealApply(WeekendMealApply weekendMealApply) {
-        weekendMealApplyRepository.save(
-                weekendMealApplyMapper.domainToEntity(weekendMealApply)
-        );
-    }
-
-    @Override
     @Transactional
-    public void updateWeekendMealApply(UUID userId, UUID weekendMealId, Boolean apply) {
+    public void updateWeekendMealApply(UUID userId, UUID weekendMealId, WeekendMealApplicationStatus status) {
         WeekendMealApplyEntity weekendMealApply = weekendMealApplyRepository.findByUserIdAndWeekendMealId(userId, weekendMealId)
                 .orElseThrow(() -> WeekendMealApplyNotFoundException.EXCEPTION);
 
-        weekendMealApply.updateApplied(apply);
+        weekendMealApply.updateApplied(status);
     }
 
     @Override
-    public boolean queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(UUID userId, UUID weekendMealId) {
+    public WeekendMealApplicationStatus queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(UUID userId, UUID weekendMealId) {
         return weekendMealApplyRepository.findByUserIdAndWeekendMealId(userId, weekendMealId)
-                .map(WeekendMealApplyEntity::getIsApplied)
-                .orElse(false);
+                .map(WeekendMealApplyEntity::getStatus)
+                .orElse(WeekendMealApplicationStatus.NONRESPONSE);
     }
 
     @Override
@@ -73,7 +53,10 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
     public List<WeekendMealApply> findAll() {
         return jpaQueryFactory
                 .selectFrom(weekendMealApplyEntity)
-                .where(weekendMealApplyEntity.isApplied.eq(true))
+                .where(
+                        weekendMealApplyEntity.status.eq(WeekendMealApplicationStatus.APPLY),
+                        weekendMealApplyEntity.status.eq(WeekendMealApplicationStatus.NOTAPPLY)
+                )
                 .fetch()
                 .stream()
                 .map(weekendMealApplyMapper::entityToDomain)
