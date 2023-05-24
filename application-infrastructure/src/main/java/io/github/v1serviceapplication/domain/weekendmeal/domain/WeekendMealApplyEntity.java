@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.domain.weekendmeal.domain;
 
 import io.github.v1serviceapplication.global.entity.BaseDateEntity;
+import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -21,15 +22,16 @@ public class WeekendMealApplyEntity extends BaseDateEntity {
     private WeekendMealEntity weekendMeal;
 
     @NotNull
-    @Column(columnDefinition = "TINYINT(1)")
-    private Boolean isApplied;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(11)")
+    private WeekendMealApplicationStatus status;
 
     public UUID getMealId() {
         return this.weekendMeal.getId();
     }
 
-    public void updateApplied(boolean isApplied) {
-        this.isApplied = isApplied;
+    public void updateApplied(WeekendMealApplicationStatus status) {
+        this.status = status;
     }
 
 }

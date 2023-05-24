@@ -1,5 +1,6 @@
 package io.github.v1serviceapplication.weekendmeal.api.dto;
 
+import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,6 +9,6 @@ import lombok.Getter;
 public class QueryWeekendMealResponse {
 
     private final String title;
-    private final boolean applied;
+    private final WeekendMealApplicationStatus status;
 
 }
