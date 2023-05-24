@@ -5,17 +5,21 @@ import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.user.dto.response.UserInfoElement;
 import io.github.v1serviceapplication.user.spi.UserFeignSpi;
 import io.github.v1serviceapplication.weekendmeal.WeekendMeal;
+import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
 import io.github.v1serviceapplication.weekendmeal.api.dto.QueryWeekendMealResponse;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealElement;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealListResponse;
+import io.github.v1serviceapplication.weekendmeal.exception.NonResponseRequestImpossibleException;
+import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealCanNotApplicationException;
 import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealNotFoundException;
 import io.github.v1serviceapplication.weekendmeal.spi.PostWeekendMealApplyRepositorySpi;
 import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealApplyRepositorySpi;
 import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealRepositorySpi;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,27 +35,31 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     private final UserFeignSpi userFeignSpi;
 
     @Override
-    public void postWeekendMealApply(boolean apply) {
+    public void postWeekendMealApply(WeekendMealApplicationStatus status) {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
+        UUID userId = userIdFacade.getCurrentUserId();
 
+        checkWeekendMealValidTerm();
         if (weekendMeal == null) {
             throw WeekendMealNotFoundException.EXCEPTION;
         }
+        checkWeekendMealValidStatus(status);
 
-        saveOrUpdate(userIdFacade.getCurrentUserId(), weekendMeal.getId(), apply);
+        postWeekendMealApplyRepositorySpi.updateWeekendMealApply(userId, weekendMeal.getId(), status);
     }
 
-    private void saveOrUpdate(UUID userId, UUID weekendMealId, boolean apply) {
-        if (postWeekendMealApplyRepositorySpi.currentWeekendMealApplyExist(userId, weekendMealId)) {
-            postWeekendMealApplyRepositorySpi.updateWeekendMealApply(userId, weekendMealId, apply);
-        } else {
-            postWeekendMealApplyRepositorySpi.saveWeekendMealApply(
-                    WeekendMealApply.builder()
-                            .userId(userId)
-                            .weekendMealId(weekendMealId)
-                            .isApplied(apply)
-                            .build()
-            );
+    private void checkWeekendMealValidStatus(WeekendMealApplicationStatus requestStatus) {
+        if(requestStatus == WeekendMealApplicationStatus.NONRESPONSE) {
+            throw NonResponseRequestImpossibleException.EXCEPTION;
+        }
+    }
+
+    private void checkWeekendMealValidTerm() {
+        int nowDate = LocalDate.now().atStartOfDay().getDayOfMonth();
+        int weekendMealApplicationDate = LocalDate.now().withDayOfMonth(3).getDayOfMonth();
+
+        if(nowDate > weekendMealApplicationDate) {
+            throw WeekendMealCanNotApplicationException.EXCEPTION;
         }
     }
 
@@ -63,12 +71,12 @@ public class WeekendMealApiImpl implements WeekendMealApi {
             throw WeekendMealNotFoundException.EXCEPTION;
         }
 
-        boolean applied = queryWeekendMealApplyRepositorySpi
+        WeekendMealApplicationStatus status = queryWeekendMealApplyRepositorySpi
                 .queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(userIdFacade.getCurrentUserId(), weekendMeal.getId());
 
         return new QueryWeekendMealResponse(
                 weekendMeal.getTitle(),
-                applied
+                status
         );
 
     }
