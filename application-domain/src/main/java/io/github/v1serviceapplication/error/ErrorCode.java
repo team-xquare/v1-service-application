@@ -27,7 +27,7 @@ public enum ErrorCode {
 
     STAY_NOT_FOUND(404, "STAY-404-1", "Stay Not Found."),
 
-    PICNIC_NOT_FOUND(404, "STAY-404-1", "Picnic Not Found."),
+    PICNIC_NOT_FOUND(404, "PICNIC-404-1", "Picnic Not Found."),
     
     WEEKEND_MEAL_NOT_FOUND(404, "WEEKEND-404-1", "Weekend Meal Not Found."),
 
@@ -57,7 +57,11 @@ public enum ErrorCode {
   
     PICNIC_PASS_MODIFY_FORBIDDEN(403, "PICNIC-403-2", "Picnic Pass Modify Forbidden."),
 
-    PICNIC_APPLY_NOT_AVAILABLE(400, "PICNIC-400-2", "Picnic Apply Not Available.");
+    PICNIC_APPLY_NOT_AVAILABLE(400, "PICNIC-400-2", "Picnic Apply Not Available."),
+
+    NON_RESPONSE_REQUEST_IMPOSSIBLE(400, "WEEKEND-400-1", "Non Response Request Impossible."),
+
+    WEEKEND_MEAL_CAN_NOT_APPLICATION(400, "WEEKEND-400-2", "Weekend Meal Can Not Application");
 
     private final int status;
     private final String code;
