@@ -100,6 +100,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
                             .id(user.getUserId())
                             .num(user.getNum())
                             .name(user.getName())
+                            .status(weekendMeal.getStatus())
                             .build();
                 }).sorted(Comparator.comparing(WeekendMealElement::getNum))
                 .toList();
