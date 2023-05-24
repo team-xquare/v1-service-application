@@ -1,11 +1,10 @@
 package io.github.v1serviceapplication.weekendmeal.spi;
 
+import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 
 import java.util.UUID;
 
 public interface PostWeekendMealApplyRepositorySpi {
-    boolean currentWeekendMealApplyExist(UUID userId, UUID weekendMealId);
-    void saveWeekendMealApply(WeekendMealApply weekendMealApply);
-    void updateWeekendMealApply(UUID userId, UUID weekendMealId, Boolean apply);
+    void updateWeekendMealApply(UUID userId, UUID weekendMealId, WeekendMealApplicationStatus status);
 }
