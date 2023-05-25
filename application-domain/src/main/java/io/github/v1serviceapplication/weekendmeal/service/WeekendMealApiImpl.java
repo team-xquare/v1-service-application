@@ -49,7 +49,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     }
 
     private void checkWeekendMealValidStatus(WeekendMealApplicationStatus requestStatus) {
-        if(requestStatus == WeekendMealApplicationStatus.NONRESPONSE) {
+        if(requestStatus == WeekendMealApplicationStatus.NON_RESPONSE) {
             throw NonResponseRequestImpossibleException.EXCEPTION;
         }
     }

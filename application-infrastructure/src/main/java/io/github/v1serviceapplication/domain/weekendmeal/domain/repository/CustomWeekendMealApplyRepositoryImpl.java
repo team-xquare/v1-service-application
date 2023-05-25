@@ -38,7 +38,7 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
     public WeekendMealApplicationStatus queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(UUID userId, UUID weekendMealId) {
         return weekendMealApplyRepository.findByUserIdAndWeekendMealId(userId, weekendMealId)
                 .map(WeekendMealApplyEntity::getStatus)
-                .orElse(WeekendMealApplicationStatus.NONRESPONSE);
+                .orElse(WeekendMealApplicationStatus.NON_RESPONSE);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
                 .selectFrom(weekendMealApplyEntity)
                 .where(
                         weekendMealApplyEntity.status.eq(WeekendMealApplicationStatus.APPLY)
-                                .or(weekendMealApplyEntity.status.eq(WeekendMealApplicationStatus.NOTAPPLY))
+                                .or(weekendMealApplyEntity.status.eq(WeekendMealApplicationStatus.NOT_APPLY))
                 )
                 .fetch()
                 .stream()
