@@ -36,10 +36,10 @@ public class WeekendMealApiImpl implements WeekendMealApi {
 
     @Override
     public void postWeekendMealApply(WeekendMealApplicationStatus status) {
+        checkWeekendMealValidTerm();
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
         UUID userId = userIdFacade.getCurrentUserId();
 
-        checkWeekendMealValidTerm();
         if (weekendMeal == null) {
             throw WeekendMealNotFoundException.EXCEPTION;
         }
