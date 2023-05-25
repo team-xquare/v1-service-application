@@ -23,7 +23,7 @@ public class WeekendMealApplyEntity extends BaseDateEntity {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(11)")
+    @Column(columnDefinition = "VARCHAR(12)")
     private WeekendMealApplicationStatus status;
 
     public UUID getMealId() {
