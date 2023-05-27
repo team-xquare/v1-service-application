@@ -59,7 +59,7 @@ public enum ErrorCode {
 
     PICNIC_APPLY_NOT_AVAILABLE(400, "PICNIC-400-2", "Picnic Apply Not Available."),
 
-    NON_RESPONSE_REQUEST_IMPOSSIBLE(400, "WEEKEND-400-1", "Non Response Request Impossible."),
+    NON_RESPONSE_STATUS_IS_IMPOSSIBLE(400, "WEEKEND-400-1", "Non Response Status Is Impossible."),
 
     WEEKEND_MEAL_CAN_NOT_APPLICATION(400, "WEEKEND-400-2", "Weekend Meal Can Not Application");
 

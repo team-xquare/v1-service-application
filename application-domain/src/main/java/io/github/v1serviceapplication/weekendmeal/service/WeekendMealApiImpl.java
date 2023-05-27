@@ -11,7 +11,7 @@ import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
 import io.github.v1serviceapplication.weekendmeal.api.dto.QueryWeekendMealResponse;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealElement;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealListResponse;
-import io.github.v1serviceapplication.weekendmeal.exception.NonResponseRequestImpossibleException;
+import io.github.v1serviceapplication.weekendmeal.exception.NonResponseStatusIsImpossibleException;
 import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealCanNotApplicationException;
 import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealNotFoundException;
 import io.github.v1serviceapplication.weekendmeal.spi.PostWeekendMealApplyRepositorySpi;
@@ -50,7 +50,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
 
     private void checkWeekendMealValidStatus(WeekendMealApplicationStatus requestStatus) {
         if(requestStatus == WeekendMealApplicationStatus.NON_RESPONSE) {
-            throw NonResponseRequestImpossibleException.EXCEPTION;
+            throw NonResponseStatusIsImpossibleException.EXCEPTION;
         }
     }
 
