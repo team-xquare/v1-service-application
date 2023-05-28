@@ -7,6 +7,6 @@ import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealListRespons
 public interface WeekendMealApi {
     void postWeekendMealApply(boolean apply);
     QueryWeekendMealResponse queryWeekendMeal();
-
     WeekendMealListResponse queryWeekendMealUserList();
+    void weekendMealTeacherCheck(int grade, int classNum);
 }

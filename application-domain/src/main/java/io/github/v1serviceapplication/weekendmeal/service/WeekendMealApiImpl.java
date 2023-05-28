@@ -14,6 +14,10 @@ import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealNotFoundE
 import io.github.v1serviceapplication.weekendmeal.spi.PostWeekendMealApplyRepositorySpi;
 import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealApplyRepositorySpi;
 import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealRepositorySpi;
+import io.github.v1serviceapplication.weekendmealcheck.WeekendMealCheck;
+import io.github.v1serviceapplication.weekendmealcheck.exception.WeekendMealAlreadyCheckException;
+import io.github.v1serviceapplication.weekendmealcheck.spi.PostWeekendMealCheckSpi;
+import io.github.v1serviceapplication.weekendmealcheck.spi.QueryWeekendMealCheckRepositorySpi;
 import lombok.RequiredArgsConstructor;
 
 import java.util.*;
@@ -26,6 +30,8 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     private final PostWeekendMealApplyRepositorySpi postWeekendMealApplyRepositorySpi;
     private final QueryWeekendMealRepositorySpi queryWeekendMealRepositorySpi;
     private final QueryWeekendMealApplyRepositorySpi queryWeekendMealApplyRepositorySpi;
+    private final QueryWeekendMealCheckRepositorySpi queryWeekendMealCheckRepositorySpi;
+    private final PostWeekendMealCheckSpi postWeekendMealCheckSpi;
     private final UserIdFacade userIdFacade;
 
     private final UserFeignSpi userFeignSpi;
@@ -97,5 +103,24 @@ public class WeekendMealApiImpl implements WeekendMealApi {
                 .toList();
 
         return new WeekendMealListResponse(weekendMealElements);
+    }
+
+    @Override
+    public void weekendMealTeacherCheck(int grade, int classNum) {
+        UUID teacherId = userIdFacade.getCurrentUserId();
+        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
+
+        if(queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByTeacherId(teacherId, weekendMeal.getId())) {
+            throw WeekendMealAlreadyCheckException.EXCEPTION;
+        }
+
+        postWeekendMealCheckSpi.saveWeekendMealCheck(
+                WeekendMealCheck.builder()
+                        .userId(teacherId)
+                        .grade(grade)
+                        .classNum(classNum)
+                        .weekendMealId(weekendMeal.getId())
+                        .build()
+        );
     }
 }
