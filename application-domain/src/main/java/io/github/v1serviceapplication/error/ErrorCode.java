@@ -57,7 +57,9 @@ public enum ErrorCode {
   
     PICNIC_PASS_MODIFY_FORBIDDEN(403, "PICNIC-403-2", "Picnic Pass Modify Forbidden."),
 
-    PICNIC_APPLY_NOT_AVAILABLE(400, "PICNIC-400-2", "Picnic Apply Not Available.");
+    PICNIC_APPLY_NOT_AVAILABLE(400, "PICNIC-400-2", "Picnic Apply Not Available."),
+
+    WEEKEND_MEAL_ALREADY_CHECK(409, "WEEKEND-409-1", "Weekend Meal Already Check");
 
     private final int status;
     private final String code;
