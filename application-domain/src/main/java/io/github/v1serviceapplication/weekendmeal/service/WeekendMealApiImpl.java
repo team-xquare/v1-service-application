@@ -149,7 +149,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
                 .status(status)
                 .build();
 
-        addToResponseLists(
+        addWeekendMealList(
                 weekendMealElement, status,
                 weekendMealResponseElements, weekendMealNonResponseElements
         );
@@ -157,7 +157,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         return weekendMealElement;
     }
 
-    private void addToResponseLists(
+    private void addWeekendMealList(
             WeekendMealElement weekendMealElement,
             WeekendMealApplicationStatus status,
             List<WeekendMealElement> weekendMealResponseElements,
