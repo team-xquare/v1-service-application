@@ -20,6 +20,7 @@ import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealRepository
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -87,49 +88,65 @@ public class WeekendMealApiImpl implements WeekendMealApi {
 
     @Override
     public WeekendMealListResponse queryWeekendMealUserList(Integer grade, Integer classNum) {
-        List<WeekendMealApply> weekendMeals = queryWeekendMealApplyRepositorySpi.findAll();
+        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
+        List<WeekendMealApply> weekendMealApplies = queryWeekendMealApplyRepositorySpi.findWeekendMealListByWeekendMealId(weekendMeal.getId());
         List<UUID> userIds = queryWeekendMealApplyRepositorySpi.queryWeekendMealUserList();
 
         if (userIds.isEmpty()) {
-            return new WeekendMealListResponse(List.of());
+            return new WeekendMealListResponse(List.of(), List.of());
         }
 
         Map<UUID, UserInfoElement> hashMap = userFeignSpi.getUserInfoList(userIds).stream()
                 .collect(Collectors.toMap(UserInfoElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
 
-        List<WeekendMealElement> weekendMealElements;
+        List<WeekendMealElement> weekendMealResponseElements = new ArrayList<>();
+        List<WeekendMealElement> weekendMealNonResponseElements = new ArrayList<>();
 
         if (grade != null || classNum != null) {
-            weekendMealElements = weekendMeals.stream()
-                    .filter(weekendMeal -> {
-                        UserInfoElement user = hashMap.get(weekendMeal.getUserId());
+            weekendMealApplies.stream()
+                    .filter(weekendMealApply -> {
+                        UserInfoElement user = hashMap.get(weekendMealApply.getUserId());
                         Integer userGrade = Integer.valueOf(user.getNum().substring(0, 1));
                         Integer userClassNum = Integer.valueOf(user.getNum().substring(1, 2));
                         return userGrade.equals(grade) || userClassNum.equals(classNum);
                     })
-                    .map(weekendMeal -> {
-                        UserInfoElement user = hashMap.get(weekendMeal.getUserId());
-                        return buildWeekendMealElement(user, weekendMeal.getStatus());
+                    .map(weekendMealApply -> {
+                        UserInfoElement user = hashMap.get(weekendMealApply.getUserId());
+                        return buildWeekendMealElement(user, weekendMealApply.getStatus(), weekendMealResponseElements, weekendMealNonResponseElements);
                     }).sorted(Comparator.comparing(WeekendMealElement::getNum))
                     .toList();
         } else {
-            weekendMealElements = weekendMeals.stream()
-                    .map(weekendMeal -> {
-                        UserInfoElement user = hashMap.get(weekendMeal.getUserId());
-                        return buildWeekendMealElement(user, weekendMeal.getStatus());
+            weekendMealApplies.stream()
+                    .map(weekendMealApply -> {
+                        UserInfoElement user = hashMap.get(weekendMealApply.getUserId());
+                        return buildWeekendMealElement(user, weekendMealApply.getStatus(), weekendMealResponseElements, weekendMealNonResponseElements);
                     }).sorted(Comparator.comparing(WeekendMealElement::getNum))
                     .toList();
         }
 
-        return new WeekendMealListResponse(weekendMealElements);
+        return new WeekendMealListResponse(weekendMealResponseElements, weekendMealNonResponseElements);
     }
 
-    private WeekendMealElement buildWeekendMealElement(UserInfoElement user, WeekendMealApplicationStatus status) {
-        return WeekendMealElement.builder()
+    private WeekendMealElement buildWeekendMealElement(
+            UserInfoElement user,
+            WeekendMealApplicationStatus status,
+            List<WeekendMealElement> weekendMealResponseElements,
+            List<WeekendMealElement> weekendMealNonResponseElements
+    ) {
+
+        WeekendMealElement weekendMealElement = WeekendMealElement.builder()
                 .id(user.getUserId())
                 .num(user.getNum())
                 .name(user.getName())
                 .status(status)
                 .build();
+
+        if (status.equals(WeekendMealApplicationStatus.APPLY) || status.equals(WeekendMealApplicationStatus.NOT_APPLY)) {
+            weekendMealResponseElements.add(weekendMealElement);
+        } else {
+            weekendMealNonResponseElements.add(weekendMealElement);
+        }
+
+        return weekendMealElement;
     }
 }
