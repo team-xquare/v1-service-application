@@ -82,7 +82,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     }
 
     @Override
-    public WeekendMealListResponse queryWeekendMealUserList() {
+    public WeekendMealListResponse queryWeekendMealUserList(Integer grade, Integer classNum) {
         List<WeekendMealApply> weekendMeals = queryWeekendMealApplyRepositorySpi.findAll();
         List<UUID> userIds = queryWeekendMealApplyRepositorySpi.queryWeekendMealUserList();
 
@@ -90,20 +90,43 @@ public class WeekendMealApiImpl implements WeekendMealApi {
             return new WeekendMealListResponse(List.of());
         }
 
+        List<WeekendMealElement> weekendMealElements;
+
         Map<UUID, UserInfoElement> hashMap = userFeignSpi.getUserInfoList(userIds).stream()
                 .collect(Collectors.toMap(UserInfoElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
 
-        List<WeekendMealElement> weekendMealElements = weekendMeals.stream()
-                .map(weekendMeal -> {
-                    UserInfoElement user = hashMap.get(weekendMeal.getUserId());
-                    return WeekendMealElement.builder()
-                            .id(user.getUserId())
-                            .num(user.getNum())
-                            .name(user.getName())
-                            .status(weekendMeal.getStatus())
-                            .build();
-                }).sorted(Comparator.comparing(WeekendMealElement::getNum))
-                .toList();
+        if (grade != null && classNum != null) {
+            weekendMealElements = weekendMeals.stream()
+                    .filter(weekendMeal -> {
+                        UserInfoElement user = hashMap.get(weekendMeal.getUserId());
+                        Integer userGrade = Integer.valueOf(user.getNum().substring(0,1));
+                        Integer userClassNum = Integer.valueOf(user.getNum().substring(1,2));
+                        return userGrade == grade && userClassNum == classNum;
+                    })
+                    .map(weekendMeal -> {
+                        System.out.println(weekendMeal);
+                        UserInfoElement user = hashMap.get(weekendMeal.getUserId());
+                        return WeekendMealElement.builder()
+                                .id(user.getUserId())
+                                .num(user.getNum())
+                                .name(user.getName())
+                                .status(weekendMeal.getStatus())
+                                .build();
+                    }).sorted(Comparator.comparing(WeekendMealElement::getNum))
+                    .toList();
+        } else {
+            weekendMealElements = weekendMeals.stream()
+                    .map(weekendMeal -> {
+                        UserInfoElement user = hashMap.get(weekendMeal.getUserId());
+                        return WeekendMealElement.builder()
+                                .id(user.getUserId())
+                                .num(user.getNum())
+                                .name(user.getName())
+                                .status(weekendMeal.getStatus())
+                                .build();
+                    }).sorted(Comparator.comparing(WeekendMealElement::getNum))
+                    .toList();
+        }
 
         return new WeekendMealListResponse(weekendMealElements);
     }
