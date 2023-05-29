@@ -9,5 +9,5 @@ public interface WeekendMealApi {
     void postWeekendMealApply(WeekendMealApplicationStatus status);
     QueryWeekendMealResponse queryWeekendMeal();
 
-    WeekendMealListResponse queryWeekendMealUserList();
+    WeekendMealListResponse queryWeekendMealUserList(Integer grade, Integer classNum);
 }
