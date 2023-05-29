@@ -95,7 +95,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         Map<UUID, UserInfoElement> hashMap = userFeignSpi.getUserInfoList(userIds).stream()
                 .collect(Collectors.toMap(UserInfoElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
 
-        if (grade != null && classNum != null) {
+        if (grade != null || classNum != null) {
             weekendMealElements = weekendMeals.stream()
                     .filter(weekendMeal -> {
                         UserInfoElement user = hashMap.get(weekendMeal.getUserId());
