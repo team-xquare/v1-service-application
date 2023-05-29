@@ -1,7 +1,6 @@
 package io.github.v1serviceapplication.weekendmeal.spi;
 
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
-import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 
 import java.util.UUID;
 
