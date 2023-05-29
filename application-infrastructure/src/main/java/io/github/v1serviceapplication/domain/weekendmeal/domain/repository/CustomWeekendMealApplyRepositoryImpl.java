@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static io.github.v1serviceapplication.domain.weekendmeal.domain.QWeekendMealApplyEntity.weekendMealApplyEntity;
+import static io.github.v1serviceapplication.domain.weekendmeal.domain.QWeekendMealEntity.weekendMealEntity;
 
 @RequiredArgsConstructor
 @Repository
@@ -50,13 +51,11 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
     }
 
     @Override
-    public List<WeekendMealApply> findAll() {
+    public List<WeekendMealApply> findWeekendMealListByWeekendMealId(UUID weekendMealId) {
         return jpaQueryFactory
                 .selectFrom(weekendMealApplyEntity)
-                .where(
-                        weekendMealApplyEntity.status.eq(WeekendMealApplicationStatus.APPLY)
-                                .or(weekendMealApplyEntity.status.eq(WeekendMealApplicationStatus.NOT_APPLY))
-                )
+                .join(weekendMealApplyEntity.weekendMeal, weekendMealEntity)
+                .on(weekendMealApplyEntity.weekendMeal.id.eq(weekendMealId))
                 .fetch()
                 .stream()
                 .map(weekendMealApplyMapper::entityToDomain)

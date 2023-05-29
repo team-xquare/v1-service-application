@@ -12,6 +12,6 @@ public interface QueryWeekendMealApplyRepositorySpi {
 
     List<UUID> queryWeekendMealUserList();
 
-    List<WeekendMealApply> findAll();
+    List<WeekendMealApply> findWeekendMealListByWeekendMealId(UUID weekendMealId);
 
 }
