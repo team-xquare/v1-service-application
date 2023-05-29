@@ -25,7 +25,7 @@ public class WeekendMealApplyMapperImpl implements WeekendMealApplyMapper {
                 .userId(weekendMealApply.getUserId())
                 .createDate(weekendMealApply.getCreateDate())
                 .weekendMeal(weekendMeal)
-                .isApplied(weekendMealApply.getIsApplied())
+                .status(weekendMealApply.getStatus())
                 .build();
     }
 
@@ -35,7 +35,7 @@ public class WeekendMealApplyMapperImpl implements WeekendMealApplyMapper {
                 .id(weekendMealApply.getId())
                 .userId(weekendMealApply.getUserId())
                 .weekendMealId(weekendMealApply.getMealId())
-                .isApplied(weekendMealApply.getIsApplied())
+                .status(weekendMealApply.getStatus())
                 .build();
     }
 
