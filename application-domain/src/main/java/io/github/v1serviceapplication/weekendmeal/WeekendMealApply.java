@@ -12,7 +12,7 @@ import java.util.UUID;
 public class WeekendMealApply {
     private final UUID id;
     private final UUID userId;
-    private final Boolean isApplied;
+    private final WeekendMealApplicationStatus status;
     private final UUID weekendMealId;
     private final LocalDate createDate;
 

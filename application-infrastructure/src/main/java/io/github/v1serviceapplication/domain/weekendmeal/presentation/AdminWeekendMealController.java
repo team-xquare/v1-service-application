@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -25,8 +26,11 @@ public class AdminWeekendMealController {
 
     @Operation(summary = "주말급식 리스트 API")
     @GetMapping("/weekend-meal")
-    public WeekendMealListResponse weekendMealUserList() {
-        return weekendMealApi.queryWeekendMealUserList();
+    public WeekendMealListResponse weekendMealUserList(
+            @RequestParam(value = "grade", required = false) Integer grade,
+            @RequestParam(value = "classNum", required = false) Integer classNum
+    ) {
+        return weekendMealApi.queryWeekendMealUserList(grade, classNum);
     }
 
     @Operation(summary = "주말급식 신청 현황 엑셀 다운로드 API")

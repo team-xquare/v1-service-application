@@ -65,16 +65,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         return entityList.stream().map(PicnicEntity::getUserId).toList();
     }
 
-    @Transactional
-    @Override
-    public void updateDormitoryReturnTime(UUID picnicId) {
-        queryFactory
-                .update(picnicEntity)
-                .set(picnicEntity.dormitoryReturnCheckTime, LocalTime.now())
-                .where(picnicEntity.id.eq(picnicId))
-                .execute();
-    }
-
     @Override
     public Optional<Picnic> findByPicnicId(UUID picnicId) {
         PicnicEntity entity = queryFactory
@@ -87,11 +77,11 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
 
     @Transactional
     @Override
-    public List<Picnic> findAllByUserIdAndDormitoryReturnCheckTime(UUID userId) {
+    public List<Picnic> findAllByUserIdAndDormitoryReturnCheckTime(UUID userId, List<LocalTime> picnicRequestTime) {
         List<PicnicEntity> entityList = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.userId.eq(userId)
-                        .and(picnicEntity.dormitoryReturnCheckTime.isNull())
+                        .and(checkValidLocalDateTime(picnicEntity.createDateTime, picnicRequestTime))
                 )
                 .fetch();
         return entityList.stream().map(picnicMapper::picnicEntityToDomain).toList();
@@ -112,7 +102,6 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
         PicnicEntity entity = queryFactory
                 .selectFrom(picnicEntity)
                 .where(picnicEntity.userId.eq(userId)
-                        .and(picnicEntity.dormitoryReturnCheckTime.isNull())
                         .and(checkValidLocalDateTime(picnicEntity.createDateTime, picnicRequestTime))
                 )
                 .fetchOne();
@@ -143,9 +132,17 @@ public class PicnicRepositorySpiImpl implements PicnicRepositorySpi {
     }
 
     private BooleanExpression checkValidLocalDateTime(DateTimePath<LocalDateTime> createDateTime, List<LocalTime> picnicTime) {
+        LocalDate startDate = LocalDate.now().minusDays(1);
+        LocalDate endDate = LocalDate.now();
+
+        if (LocalTime.now().isAfter(picnicTime.get(0))) {
+            startDate = LocalDate.now();
+            endDate = LocalDate.now().plusDays(1);
+        }
+
         return createDateTime.between(
-                LocalDateTime.of(LocalDate.now().minusDays(1), picnicTime.get(0)),
-                LocalDateTime.of(LocalDate.now(), picnicTime.get(1))
+                LocalDateTime.of(startDate, picnicTime.get(0)),
+                LocalDateTime.of(endDate, picnicTime.get(1))
         );
     }
 }
