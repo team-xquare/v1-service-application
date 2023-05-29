@@ -108,18 +108,27 @@ public class WeekendMealApiImpl implements WeekendMealApi {
                         UserInfoElement user = hashMap.get(weekendMealApply.getUserId());
                         Integer userGrade = Integer.valueOf(user.getNum().substring(0, 1));
                         Integer userClassNum = Integer.valueOf(user.getNum().substring(1, 2));
+
                         return userGrade.equals(grade) || userClassNum.equals(classNum);
                     })
                     .map(weekendMealApply -> {
                         UserInfoElement user = hashMap.get(weekendMealApply.getUserId());
-                        return buildWeekendMealElement(user, weekendMealApply.getStatus(), weekendMealResponseElements, weekendMealNonResponseElements);
+
+                        return buildWeekendMealElement(
+                                user, weekendMealApply.getStatus(),
+                                weekendMealResponseElements, weekendMealNonResponseElements
+                        );
                     }).sorted(Comparator.comparing(WeekendMealElement::getNum))
                     .toList();
         } else {
             weekendMealApplies.stream()
                     .map(weekendMealApply -> {
                         UserInfoElement user = hashMap.get(weekendMealApply.getUserId());
-                        return buildWeekendMealElement(user, weekendMealApply.getStatus(), weekendMealResponseElements, weekendMealNonResponseElements);
+
+                        return buildWeekendMealElement(
+                                user, weekendMealApply.getStatus(),
+                                weekendMealResponseElements, weekendMealNonResponseElements
+                        );
                     }).sorted(Comparator.comparing(WeekendMealElement::getNum))
                     .toList();
         }
@@ -141,12 +150,22 @@ public class WeekendMealApiImpl implements WeekendMealApi {
                 .status(status)
                 .build();
 
+        addToResponseLists(
+                weekendMealElement, status,
+                weekendMealResponseElements, weekendMealNonResponseElements
+        );
+    }
+
+    private void addToResponseLists(
+            WeekendMealElement weekendMealElement,
+            WeekendMealApplicationStatus status,
+            List<WeekendMealElement> weekendMealResponseElements,
+            List<WeekendMealElement> weekendMealNonResponseElements
+    ) {
         if (status.equals(WeekendMealApplicationStatus.APPLY) || status.equals(WeekendMealApplicationStatus.NOT_APPLY)) {
             weekendMealResponseElements.add(weekendMealElement);
         } else {
             weekendMealNonResponseElements.add(weekendMealElement);
         }
-
-        return weekendMealElement;
     }
 }
