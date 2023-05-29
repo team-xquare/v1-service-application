@@ -20,7 +20,11 @@ import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealRepository
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -49,7 +53,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     }
 
     private void checkWeekendMealValidStatus(WeekendMealApplicationStatus requestStatus) {
-        if(requestStatus == WeekendMealApplicationStatus.NON_RESPONSE) {
+        if (requestStatus == WeekendMealApplicationStatus.NON_RESPONSE) {
             throw NonResponseStatusIsImpossibleException.EXCEPTION;
         }
     }
@@ -58,7 +62,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         int nowDate = LocalDate.now().atStartOfDay().getDayOfMonth();
         int weekendMealApplicationDate = LocalDate.now().withDayOfMonth(3).getDayOfMonth();
 
-        if(nowDate > weekendMealApplicationDate) {
+        if (nowDate > weekendMealApplicationDate) {
             throw WeekendMealCanNotApplicationException.EXCEPTION;
         }
     }
@@ -90,43 +94,42 @@ public class WeekendMealApiImpl implements WeekendMealApi {
             return new WeekendMealListResponse(List.of());
         }
 
-        List<WeekendMealElement> weekendMealElements;
-
         Map<UUID, UserInfoElement> hashMap = userFeignSpi.getUserInfoList(userIds).stream()
                 .collect(Collectors.toMap(UserInfoElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
+
+        List<WeekendMealElement> weekendMealElements;
 
         if (grade != null || classNum != null) {
             weekendMealElements = weekendMeals.stream()
                     .filter(weekendMeal -> {
                         UserInfoElement user = hashMap.get(weekendMeal.getUserId());
-                        Integer userGrade = Integer.valueOf(user.getNum().substring(0,1));
-                        Integer userClassNum = Integer.valueOf(user.getNum().substring(1,2));
+                        Integer userGrade = Integer.valueOf(user.getNum().substring(0, 1));
+                        Integer userClassNum = Integer.valueOf(user.getNum().substring(1, 2));
                         return userGrade.equals(grade) && userClassNum.equals(classNum);
                     })
                     .map(weekendMeal -> {
                         UserInfoElement user = hashMap.get(weekendMeal.getUserId());
-                        return WeekendMealElement.builder()
-                                .id(user.getUserId())
-                                .num(user.getNum())
-                                .name(user.getName())
-                                .status(weekendMeal.getStatus())
-                                .build();
+                        return buildWeekendMealElement(user, weekendMeal.getStatus());
                     }).sorted(Comparator.comparing(WeekendMealElement::getNum))
                     .toList();
         } else {
             weekendMealElements = weekendMeals.stream()
                     .map(weekendMeal -> {
                         UserInfoElement user = hashMap.get(weekendMeal.getUserId());
-                        return WeekendMealElement.builder()
-                                .id(user.getUserId())
-                                .num(user.getNum())
-                                .name(user.getName())
-                                .status(weekendMeal.getStatus())
-                                .build();
+                        return buildWeekendMealElement(user, weekendMeal.getStatus());
                     }).sorted(Comparator.comparing(WeekendMealElement::getNum))
                     .toList();
         }
 
         return new WeekendMealListResponse(weekendMealElements);
+    }
+
+    private WeekendMealElement buildWeekendMealElement(UserInfoElement user, WeekendMealApplicationStatus status) {
+        return WeekendMealElement.builder()
+                .id(user.getUserId())
+                .num(user.getNum())
+                .name(user.getName())
+                .status(status)
+                .build();
     }
 }
