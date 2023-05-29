@@ -105,7 +105,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
                         UserInfoElement user = hashMap.get(weekendMeal.getUserId());
                         Integer userGrade = Integer.valueOf(user.getNum().substring(0, 1));
                         Integer userClassNum = Integer.valueOf(user.getNum().substring(1, 2));
-                        return userGrade.equals(grade) && userClassNum.equals(classNum);
+                        return userGrade.equals(grade) || userClassNum.equals(classNum);
                     })
                     .map(weekendMeal -> {
                         UserInfoElement user = hashMap.get(weekendMeal.getUserId());
