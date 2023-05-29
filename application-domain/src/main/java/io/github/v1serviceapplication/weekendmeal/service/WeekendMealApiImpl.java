@@ -142,7 +142,6 @@ public class WeekendMealApiImpl implements WeekendMealApi {
             List<WeekendMealElement> weekendMealResponseElements,
             List<WeekendMealElement> weekendMealNonResponseElements
     ) {
-
         WeekendMealElement weekendMealElement = WeekendMealElement.builder()
                 .id(user.getUserId())
                 .num(user.getNum())
@@ -154,6 +153,8 @@ public class WeekendMealApiImpl implements WeekendMealApi {
                 weekendMealElement, status,
                 weekendMealResponseElements, weekendMealNonResponseElements
         );
+
+        return weekendMealElement;
     }
 
     private void addToResponseLists(
