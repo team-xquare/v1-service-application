@@ -151,7 +151,6 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     public void postWeekendMealCheck(boolean isCheck) {
         UUID teacherId = userIdFacade.getCurrentUserId();
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
-        System.out.println(isCheck);
 
         WeekendMealCheck weekendMealCheck = WeekendMealCheck.builder()
                 .weekendMealId(weekendMeal.getId())
@@ -166,7 +165,6 @@ public class WeekendMealApiImpl implements WeekendMealApi {
 
     private void weekendMealCheckSaveOrUpdate(UUID weekendMealId, UUID userId, WeekendMealCheck weekendMealCheck) {
         WeekendMealCheck exitsWeekendMealCheck = queryWeekendMealCheckRepositorySpi.existsWeekendMealCheck(weekendMealId, userId);
-        System.out.println(weekendMealCheck.isCheck());
 
         if(exitsWeekendMealCheck == null) {
             postWeekendMealCheckRepositorySpi.postWeekendMealCheck(weekendMealCheck);

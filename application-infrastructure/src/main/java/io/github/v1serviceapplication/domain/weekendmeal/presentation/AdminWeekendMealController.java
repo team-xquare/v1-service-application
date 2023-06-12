@@ -58,8 +58,6 @@ public class AdminWeekendMealController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/weekend-meal/teacher/check")
     public void weekendMealTeacherCheck(@RequestBody @Valid PostWeekendMealCheckRequest request) {
-        System.out.println(request);
-        System.out.println(request.getIsCheck());
         weekendMealApi.postWeekendMealCheck(request.getIsCheck());
     }
 }
