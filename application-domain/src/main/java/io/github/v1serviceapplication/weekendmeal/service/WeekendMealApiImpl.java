@@ -4,6 +4,9 @@ import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.user.dto.response.UserInfoElement;
 import io.github.v1serviceapplication.user.spi.UserFeignSpi;
+import io.github.v1serviceapplication.weekendmeakcheck.WeekendMealCheck;
+import io.github.v1serviceapplication.weekendmeakcheck.spi.PostWeekendMealCheckRepositorySpi;
+import io.github.v1serviceapplication.weekendmeakcheck.spi.QueryWeekendMealCheckRepositorySpi;
 import io.github.v1serviceapplication.weekendmeal.WeekendMeal;
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
@@ -35,6 +38,8 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     private final PostWeekendMealApplyRepositorySpi postWeekendMealApplyRepositorySpi;
     private final QueryWeekendMealRepositorySpi queryWeekendMealRepositorySpi;
     private final QueryWeekendMealApplyRepositorySpi queryWeekendMealApplyRepositorySpi;
+    private final PostWeekendMealCheckRepositorySpi postWeekendMealCheckRepositorySpi;
+    private final QueryWeekendMealCheckRepositorySpi queryWeekendMealCheckRepositorySpi;
     private final UserIdFacade userIdFacade;
 
     private final UserFeignSpi userFeignSpi;
@@ -140,6 +145,34 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         }
 
         return new WeekendMealListResponse(weekendMealResponseElements, weekendMealNonResponseElements);
+    }
+
+    @Override
+    public void postWeekendMealCheck(boolean isCheck) {
+        UUID teacherId = userIdFacade.getCurrentUserId();
+        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
+        System.out.println(isCheck);
+
+        WeekendMealCheck weekendMealCheck = WeekendMealCheck.builder()
+                .weekendMealId(weekendMeal.getId())
+                .createDate(LocalDate.now())
+                .userId(teacherId)
+                .isCheck(isCheck)
+                .build();
+
+        weekendMealCheckSaveOrUpdate(weekendMeal.getId(), teacherId, weekendMealCheck);
+
+    }
+
+    private void weekendMealCheckSaveOrUpdate(UUID weekendMealId, UUID userId, WeekendMealCheck weekendMealCheck) {
+        WeekendMealCheck exitsWeekendMealCheck = queryWeekendMealCheckRepositorySpi.existsWeekendMealCheck(weekendMealId, userId);
+        System.out.println(weekendMealCheck.isCheck());
+
+        if(exitsWeekendMealCheck == null) {
+            postWeekendMealCheckRepositorySpi.postWeekendMealCheck(weekendMealCheck);
+        } else {
+            postWeekendMealCheckRepositorySpi.changeWeekendMealIsCheck(exitsWeekendMealCheck.getId(), weekendMealCheck.isCheck());
+        }
     }
 
     private WeekendMealElement buildWeekendMealElement(
