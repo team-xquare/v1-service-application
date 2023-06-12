@@ -1,6 +1,5 @@
 package io.github.v1serviceapplication.domain.weekendmeal.presentation.dto;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
