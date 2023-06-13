@@ -22,7 +22,6 @@ public class WeekendMealCheckMapperImpl implements WeekendMealCheckMapper{
                 .weekendMealId(weekendMealCheckEntity.getWeekendMealId())
                 .isCheck(weekendMealCheckEntity.isCheck())
                 .build();
-
     }
 
     @Override
