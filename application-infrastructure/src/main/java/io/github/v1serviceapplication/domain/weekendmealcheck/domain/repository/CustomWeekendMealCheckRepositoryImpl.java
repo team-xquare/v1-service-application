@@ -34,8 +34,6 @@ public class CustomWeekendMealCheckRepositoryImpl implements PostWeekendMealChec
     public void changeWeekendMealIsCheck(UUID weekendMealId, boolean isCheck) {
         WeekendMealCheckEntity weekendMealCheck = weekendMealCheckRepository.findById(weekendMealId)
                 .orElseThrow(()-> WeekendMealCheckNotFoundException.EXCEPTION);
-        System.out.println(weekendMealCheck.getWeekendMeal());
-        System.out.println(isCheck);
         weekendMealCheck.changeIsCheck(isCheck);
     }
 

@@ -81,67 +81,57 @@ public class WeekendMealApiImpl implements WeekendMealApi {
             throw WeekendMealNotFoundException.EXCEPTION;
         }
 
-        WeekendMealApplicationStatus status = queryWeekendMealApplyRepositorySpi
-                .queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(userIdFacade.getCurrentUserId(), weekendMeal.getId());
+        WeekendMealApplicationStatus status =
+                queryWeekendMealApplyRepositorySpi.queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(userIdFacade.getCurrentUserId(), weekendMeal.getId());
 
-        return new QueryWeekendMealResponse(
-                weekendMeal.getTitle(),
-                status
-        );
+        return new QueryWeekendMealResponse(weekendMeal.getTitle(), status);
 
     }
 
     @Override
     public WeekendMealListResponse queryWeekendMealUserList(Integer grade, Integer classNum) {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
-        List<WeekendMealApply> weekendMealApplies = queryWeekendMealApplyRepositorySpi.findWeekendMealListByWeekendMealId(weekendMeal.getId());
+        List<WeekendMealApply> weekendMealApplies =
+                queryWeekendMealApplyRepositorySpi.findWeekendMealListByWeekendMealId(weekendMeal.getId());
         List<UUID> userIds = queryWeekendMealApplyRepositorySpi.queryWeekendMealUserList();
 
         if (userIds.isEmpty()) {
             return new WeekendMealListResponse(List.of(), List.of());
         }
 
-        Map<UUID, UserInfoElement> hashMap = userFeignSpi.getUserInfoList(userIds).stream()
-                .collect(Collectors.toMap(UserInfoElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
+        Map<UUID, UserInfoElement> hashMap =
+                userFeignSpi.getUserInfoList(userIds).stream().collect(Collectors.toMap(UserInfoElement::getUserId,
+                        user -> user, (userId, user) -> user, HashMap::new));
 
         List<WeekendMealElement> weekendMealResponseElements = new ArrayList<>();
         List<WeekendMealElement> weekendMealNonResponseElements = new ArrayList<>();
 
         if (grade != null || classNum != null) {
-            weekendMealApplies.stream()
-                    .filter(weekendMealApply -> {
-                        UserInfoElement user = hashMap.get(weekendMealApply.getUserId());
-                        Integer userGrade = Integer.valueOf(user.getNum().substring(0, 1));
-                        Integer userClassNum = Integer.valueOf(user.getNum().substring(1, 2));
+            weekendMealApplies.stream().filter(weekendMealApply -> {
+                UserInfoElement user = hashMap.get(weekendMealApply.getUserId());
+                Integer userGrade = Integer.valueOf(user.getNum().substring(0, 1));
+                Integer userClassNum = Integer.valueOf(user.getNum().substring(1, 2));
 
-                        if (grade != null && classNum == null) {
-                            return grade.equals(userGrade);
-                        } else if(grade == null && classNum != null) {
-                            return classNum.equals(userClassNum);
-                        } else {
-                            return grade.equals(userGrade) && classNum.equals(userClassNum);
-                        }
-                    })
-                    .map(weekendMealApply -> {
-                        UserInfoElement user = hashMap.get(weekendMealApply.getUserId());
+                if (grade != null && classNum == null) {
+                    return grade.equals(userGrade);
+                } else if (grade == null && classNum != null) {
+                    return classNum.equals(userClassNum);
+                } else {
+                    return grade.equals(userGrade) && classNum.equals(userClassNum);
+                }
+            }).map(weekendMealApply -> {
+                UserInfoElement user = hashMap.get(weekendMealApply.getUserId());
 
-                        return buildWeekendMealElement(
-                                user, weekendMealApply.getStatus(),
-                                weekendMealResponseElements, weekendMealNonResponseElements
-                        );
-                    }).sorted(Comparator.comparing(WeekendMealElement::getNum))
-                    .toList();
+                return buildWeekendMealElement(user, weekendMealApply.getStatus(), weekendMealResponseElements,
+                        weekendMealNonResponseElements);
+            }).sorted(Comparator.comparing(WeekendMealElement::getNum)).toList();
         } else {
-            weekendMealApplies.stream()
-                    .map(weekendMealApply -> {
-                        UserInfoElement user = hashMap.get(weekendMealApply.getUserId());
+            weekendMealApplies.stream().map(weekendMealApply -> {
+                UserInfoElement user = hashMap.get(weekendMealApply.getUserId());
 
-                        return buildWeekendMealElement(
-                                user, weekendMealApply.getStatus(),
-                                weekendMealResponseElements, weekendMealNonResponseElements
-                        );
-                    }).sorted(Comparator.comparing(WeekendMealElement::getNum))
-                    .toList();
+                return buildWeekendMealElement(user, weekendMealApply.getStatus(), weekendMealResponseElements,
+                        weekendMealNonResponseElements);
+            }).sorted(Comparator.comparing(WeekendMealElement::getNum)).toList();
         }
 
         return new WeekendMealListResponse(weekendMealResponseElements, weekendMealNonResponseElements);
@@ -152,54 +142,39 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         UUID teacherId = userIdFacade.getCurrentUserId();
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
 
-        WeekendMealCheck weekendMealCheck = WeekendMealCheck.builder()
-                .weekendMealId(weekendMeal.getId())
-                .createDate(LocalDate.now())
-                .userId(teacherId)
-                .isCheck(isCheck)
-                .build();
+        WeekendMealCheck weekendMealCheck =
+                WeekendMealCheck.builder().weekendMealId(weekendMeal.getId()).createDate(LocalDate.now()).userId(teacherId).isCheck(isCheck).build();
 
         weekendMealCheckSaveOrUpdate(weekendMeal.getId(), teacherId, weekendMealCheck);
-
     }
 
     private void weekendMealCheckSaveOrUpdate(UUID weekendMealId, UUID userId, WeekendMealCheck weekendMealCheck) {
-        WeekendMealCheck exitsWeekendMealCheck = queryWeekendMealCheckRepositorySpi.existsWeekendMealCheck(weekendMealId, userId);
+        WeekendMealCheck exitsWeekendMealCheck =
+                queryWeekendMealCheckRepositorySpi.existsWeekendMealCheck(weekendMealId, userId);
 
-        if(exitsWeekendMealCheck == null) {
+        if (exitsWeekendMealCheck == null) {
             postWeekendMealCheckRepositorySpi.postWeekendMealCheck(weekendMealCheck);
         } else {
-            postWeekendMealCheckRepositorySpi.changeWeekendMealIsCheck(exitsWeekendMealCheck.getId(), weekendMealCheck.isCheck());
+            postWeekendMealCheckRepositorySpi.changeWeekendMealIsCheck(
+                    exitsWeekendMealCheck.getId(), weekendMealCheck.isCheck()
+            );
         }
     }
 
-    private WeekendMealElement buildWeekendMealElement(
-            UserInfoElement user,
-            WeekendMealApplicationStatus status,
-            List<WeekendMealElement> weekendMealResponseElements,
-            List<WeekendMealElement> weekendMealNonResponseElements
-    ) {
-        WeekendMealElement weekendMealElement = WeekendMealElement.builder()
-                .id(user.getUserId())
-                .num(user.getNum())
-                .name(user.getName())
-                .status(status)
-                .build();
+    private WeekendMealElement buildWeekendMealElement(UserInfoElement user, WeekendMealApplicationStatus status,
+                                                       List<WeekendMealElement> weekendMealResponseElements,
+                                                       List<WeekendMealElement> weekendMealNonResponseElements) {
+        WeekendMealElement weekendMealElement =
+                WeekendMealElement.builder().id(user.getUserId()).num(user.getNum()).name(user.getName()).status(status).build();
 
-        addWeekendMealList(
-                weekendMealElement, status,
-                weekendMealResponseElements, weekendMealNonResponseElements
-        );
+        addWeekendMealList(weekendMealElement, status, weekendMealResponseElements, weekendMealNonResponseElements);
 
         return weekendMealElement;
     }
 
-    private void addWeekendMealList(
-            WeekendMealElement weekendMealElement,
-            WeekendMealApplicationStatus status,
-            List<WeekendMealElement> weekendMealResponseElements,
-            List<WeekendMealElement> weekendMealNonResponseElements
-    ) {
+    private void addWeekendMealList(WeekendMealElement weekendMealElement, WeekendMealApplicationStatus status,
+                                    List<WeekendMealElement> weekendMealResponseElements,
+                                    List<WeekendMealElement> weekendMealNonResponseElements) {
         if (status.equals(WeekendMealApplicationStatus.APPLY) || status.equals(WeekendMealApplicationStatus.NOT_APPLY)) {
             weekendMealResponseElements.add(weekendMealElement);
         } else {
