@@ -61,7 +61,9 @@ public enum ErrorCode {
 
     NON_RESPONSE_STATUS_IS_IMPOSSIBLE(400, "WEEKEND-400-1", "Non Response Status Is Impossible."),
 
-    WEEKEND_MEAL_CAN_NOT_APPLICATION(400, "WEEKEND-400-2", "Weekend Meal Can Not Application");
+    WEEKEND_MEAL_CAN_NOT_APPLICATION(400, "WEEKEND-400-2", "Weekend Meal Can Not Application"),
+
+    WEEKEND_MEAL_CHECK_NOT_FOUND(400, "WEEKEND-400-3", "Weekend Meal Check Not Found");
 
     private final int status;
     private final String code;
