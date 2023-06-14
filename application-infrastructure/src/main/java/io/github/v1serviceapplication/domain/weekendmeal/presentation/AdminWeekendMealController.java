@@ -1,5 +1,6 @@
 package io.github.v1serviceapplication.domain.weekendmeal.presentation;
 
+import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.PostWeekendMealCheckRequest;
 import io.github.v1serviceapplication.infrastructure.excel.WeekendMealStatusExcel;
 import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealListResponse;
@@ -7,12 +8,17 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 
 @Tag(name = "어드민 주말급식 API")
@@ -46,5 +52,12 @@ public class AdminWeekendMealController {
 
         workbook.write(response.getOutputStream());
         workbook.close();
+    }
+
+    @Operation(summary = "주말급식 신청 선생님 확인 API")
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/weekend-meal/teacher/check")
+    public void weekendMealTeacherCheck(@RequestBody @Valid PostWeekendMealCheckRequest request) {
+        weekendMealApi.postWeekendMealCheck(request.getIsCheck());
     }
 }

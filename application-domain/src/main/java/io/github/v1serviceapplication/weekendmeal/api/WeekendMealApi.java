@@ -8,6 +8,6 @@ import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealListRespons
 public interface WeekendMealApi {
     void postWeekendMealApply(WeekendMealApplicationStatus status);
     QueryWeekendMealResponse queryWeekendMeal();
-
     WeekendMealListResponse queryWeekendMealUserList(Integer grade, Integer classNum);
+    void postWeekendMealCheck(boolean isCheck);
 }
