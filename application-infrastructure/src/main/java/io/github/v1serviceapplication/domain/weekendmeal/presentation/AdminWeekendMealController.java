@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDate;
 
 @Tag(name = "어드민 주말급식 API")
 @RestController
@@ -45,10 +46,10 @@ public class AdminWeekendMealController {
 
         Workbook workbook = weekendMealStatusExcel.createWorkHook();
 
-        String filename = "주말외출명단.xlsx";
+        String filename = "주말급식명단.xlsx";
 
         response.setContentType("ms-vnd/excel");
-        response.setHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes("KSC5601"), "8859_1"));
+        response.setHeader("Content-Disposition", "attachment;filename=.xlsx" + new String(filename.getBytes("KSC5601"), "8859_1"));
 
         workbook.write(response.getOutputStream());
         workbook.close();
@@ -58,6 +59,6 @@ public class AdminWeekendMealController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/weekend-meal/teacher/check")
     public void weekendMealTeacherCheck(@RequestBody @Valid PostWeekendMealCheckRequest request) {
-        weekendMealApi.postWeekendMealCheck(request.getIsCheck());
+        weekendMealApi.postWeekendMealCheck(request.getIsCheck(), request.getGrade(), request.getClassNum());
     }
 }
