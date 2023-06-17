@@ -106,30 +106,29 @@ public class WeekendMealStatusExcel {
             num.setCellValue(weekendMealElement.getNum());
 
             name.setCellValue(weekendMealElement.getName());
-            
+
             startRow++;
         }
 
         startRow = 2;
-        int rowNum = 2;
 
         for (WeekendMealElement weekendMealElement : nonResponseStudents) {
             int column = 13;
-            Row row = sheet.getRow(rowNum);
+            Row row = sheet.getRow(startRow) == null ? sheet.createRow(startRow) : sheet.getRow(startRow);
 
             row.createCell(column).setCellValue(weekendMealElement.getNum());
             row.createCell(column + 1).setCellValue(weekendMealElement.getName());
             row.createCell(column + 2).setCellValue(String.valueOf(weekendMealElement.getStatus().getValue()));
 
-            rowNum++;
             startRow++;
         }
 
-        setWeekendMealCheckHeaderRow(sheet, startRow, headerStyle);
-        startRow = startRow + 1;
+        setWeekendMealCheckHeaderRow(sheet, startRow, headerStyle, cellStyle);
+        startRow = startRow + 2;
         for (WeekendMealCheckTeacherElement weekendMealCheck : weekendMealCheckList) {
             int column = 13;
-            Row row = sheet.createRow(startRow + 1);
+
+            Row row = sheet.getRow(startRow) == null ? sheet.createRow(startRow) : sheet.getRow(startRow);
             String num = weekendMealCheck.getGrade() + " - " + weekendMealCheck.getClassNum();
 
             row.createCell(column).setCellValue(num);
@@ -141,19 +140,18 @@ public class WeekendMealStatusExcel {
         }
     }
 
-    private void setWeekendMealCheckHeaderRow(Sheet sheet, int startRow, CellStyle headerStyle) {
-        Row row = sheet.createRow(startRow + 1);
-        Cell cell = row.createCell(13);
-
-        for(int i = 14; i >= 15; i++) {
-            cell = row.createCell(i);
-            cell.setCellStyle(headerStyle);
-        }
-
+    private void setWeekendMealCheckHeaderRow(Sheet sheet, int startRow, CellStyle headerStyle, CellStyle cellStyle) {
+        Row row = sheet.getRow(startRow + 1) == null ? sheet.createRow(startRow + 1) : sheet.getRow(startRow + 1);
         headerStyle.setAlignment(HorizontalAlignment.forInt((short)2));
         sheet.addMergedRegion(new CellRangeAddress(startRow + 1, startRow + 1, 13, 15));
+        Cell cell = row.createCell(13);
+        cell.setCellStyle(headerStyle);
+        cell.setCellValue("담임선생님 확인 명단");
 
-        cell.setCellValue("담임 선생님 확인");
+        for(int i = 14; i <= 15; i++) {
+            cell = row.createCell(i);
+            cell.setCellStyle(cellStyle);
+        }
     }
 
     private void setHeaderRow(Row row, CellStyle headerStyle) {
