@@ -45,3 +45,6 @@ springdoc:
 
 user:
   url: ${user.url}
+
+sentry:
+  dsn: ${sentry.dsn}
