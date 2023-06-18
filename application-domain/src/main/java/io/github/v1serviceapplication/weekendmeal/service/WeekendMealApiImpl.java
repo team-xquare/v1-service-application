@@ -181,8 +181,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
                                 .classNum(Integer.parseInt(user.getNum().substring(1,2)))
                                 .createDate(weekendMealCheck.getCreateDate())
                                 .build();
-                })
-                .collect(Collectors.toList());
+                }).sorted(Comparator.comparing(WeekendMealCheckTeacherElement::getGrade)).toList();
 
         return new WeekendMealExcelListResponse(teacherLists);
     }
