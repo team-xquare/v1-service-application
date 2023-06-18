@@ -163,17 +163,17 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMeal();
         List<WeekendMealCheck> weekendMealCheckList = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckList(weekendMeal.getId());
         List<UUID> weekendMealTeacherIdList = weekendMealCheckList.stream().map(weekendMealCheck -> weekendMealCheck.getUserId()).toList();
-        List<UserInfoElement> userList = userFeignSpi.getUserInfoList(weekendMealTeacherIdList);
 
         if(weekendMealCheckList == null) {
             return new WeekendMealExcelListResponse(List.of());
         }
 
+        Map<UUID, UserInfoElement> hashMap = userFeignSpi.getUserInfoList(weekendMealTeacherIdList).stream()
+                .collect(Collectors.toMap(UserInfoElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
+
         List<WeekendMealCheckTeacherElement> teacherLists = weekendMealCheckList.stream()
                 .map(weekendMealCheck -> {
-                    UserInfoElement user = userList.stream()
-                            .filter(userInfo -> userInfo.getUserId().equals(weekendMealCheck.getUserId()))
-                            .findFirst().orElseThrow(()-> UserNotFoundException.EXCEPTION);
+                    UserInfoElement user = hashMap.get(weekendMealCheck.getUserId());
 
                     return WeekendMealCheckTeacherElement.builder()
                                 .name(user.getName())
