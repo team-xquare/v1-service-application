@@ -17,7 +17,6 @@ import java.util.List;
 public class WeekendMealAllStudentExcel {
 
     private final WeekendMealApi weekendMealApi;
-    static final short SOLID_FOREGROUND = 1;
 
     public Workbook createWorkHook() {
         Workbook workbook = new XSSFWorkbook();
@@ -26,10 +25,10 @@ public class WeekendMealAllStudentExcel {
         CellStyle cellStyle = workbook.createCellStyle();
 
         headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        headerStyle.setFillPattern(FillPatternType.forInt((short)1));
 
         colorStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
-        colorStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        colorStyle.setFillPattern(FillPatternType.forInt((short)1));
 
         applyThinStyle(headerStyle);
         applyThinStyle(colorStyle);
