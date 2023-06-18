@@ -93,7 +93,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         List<UUID> userIds = queryWeekendMealApplyRepositorySpi.queryWeekendMealUserList();
         boolean isCheck = false;
 
-        if(!queryWeekendMealCheckRepositorySpi.existsWeekendMealCheck(weekendMeal.getId(), teacherId)) {
+        if(queryWeekendMealCheckRepositorySpi.existsWeekendMealCheck(weekendMeal.getId(), teacherId)) {
             WeekendMealCheck weekendMealCheck = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndUserId(weekendMeal.getId(), teacherId);
             isCheck = weekendMealCheck.isCheck();
         }
@@ -154,11 +154,11 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         WeekendMealCheck weekendMealCheckDomain = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndUserId(weekendMealId, userId);
 
         if (queryWeekendMealCheckRepositorySpi.existsWeekendMealCheck(weekendMealId, userId)) {
-            postWeekendMealCheckRepositorySpi.postWeekendMealCheck(weekendMealCheck);
-        } else {
             postWeekendMealCheckRepositorySpi.changeWeekendMealIsCheck(
                     weekendMealCheckDomain.getId(), weekendMealCheck.isCheck()
             );
+        } else {
+            postWeekendMealCheckRepositorySpi.postWeekendMealCheck(weekendMealCheck);
         }
     }
 

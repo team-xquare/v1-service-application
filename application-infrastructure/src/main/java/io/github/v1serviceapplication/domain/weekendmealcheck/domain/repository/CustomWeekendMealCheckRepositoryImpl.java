@@ -47,7 +47,7 @@ public class CustomWeekendMealCheckRepositoryImpl implements PostWeekendMealChec
                         weekendMealCheckEntity.userId.eq(userId),
                         weekendMealCheckEntity.weekendMeal.id.eq(weekendMealId)
                 )
-                .fetchOne() == null;
+                .fetchOne() != null;
     }
 
     @Override
