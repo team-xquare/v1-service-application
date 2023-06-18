@@ -150,7 +150,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     private void weekendMealCheckSaveOrUpdate(UUID weekendMealId, UUID userId, WeekendMealCheck weekendMealCheck) {
         Optional<WeekendMealCheck> weekendMealCheckDomain = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndUserId(weekendMealId, userId);
 
-        if (queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndUserId(weekendMealId, userId) != null) {
+        if (weekendMealCheckDomain != null) {
             postWeekendMealCheckRepositorySpi.changeWeekendMealIsCheck(
                     weekendMealCheckDomain.get().getId(), weekendMealCheck.isCheck()
             );
