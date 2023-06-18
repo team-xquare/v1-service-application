@@ -12,5 +12,4 @@ public class WeekendMealCheckTeacherElement {
     private final int grade;
     private final int classNum;
     private final LocalDate createDate;
-
 }
