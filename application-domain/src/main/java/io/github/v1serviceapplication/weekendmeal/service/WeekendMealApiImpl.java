@@ -53,7 +53,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     @Override
     public void postWeekendMealApply(WeekendMealApplicationStatus status) {
         checkWeekendMealValidTerm();
-        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
+        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMeal();
         UUID userId = userIdFacade.getCurrentUserId();
 
         if (weekendMeal == null) {
@@ -81,7 +81,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
 
     @Override
     public QueryWeekendMealResponse queryWeekendMeal() {
-        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
+        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMeal();
 
         if (weekendMeal == null) {
             throw WeekendMealNotFoundException.EXCEPTION;
@@ -95,7 +95,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
 
     @Override
     public WeekendMealListResponse queryWeekendMealUserList(Integer grade, Integer classNum) {
-        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
+        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMeal();
         List<WeekendMealApply> weekendMealApplies = queryWeekendMealApplyRepositorySpi.queryWeekendMealListByWeekendMealId(weekendMeal.getId());
         List<UUID> userIds = queryWeekendMealApplyRepositorySpi.queryWeekendMealUserList();
 
@@ -144,11 +144,11 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         UUID teacherId = userIdFacade.getCurrentUserId();
         WeekendMealUserInfoElement teacherInfo = weekendMealUserFeignSpi.queryUserInfo(teacherId);
 
-        if(teacherInfo.getGrade() == grade && teacherInfo.getClassNum() == classNum) {
+        if(!(teacherInfo.getGrade() == grade && teacherInfo.getClassNum() == classNum)) {
             throw NotMatchedHomeroomTeacherException.EXCEPTION;
         }
 
-        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
+        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMeal();
         WeekendMealCheck weekendMealCheck = WeekendMealCheck.builder()
                 .weekendMealId(weekendMeal.getId())
                 .createDate(LocalDate.now())
@@ -160,9 +160,9 @@ public class WeekendMealApiImpl implements WeekendMealApi {
 
     @Override
     public WeekendMealExcelListResponse weekendMealExcelUserList() {
-        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
+        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMeal();
         List<WeekendMealCheck> weekendMealCheckList = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckList(weekendMeal.getId());
-        List<UUID> weekendMealTeacherIdList = weekendMealCheckList.stream().map( weekendMealCheck -> weekendMealCheck.getUserId()).toList();
+        List<UUID> weekendMealTeacherIdList = weekendMealCheckList.stream().map(weekendMealCheck -> weekendMealCheck.getUserId()).toList();
         List<UserInfoElement> userList = userFeignSpi.getUserInfoList(weekendMealTeacherIdList);
 
         if(weekendMealCheckList == null) {
