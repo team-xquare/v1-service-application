@@ -2,9 +2,9 @@ package io.github.v1serviceapplication.weekendmeakcheck.spi;
 
 import io.github.v1serviceapplication.weekendmeakcheck.WeekendMealCheck;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface QueryWeekendMealCheckRepositorySpi {
-   boolean existsWeekendMealCheck(UUID weekendMealId, UUID userId);
-   WeekendMealCheck queryWeekendMealCheckByWeekendMealIdAndUserId(UUID weekendMealId, UUID userId);
+   Optional<WeekendMealCheck> queryWeekendMealCheckByWeekendMealIdAndUserId(UUID weekendMealId, UUID userId);
 }

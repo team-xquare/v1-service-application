@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -91,12 +92,8 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
         List<WeekendMealApply> weekendMealApplies = queryWeekendMealApplyRepositorySpi.findWeekendMealListByWeekendMealId(weekendMeal.getId());
         List<UUID> userIds = queryWeekendMealApplyRepositorySpi.queryWeekendMealUserList();
-        boolean isCheck = false;
-
-        if(queryWeekendMealCheckRepositorySpi.existsWeekendMealCheck(weekendMeal.getId(), teacherId)) {
-            WeekendMealCheck weekendMealCheck = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndUserId(weekendMeal.getId(), teacherId);
-            isCheck = weekendMealCheck.isCheck();
-        }
+        Optional<WeekendMealCheck> weekendMealCheck = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndUserId(weekendMeal.getId(), teacherId);
+        boolean isCheck = weekendMealCheck.map(WeekendMealCheck::isCheck).orElse(false);
 
         if (userIds.isEmpty()) {
             return new WeekendMealListResponse(isCheck, List.of(), List.of());
@@ -151,11 +148,11 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         weekendMealCheckSaveOrUpdate(weekendMeal.getId(), teacherId, weekendMealCheck);
     }
     private void weekendMealCheckSaveOrUpdate(UUID weekendMealId, UUID userId, WeekendMealCheck weekendMealCheck) {
-        WeekendMealCheck weekendMealCheckDomain = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndUserId(weekendMealId, userId);
+        Optional<WeekendMealCheck> weekendMealCheckDomain = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndUserId(weekendMealId, userId);
 
         if (queryWeekendMealCheckRepositorySpi.existsWeekendMealCheck(weekendMealId, userId)) {
             postWeekendMealCheckRepositorySpi.changeWeekendMealIsCheck(
-                    weekendMealCheckDomain.getId(), weekendMealCheck.isCheck()
+                    weekendMealCheckDomain.get().getId(), weekendMealCheck.isCheck()
             );
         } else {
             postWeekendMealCheckRepositorySpi.postWeekendMealCheck(weekendMealCheck);

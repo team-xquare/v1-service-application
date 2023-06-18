@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 import java.util.UUID;
 
 import static io.github.v1serviceapplication.domain.weekendmeal.domain.QWeekendMealEntity.weekendMealEntity;
@@ -38,20 +39,7 @@ public class CustomWeekendMealCheckRepositoryImpl implements PostWeekendMealChec
     }
 
     @Override
-    public boolean existsWeekendMealCheck(UUID weekendMealId, UUID userId) {
-       return queryFactory
-                .selectFrom(weekendMealCheckEntity)
-                .join(weekendMealEntity)
-                .on(weekendMealCheckEntity.weekendMeal.id.eq(weekendMealEntity.id))
-                .where(
-                        weekendMealCheckEntity.userId.eq(userId),
-                        weekendMealCheckEntity.weekendMeal.id.eq(weekendMealId)
-                )
-                .fetchOne() != null;
-    }
-
-    @Override
-    public WeekendMealCheck queryWeekendMealCheckByWeekendMealIdAndUserId(UUID weekendMealId, UUID userId) {
+    public Optional<WeekendMealCheck> queryWeekendMealCheckByWeekendMealIdAndUserId(UUID weekendMealId, UUID userId) {
         WeekendMealCheckEntity entity = queryFactory
                 .selectFrom(weekendMealCheckEntity)
                 .join(weekendMealEntity)
@@ -62,6 +50,6 @@ public class CustomWeekendMealCheckRepositoryImpl implements PostWeekendMealChec
                 )
                 .fetchOne();
 
-        return weekendMealCheckMapper.entityToDomain(entity);
+        return Optional.ofNullable(entity).map(weekendMealCheckMapper::entityToDomain);
     }
 }
