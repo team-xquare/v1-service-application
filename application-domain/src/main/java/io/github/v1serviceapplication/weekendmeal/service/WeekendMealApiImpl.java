@@ -146,7 +146,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         UUID teacherId = userIdFacade.getCurrentUserId();
         WeekendMealUserInfoElement teacherInfo = weekendMealUserFeignSpi.queryUserInfo(teacherId);
 
-        if(!(teacherInfo.getGrade() == grade && teacherInfo.getClassNum() == classNum)) {
+        if (!(teacherInfo.getGrade() == grade && teacherInfo.getClassNum() == classNum)) {
             throw NotMatchedHomeroomTeacherException.EXCEPTION;
         }
 
@@ -166,7 +166,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         List<WeekendMealCheck> weekendMealCheckList = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckList(weekendMeal.getId());
         List<UUID> weekendMealTeacherIdList = weekendMealCheckList.stream().map(weekendMealCheck -> weekendMealCheck.getUserId()).toList();
 
-        if(weekendMealCheckList == null) {
+        if (weekendMealCheckList == null) {
             return new WeekendMealExcelListResponse(List.of());
         }
 
