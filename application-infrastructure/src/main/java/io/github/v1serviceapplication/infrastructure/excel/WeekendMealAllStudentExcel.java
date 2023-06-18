@@ -41,16 +41,23 @@ public class WeekendMealAllStudentExcel {
 
         setHeaderRow(row1, headerStyle);
 
-        List<WeekendMealElement> responseStudents = weekendMealApi.queryWeekendMealUserList(null, null).getResponseStudents();
-        List<WeekendMealElement> nonResponseStudents = weekendMealApi.queryWeekendMealUserList(null, null).getNonResponseStudents();
-        List<WeekendMealCheckTeacherElement> weekendMealCheckList = weekendMealApi.weekendMealExcelUserList().getTeacherCheckLists();
+        List<WeekendMealElement> responseStudents =
+                weekendMealApi.queryWeekendMealUserList(null, null).getResponseStudents();
+        List<WeekendMealElement> nonResponseStudents =
+                weekendMealApi.queryWeekendMealUserList(null, null).getNonResponseStudents();
+        List<WeekendMealCheckTeacherElement> weekendMealCheckList =
+                weekendMealApi.weekendMealExcelUserList().getTeacherCheckLists();
 
-        setWeekendMealResponseStudents(sheet, colorStyle, headerStyle, cellStyle, responseStudents, nonResponseStudents, weekendMealCheckList);
+        setWeekendMealResponseStudents(sheet, colorStyle, headerStyle, cellStyle, responseStudents,
+                nonResponseStudents, weekendMealCheckList);
 
         return workbook;
     }
 
-    private void setWeekendMealResponseStudents(Sheet sheet, CellStyle colorStyle, CellStyle headerStyle, CellStyle cellStyle, List<WeekendMealElement> responseStudents, List<WeekendMealElement> nonResponseStudents, List<WeekendMealCheckTeacherElement> weekendMealCheckList) {
+    private void setWeekendMealResponseStudents(Sheet sheet, CellStyle colorStyle, CellStyle headerStyle,
+                                                CellStyle cellStyle, List<WeekendMealElement> responseStudents,
+                                                List<WeekendMealElement> nonResponseStudents,
+                                                List<WeekendMealCheckTeacherElement> weekendMealCheckList) {
         int startRow = 2;
         int startColumn = 1;
         Integer previousGrade = 1; // 이전 학년을 나타내는 변수
@@ -73,16 +80,16 @@ public class WeekendMealAllStudentExcel {
             Cell applyStatus = row.createCell(startColumn + 2);
             Cell notApplyStatus = row.createCell(startColumn + 3);
 
-            if(weekendMealElement.getStatus().equals(WeekendMealApplicationStatus.NOT_APPLY)) {
+            if (weekendMealElement.getStatus().equals(WeekendMealApplicationStatus.NOT_APPLY)) {
                 notApplyStatus.setCellValue(String.valueOf(weekendMealElement.getStatus().getValue()));
             } else {
                 applyStatus.setCellValue(String.valueOf(weekendMealElement.getStatus().getValue()));
             }
 
-            if(Integer.parseInt(weekendMealElement.getNum().substring(1, 2)) % 2 == 0) {
+            if (Integer.parseInt(weekendMealElement.getNum().substring(1, 2)) % 2 == 0) {
                 num.setCellStyle(colorStyle);
                 name.setCellStyle(colorStyle);
-                if(row.getCell(startColumn + 2) == null) {
+                if (row.getCell(startColumn + 2) == null) {
                     applyStatus.setCellStyle(colorStyle);
                     row.getCell(startColumn + 3).setCellStyle(colorStyle);
                 } else {
@@ -135,13 +142,13 @@ public class WeekendMealAllStudentExcel {
 
     private void setWeekendMealCheckHeaderRow(Sheet sheet, int startRow, CellStyle headerStyle, CellStyle cellStyle) {
         Row row = sheet.getRow(startRow + 1) == null ? sheet.createRow(startRow + 1) : sheet.getRow(startRow + 1);
-        headerStyle.setAlignment(HorizontalAlignment.forInt((short)2));
+        headerStyle.setAlignment(HorizontalAlignment.forInt((short) 2));
         sheet.addMergedRegion(new CellRangeAddress(startRow + 1, startRow + 1, 13, 15));
         Cell cell = row.createCell(13);
         cell.setCellStyle(headerStyle);
         cell.setCellValue("담임선생님 확인 명단");
 
-        for(int i = 14; i <= 15; i++) {
+        for (int i = 14; i <= 15; i++) {
             cell = row.createCell(i);
             cell.setCellStyle(cellStyle);
         }
@@ -151,9 +158,9 @@ public class WeekendMealAllStudentExcel {
         String[] header = {"학번", "이름", "신청", "미신청"};
         int j = 12;
         int num = 4;
-        headerStyle.setAlignment(HorizontalAlignment.forInt((short)2));
+        headerStyle.setAlignment(HorizontalAlignment.forInt((short) 2));
 
-        for(int i = 1; i <= j; i++) {
+        for (int i = 1; i <= j; i++) {
             Cell cell = row.createCell(i);
             int index = i % num == 0 ? 3 : i % num - 1;
             cell.setCellValue(header[index]);
