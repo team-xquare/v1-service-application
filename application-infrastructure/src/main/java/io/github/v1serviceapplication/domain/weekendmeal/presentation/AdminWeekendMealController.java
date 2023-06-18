@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.domain.weekendmeal.presentation;
 
 import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.PostWeekendMealCheckRequest;
+import io.github.v1serviceapplication.infrastructure.excel.WeekendMealAllStudentExcel;
 import io.github.v1serviceapplication.infrastructure.excel.WeekendMealStatusExcel;
 import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealListResponse;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.time.LocalDate;
 
 @Tag(name = "어드민 주말급식 API")
 @RestController
@@ -29,6 +29,7 @@ import java.time.LocalDate;
 public class AdminWeekendMealController {
 
     private final WeekendMealApi weekendMealApi;
+    private final WeekendMealAllStudentExcel weekendMealAllStudentExcel;
     private final WeekendMealStatusExcel weekendMealStatusExcel;
 
     @Operation(summary = "주말급식 리스트 API")
@@ -42,7 +43,7 @@ public class AdminWeekendMealController {
 
     @Operation(summary = "주말급식 신청 현황 엑셀 다운로드 API")
     @GetMapping("/weekend-meal/excel")
-    public void weekendMeal(HttpServletResponse response) throws IOException {
+    public void weekendMealApplyStatus(HttpServletResponse response) throws IOException {
 
         Workbook workbook = weekendMealStatusExcel.createWorkHook();
 
@@ -60,5 +61,20 @@ public class AdminWeekendMealController {
     @PostMapping("/weekend-meal/teacher/check")
     public void weekendMealTeacherCheck(@RequestBody @Valid PostWeekendMealCheckRequest request) {
         weekendMealApi.postWeekendMealCheck(request.getIsCheck(), request.getGrade(), request.getClassNum());
+    }
+
+    @Operation(summary = "주말급식 전체 학생 엑셀 다운로드 API")
+    @GetMapping("/weekend-meal/all/excel")
+    public void weekendMealAllStudentExcel(HttpServletResponse response) throws IOException {
+
+        Workbook workbook = weekendMealAllStudentExcel.createWorkHook();
+
+        String filename = "주말급식 전체 학생 명단.xlsx";
+
+        response.setContentType("ms-vnd/excel");
+        response.setHeader("Content-Disposition", "attachment;filename=.xlsx" + new String(filename.getBytes("KSC5601"), "8859_1"));
+
+        workbook.write(response.getOutputStream());
+        workbook.close();
     }
 }
