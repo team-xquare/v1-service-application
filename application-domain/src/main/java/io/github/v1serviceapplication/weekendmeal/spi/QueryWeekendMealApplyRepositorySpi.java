@@ -8,9 +8,6 @@ import java.util.UUID;
 
 public interface QueryWeekendMealApplyRepositorySpi {
     WeekendMealApplicationStatus queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(UUID userId, UUID weekendMealId);
-
     List<UUID> queryWeekendMealUserList();
-
     List<WeekendMealApply> queryWeekendMealListByWeekendMealId(UUID weekendMealId);
-
 }
