@@ -66,10 +66,9 @@ public class AdminWeekendMealController {
     @Operation(summary = "주말급식 전체 학생 엑셀 다운로드 API")
     @GetMapping("/weekend-meal/all/excel")
     public void weekendMealAllStudentExcel(HttpServletResponse response) throws IOException {
-
         Workbook workbook = weekendMealAllStudentExcel.createWorkHook();
 
-        String filename = "주말급식 전체 학생 명단.xlsx";
+        String filename = "주말급식전체학생명단.xlsx";
 
         response.setContentType("ms-vnd/excel");
         response.setHeader("Content-Disposition", "attachment;filename=.xlsx" + new String(filename.getBytes("KSC5601"), "8859_1"));
