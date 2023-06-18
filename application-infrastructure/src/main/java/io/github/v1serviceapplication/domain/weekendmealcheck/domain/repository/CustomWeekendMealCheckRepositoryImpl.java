@@ -63,6 +63,5 @@ public class CustomWeekendMealCheckRepositoryImpl implements PostWeekendMealChec
                 .fetch()
                 .stream()
                 .map(weekendMealCheckMapper::entityToDomain).toList();
-
     }
 }
