@@ -113,12 +113,11 @@ public class WeekendMealAllStudentExcel {
         startRow = 2;
 
         for (WeekendMealElement weekendMealElement : nonResponseStudents) {
-            int column = 13;
             Row row = sheet.getRow(startRow) == null ? sheet.createRow(startRow) : sheet.getRow(startRow);
 
-            row.createCell(column).setCellValue(weekendMealElement.getNum());
-            row.createCell(column + 1).setCellValue(weekendMealElement.getName());
-            row.createCell(column + 2).setCellValue(String.valueOf(weekendMealElement.getStatus().getValue()));
+            row.createCell(13).setCellValue(weekendMealElement.getNum());
+            row.createCell(14).setCellValue(weekendMealElement.getName());
+            row.createCell(15).setCellValue(String.valueOf(weekendMealElement.getStatus().getValue()));
 
             startRow++;
         }
@@ -126,15 +125,14 @@ public class WeekendMealAllStudentExcel {
         setWeekendMealCheckHeaderRow(sheet, startRow, headerStyle, cellStyle);
         startRow = startRow + 2;
         for (WeekendMealCheckTeacherElement weekendMealCheck : weekendMealCheckList) {
-            int column = 13;
 
             Row row = sheet.getRow(startRow) == null ? sheet.createRow(startRow) : sheet.getRow(startRow);
             String num = weekendMealCheck.getGrade() + " - " + weekendMealCheck.getClassNum();
 
-            row.createCell(column).setCellValue(num);
-            row.createCell(column + 1).setCellValue(weekendMealCheck.getName());
+            row.createCell(13).setCellValue(num);
+            row.createCell(14).setCellValue(weekendMealCheck.getName());
             String creatDate = String.valueOf(weekendMealCheck.getCreateDate());
-            row.createCell(column + 2).setCellValue(creatDate);
+            row.createCell(15).setCellValue(creatDate);
 
             startRow++;
         }
@@ -156,13 +154,11 @@ public class WeekendMealAllStudentExcel {
 
     private void setHeaderRow(Row row, CellStyle headerStyle) {
         String[] header = {"학번", "이름", "신청", "미신청"};
-        int j = 12;
-        int num = 4;
         headerStyle.setAlignment(HorizontalAlignment.forInt((short) 2));
 
-        for (int i = 1; i <= j; i++) {
+        for (int i = 1; i <= 12; i++) {
             Cell cell = row.createCell(i);
-            int index = i % num == 0 ? 3 : i % num - 1;
+            int index = i % 4 == 0 ? 3 : i % 4 - 1;
             cell.setCellValue(header[index]);
             cell.setCellStyle(headerStyle);
         }
