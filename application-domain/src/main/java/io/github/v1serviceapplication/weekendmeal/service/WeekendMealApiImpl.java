@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,6 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     private final PostWeekendMealCheckRepositorySpi postWeekendMealCheckRepositorySpi;
     private final QueryWeekendMealCheckRepositorySpi queryWeekendMealCheckRepositorySpi;
     private final UserIdFacade userIdFacade;
-
     private final UserFeignSpi userFeignSpi;
 
     @Override
@@ -82,19 +82,21 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         }
 
         WeekendMealApplicationStatus status = queryWeekendMealApplyRepositorySpi.queryWeekendMealApplyAppliedByUserIdAndWeekendMealId(userIdFacade.getCurrentUserId(), weekendMeal.getId());
-
         return new QueryWeekendMealResponse(weekendMeal.getTitle(), status);
 
     }
 
     @Override
     public WeekendMealListResponse queryWeekendMealUserList(Integer grade, Integer classNum) {
+        UUID teacherId = userIdFacade.getCurrentUserId();
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
         List<WeekendMealApply> weekendMealApplies = queryWeekendMealApplyRepositorySpi.findWeekendMealListByWeekendMealId(weekendMeal.getId());
         List<UUID> userIds = queryWeekendMealApplyRepositorySpi.queryWeekendMealUserList();
+        Optional<WeekendMealCheck> weekendMealCheck = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndUserId(weekendMeal.getId(), teacherId);
+        boolean isCheck = weekendMealCheck.map(WeekendMealCheck::isCheck).orElse(false);
 
         if (userIds.isEmpty()) {
-            return new WeekendMealListResponse(List.of(), List.of());
+            return new WeekendMealListResponse(isCheck, List.of(), List.of());
         }
 
         Map<UUID, UserInfoElement> hashMap =
@@ -130,7 +132,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
             }).sorted(Comparator.comparing(WeekendMealElement::getNum)).toList();
         }
 
-        return new WeekendMealListResponse(weekendMealResponseElements, weekendMealNonResponseElements);
+        return new WeekendMealListResponse(isCheck, weekendMealResponseElements, weekendMealNonResponseElements);
     }
 
     @Override
@@ -145,15 +147,14 @@ public class WeekendMealApiImpl implements WeekendMealApi {
 
         weekendMealCheckSaveOrUpdate(weekendMeal.getId(), teacherId, weekendMealCheck);
     }
-
     private void weekendMealCheckSaveOrUpdate(UUID weekendMealId, UUID userId, WeekendMealCheck weekendMealCheck) {
-        WeekendMealCheck exitsWeekendMealCheck = queryWeekendMealCheckRepositorySpi.existsWeekendMealCheck(weekendMealId, userId);
+        Optional<WeekendMealCheck> weekendMealCheckDomain = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndUserId(weekendMealId, userId);
 
-        if (exitsWeekendMealCheck == null) {
+        if (weekendMealCheckDomain.isEmpty()) {
             postWeekendMealCheckRepositorySpi.postWeekendMealCheck(weekendMealCheck);
         } else {
             postWeekendMealCheckRepositorySpi.changeWeekendMealIsCheck(
-                    exitsWeekendMealCheck.getId(), weekendMealCheck.isCheck()
+                    weekendMealCheckDomain.get().getId(), weekendMealCheck.isCheck()
             );
         }
     }
