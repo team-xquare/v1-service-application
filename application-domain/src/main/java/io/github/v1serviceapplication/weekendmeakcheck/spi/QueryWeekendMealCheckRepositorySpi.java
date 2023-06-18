@@ -6,5 +6,5 @@ import java.util.UUID;
 
 public interface QueryWeekendMealCheckRepositorySpi {
    boolean existsWeekendMealCheck(UUID weekendMealId, UUID userId);
-   WeekendMealCheck queryWeekendMealByweekendMealIdAndUserId(UUID weekendMealId, UUID userId);
+   WeekendMealCheck queryWeekendMealCheckByWeekendMealIdAndUserId(UUID weekendMealId, UUID userId);
 }
