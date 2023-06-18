@@ -38,7 +38,20 @@ public class CustomWeekendMealCheckRepositoryImpl implements PostWeekendMealChec
     }
 
     @Override
-    public WeekendMealCheck existsWeekendMealCheck(UUID weekendMealId, UUID userId) {
+    public boolean existsWeekendMealCheck(UUID weekendMealId, UUID userId) {
+       return queryFactory
+                .selectFrom(weekendMealCheckEntity)
+                .join(weekendMealEntity)
+                .on(weekendMealCheckEntity.weekendMeal.id.eq(weekendMealEntity.id))
+                .where(
+                        weekendMealCheckEntity.userId.eq(userId),
+                        weekendMealCheckEntity.weekendMeal.id.eq(weekendMealId)
+                )
+                .fetchOne() == null;
+    }
+
+    @Override
+    public WeekendMealCheck queryWeekendMealByweekendMealIdAndUserId(UUID weekendMealId, UUID userId) {
         WeekendMealCheckEntity entity = queryFactory
                 .selectFrom(weekendMealCheckEntity)
                 .join(weekendMealEntity)
