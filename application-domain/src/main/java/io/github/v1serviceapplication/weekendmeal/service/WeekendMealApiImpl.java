@@ -1,7 +1,6 @@
 package io.github.v1serviceapplication.weekendmeal.service;
 
 import io.github.v1serviceapplication.annotation.DomainService;
-import io.github.v1serviceapplication.error.UserNotFoundException;
 import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.user.dto.response.UserInfoElement;
 import io.github.v1serviceapplication.user.spi.UserFeignSpi;
