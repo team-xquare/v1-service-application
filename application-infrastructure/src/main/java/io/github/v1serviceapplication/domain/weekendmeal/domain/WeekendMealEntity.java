@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Column;
@@ -34,4 +35,11 @@ public class WeekendMealEntity {
 
     private LocalDate date;
 
+    @ColumnDefault("false")
+    @Column(columnDefinition = "TINYINT(1)")
+    private boolean allowedPeriod;
+
+    public void changeAllowedPeriod(boolean allowedPeriod) {
+        this.allowedPeriod = allowedPeriod;
+    }
 }
