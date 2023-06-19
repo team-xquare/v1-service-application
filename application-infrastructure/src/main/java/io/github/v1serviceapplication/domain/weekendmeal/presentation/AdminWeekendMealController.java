@@ -1,5 +1,6 @@
 package io.github.v1serviceapplication.domain.weekendmeal.presentation;
 
+import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.request.ChangeStudentWeekendMealApplyStatusRequest;
 import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.request.ChangeWeekendMealAllowedPeriodRequest;
 import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.request.PostWeekendMealCheckRequest;
 import io.github.v1serviceapplication.infrastructure.excel.WeekendMealAllStudentExcel;
@@ -86,5 +87,12 @@ public class AdminWeekendMealController {
     @PatchMapping("/change/period")
     public void changeWeekendMealAllowedPeriod(@RequestBody @Valid ChangeWeekendMealAllowedPeriodRequest request) {
         weekendMealApi.changeWeekendMealAllowedPeriod(request.getAllowedPeriod());
+    }
+
+    @Operation(summary = "주말급식 학생 신청상태 변경 API")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/change/student/status")
+    public void changeStudentWeekendMealApplyStatus(@RequestBody @Valid ChangeStudentWeekendMealApplyStatusRequest request) {
+        weekendMealApi.changeStudentWeekendMealApplyStatus(request.getStudentId(), request.getStatus());
     }
 }
