@@ -34,7 +34,7 @@ public class WeekendMealAllStudentExcel {
         applyThinStyle(colorStyle);
         applyThinStyle(cellStyle);
 
-        Sheet sheet = workbook.createSheet("주말급식신청조회");
+        Sheet sheet = workbook.createSheet("주말급식전체학생조회");
 
         Row row1 = sheet.createRow(1);
 

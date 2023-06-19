@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Month;
 
 @Tag(name = "어드민 주말급식 API")
 @RestController
@@ -47,10 +49,10 @@ public class AdminWeekendMealController {
 
         Workbook workbook = weekendMealStatusExcel.createWorkHook();
 
-        String filename = "주말급식명단.xlsx";
+        String filename = LocalDate.now().getYear() + "년도" + LocalDate.now().getMonthValue() + "월 주말급식명단.xlsx";
 
         response.setContentType("ms-vnd/excel");
-        response.setHeader("Content-Disposition", "attachment;filename=.xlsx" + new String(filename.getBytes("KSC5601"), "8859_1"));
+        response.setHeader("Content-Disposition", new String(filename.getBytes("KSC5601"), "8859_1") + "attachment;filename=.xlsx");
 
         workbook.write(response.getOutputStream());
         workbook.close();
@@ -68,10 +70,10 @@ public class AdminWeekendMealController {
     public void weekendMealAllStudentExcel(HttpServletResponse response) throws IOException {
         Workbook workbook = weekendMealAllStudentExcel.createWorkHook();
 
-        String filename = "주말급식전체학생명단.xlsx";
+        String filename = LocalDate.now().getYear() + "년도" + LocalDate.now().getMonth().getValue() + "월 주말급식전체학생명단.xlsx";
 
         response.setContentType("ms-vnd/excel");
-        response.setHeader("Content-Disposition", "attachment;filename=.xlsx" + new String(filename.getBytes("KSC5601"), "8859_1"));
+        response.setHeader("Content-Disposition", new String(filename.getBytes("KSC5601"), "8859_1") + "attachment;filename=.xlsx");
 
         workbook.write(response.getOutputStream());
         workbook.close();
