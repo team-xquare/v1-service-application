@@ -14,4 +14,5 @@ public class WeekendMeal {
     private UUID id;
     private String title;
     private LocalDate date;
+    private boolean allowedPeriod;
 }

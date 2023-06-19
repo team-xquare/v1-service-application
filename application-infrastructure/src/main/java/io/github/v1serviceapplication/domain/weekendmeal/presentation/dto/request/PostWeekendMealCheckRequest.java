@@ -1,4 +1,4 @@
-package io.github.v1serviceapplication.domain.weekendmeal.presentation.dto;
+package io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
