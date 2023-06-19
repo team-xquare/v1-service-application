@@ -25,7 +25,7 @@ public class CustomWeekendMealRepositoryImpl implements QueryWeekendMealReposito
     private final WeekendMealRepository weekendMealRepository;
 
     @Override
-    public WeekendMeal queryWeekendMealByDate() {
+    public WeekendMeal queryWeekendMeal() {
         return weekendMealMapper.entityToDomain(
                 jpaQueryFactory
                         .selectFrom(weekendMealEntity)
