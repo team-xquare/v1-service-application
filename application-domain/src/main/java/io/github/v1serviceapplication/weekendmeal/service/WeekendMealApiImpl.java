@@ -50,7 +50,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     public void postWeekendMealApply(WeekendMealApplicationStatus status) {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
 
-        if(!weekendMeal.isAllowedPeriod()) {
+        if (!weekendMeal.isAllowedPeriod()) {
             throw WeekendMealCanNotApplicationException.EXCEPTION;
         }
 
@@ -148,7 +148,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     @Override
     public void changeWeekendMealAllowedPeriod(boolean allowPeriod) {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
-        postWeekendMealRepository.changeWeekendMealAllowedPeriod(weekendMeal.getId(), allowPeriod);
+        postWeekendMealRepository.changeAllowedPeriodByWeekendMealIdAndAllowedPeriod(weekendMeal.getId(), allowPeriod);
     }
 
     private void weekendMealCheckSaveOrUpdate(UUID weekendMealId, UUID userId, WeekendMealCheck weekendMealCheck) {

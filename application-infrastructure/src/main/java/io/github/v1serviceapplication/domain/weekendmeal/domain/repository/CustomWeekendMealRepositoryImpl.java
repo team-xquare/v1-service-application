@@ -37,7 +37,7 @@ public class CustomWeekendMealRepositoryImpl implements QueryWeekendMealReposito
 
     @Override
     @Transactional
-    public void changeWeekendMealAllowedPeriod(UUID weekendMealId, boolean allowedPeriod) {
+    public void changeAllowedPeriodByWeekendMealIdAndAllowedPeriod(UUID weekendMealId, boolean allowedPeriod) {
         WeekendMealEntity entity = weekendMealRepository.findById(weekendMealId)
                 .orElseThrow(()-> WeekendMealNotFoundException.EXCEPTION);
 
