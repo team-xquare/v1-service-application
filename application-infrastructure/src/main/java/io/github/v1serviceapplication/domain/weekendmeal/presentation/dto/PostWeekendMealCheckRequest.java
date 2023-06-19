@@ -11,4 +11,8 @@ public class PostWeekendMealCheckRequest {
 
     @NotNull
     private Boolean isCheck;
+    @NotNull
+    private Integer grade;
+    @NotNull
+    private Integer classNum;
 }

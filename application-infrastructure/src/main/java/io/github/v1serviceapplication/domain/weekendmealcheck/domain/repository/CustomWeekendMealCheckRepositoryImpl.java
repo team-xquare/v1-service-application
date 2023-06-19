@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -51,5 +52,17 @@ public class CustomWeekendMealCheckRepositoryImpl implements PostWeekendMealChec
                 .fetchOne();
 
         return Optional.ofNullable(entity).map(weekendMealCheckMapper::entityToDomain);
+    }
+
+    @Override
+    public List<WeekendMealCheck> queryWeekendMealCheckListByWeekendMealId(UUID weekendMealId) {
+        return queryFactory
+                .selectFrom(weekendMealCheckEntity)
+                .join(weekendMealEntity)
+                .on(weekendMealCheckEntity.weekendMeal.id.eq(weekendMealId))
+                .where(weekendMealCheckEntity.isCheck.eq(true))
+                .fetch()
+                .stream()
+                .map(weekendMealCheckMapper::entityToDomain).toList();
     }
 }

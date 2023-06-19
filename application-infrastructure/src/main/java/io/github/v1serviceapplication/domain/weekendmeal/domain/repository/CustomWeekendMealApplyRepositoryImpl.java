@@ -51,7 +51,7 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
     }
 
     @Override
-    public List<WeekendMealApply> findWeekendMealListByWeekendMealId(UUID weekendMealId) {
+    public List<WeekendMealApply> queryWeekendMealListByWeekendMealId(UUID weekendMealId) {
         return jpaQueryFactory
                 .selectFrom(weekendMealApplyEntity)
                 .join(weekendMealApplyEntity.weekendMeal, weekendMealEntity)
