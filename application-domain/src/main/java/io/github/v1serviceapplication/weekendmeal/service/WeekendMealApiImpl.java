@@ -177,11 +177,11 @@ public class WeekendMealApiImpl implements WeekendMealApi {
                     UserInfoElement user = userHashMap.get(weekendMealCheck.getUserId());
 
                     return WeekendMealCheckTeacherElement.builder()
-                                .name(user.getName())
-                                .grade(Integer.parseInt(user.getNum().substring(0,1)))
-                                .classNum(Integer.parseInt(user.getNum().substring(1,2)))
-                                .createDate(weekendMealCheck.getCreateDate())
-                                .build();
+                            .name(user.getName())
+                            .grade(Integer.parseInt(user.getNum().substring(0,1)))
+                            .classNum(Integer.parseInt(user.getNum().substring(1,2)))
+                            .createDate(weekendMealCheck.getCreateDate())
+                            .build();
                 }).sorted(Comparator.comparing(WeekendMealCheckTeacherElement::getGrade)).toList();
 
         return new WeekendMealExcelListResponse(teacherLists);
