@@ -147,6 +147,18 @@ public class WeekendMealApiImpl implements WeekendMealApi {
 
         weekendMealCheckSaveOrUpdate(weekendMeal.getId(), teacherId, weekendMealCheck);
     }
+
+    @Override
+    public void changeStudentWeekendMealApplyStatus(UUID studentId, WeekendMealApplicationStatus status) {
+        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
+
+        if (weekendMeal == null) {
+            throw WeekendMealNotFoundException.EXCEPTION;
+        }
+
+        postWeekendMealApplyRepositorySpi.updateWeekendMealApply(studentId, weekendMeal.getId(), status);
+    }
+
     private void weekendMealCheckSaveOrUpdate(UUID weekendMealId, UUID userId, WeekendMealCheck weekendMealCheck) {
         Optional<WeekendMealCheck> weekendMealCheckDomain = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndUserId(weekendMealId, userId);
 
