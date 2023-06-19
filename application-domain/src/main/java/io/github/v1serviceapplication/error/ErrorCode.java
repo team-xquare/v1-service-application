@@ -31,7 +31,7 @@ public enum ErrorCode {
     
     WEEKEND_MEAL_NOT_FOUND(404, "WEEKEND-404-1", "Weekend Meal Not Found."),
 
-    WEEKEND_MEAL_APPLY_NOT_FOUND(404, "WEEKEND-APPLY-404-1", "Weekend Meal Apply Not Found."),
+    WEEKEND_MEAL_APPLY_NOT_FOUND(404, "WEEKEND-APPLY-404-2", "Weekend Meal Apply Not Found."),
 
     INTERNAL_SERVER_ERROR(500, "APPLICATION-500-1", "Internal Server Error."),
 
@@ -63,7 +63,9 @@ public enum ErrorCode {
 
     WEEKEND_MEAL_CAN_NOT_APPLICATION(400, "WEEKEND-400-2", "Weekend Meal Can Not Application"),
 
-    WEEKEND_MEAL_CHECK_NOT_FOUND(400, "WEEKEND-400-3", "Weekend Meal Check Not Found");
+    WEEKEND_MEAL_CHECK_NOT_FOUND(404, "WEEKEND-404-3", "Weekend Meal Check Not Found"),
+
+    NOT_MATCHED_HOMEROOM_TEACHER(403, "WEEKEND-403-1", "Not Matched Homeroom Teacher");
 
     private final int status;
     private final String code;

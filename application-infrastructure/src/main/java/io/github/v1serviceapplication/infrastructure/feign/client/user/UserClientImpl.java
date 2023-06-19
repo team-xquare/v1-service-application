@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.infrastructure.feign.client.user;
 
 import io.github.v1serviceapplication.user.dto.response.UserInfoElement;
+import io.github.v1serviceapplication.user.spi.UserFeignSpi;
 import io.github.v1serviceapplication.infrastructure.feign.client.dto.request.UserInfoRequest;
 import io.github.v1serviceapplication.infrastructure.feign.client.dto.response.UserInfoResponseElement;
 import io.github.v1serviceapplication.picnic.spi.PicnicUserFeignSpi;
@@ -8,7 +9,7 @@ import io.github.v1serviceapplication.stay.api.dto.response.StayUserElement;
 import io.github.v1serviceapplication.stay.spi.StayUserFeignSpi;
 import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomUserFeignSpi;
-import io.github.v1serviceapplication.user.spi.UserFeignSpi;
+import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealUserInfoElement;
 import io.github.v1serviceapplication.weekendmeal.spi.WeekendMealUserFeignSpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -73,6 +74,17 @@ public class UserClientImpl implements StudyRoomUserFeignSpi, PicnicUserFeignSpi
                                 user.getName()
                         )
                 ).toList();
+    }
+
+    @Override
+    public WeekendMealUserInfoElement queryUserInfo(UUID userId) {
+        UserInfoResponseElement userInfo = userClient.queryUserInfo(userId);
+        return new WeekendMealUserInfoElement(
+                userInfo.getId(),
+                userInfo.getName(),
+                userInfo.getGrade(),
+                userInfo.getClassNum()
+        );
     }
 
     @Override
