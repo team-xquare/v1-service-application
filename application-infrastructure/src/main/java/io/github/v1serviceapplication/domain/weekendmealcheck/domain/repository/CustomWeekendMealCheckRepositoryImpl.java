@@ -55,7 +55,7 @@ public class CustomWeekendMealCheckRepositoryImpl implements PostWeekendMealChec
     }
 
     @Override
-    public List<WeekendMealCheck> queryWeekendMealCheckList(UUID weekendMealId) {
+    public List<WeekendMealCheck> queryWeekendMealCheckListByWeekendMealId(UUID weekendMealId) {
         return queryFactory
                 .selectFrom(weekendMealCheckEntity)
                 .join(weekendMealEntity)

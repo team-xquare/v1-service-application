@@ -162,7 +162,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     @Override
     public WeekendMealExcelListResponse weekendMealExcelUserList() {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMeal();
-        List<WeekendMealCheck> weekendMealCheckList = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckList(weekendMeal.getId());
+        List<WeekendMealCheck> weekendMealCheckList = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckListByWeekendMealId(weekendMeal.getId());
         List<UUID> weekendMealTeacherIdList = weekendMealCheckList.stream().map(weekendMealCheck -> weekendMealCheck.getUserId()).toList();
 
         if (weekendMealCheckList == null) {
