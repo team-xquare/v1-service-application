@@ -1,6 +1,7 @@
 package io.github.v1serviceapplication.domain.weekendmeal.presentation;
 
-import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.PostWeekendMealCheckRequest;
+import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.request.ChangeWeekendMealAllowedPeriodRequest;
+import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.request.PostWeekendMealCheckRequest;
 import io.github.v1serviceapplication.infrastructure.excel.WeekendMealStatusExcel;
 import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealListResponse;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,5 +61,12 @@ public class AdminWeekendMealController {
     @PostMapping("/weekend-meal/teacher/check")
     public void weekendMealTeacherCheck(@RequestBody @Valid PostWeekendMealCheckRequest request) {
         weekendMealApi.postWeekendMealCheck(request.getIsCheck());
+    }
+
+    @Operation(summary = "주말급식 신청가능 여부 변경 API")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping("/change/period")
+    public void changeWeekendMealAllowedPeriod(@RequestBody @Valid ChangeWeekendMealAllowedPeriodRequest request) {
+        weekendMealApi.changeWeekendMealAllowedPeriod(request.getAllowedPeriod());
     }
 }

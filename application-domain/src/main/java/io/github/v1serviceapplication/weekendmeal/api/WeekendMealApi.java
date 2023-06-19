@@ -10,4 +10,5 @@ public interface WeekendMealApi {
     QueryWeekendMealResponse queryWeekendMeal();
     WeekendMealListResponse queryWeekendMealUserList(Integer grade, Integer classNum);
     void postWeekendMealCheck(boolean isCheck);
+    void changeWeekendMealAllowedPeriod(boolean allowPeriod);
 }

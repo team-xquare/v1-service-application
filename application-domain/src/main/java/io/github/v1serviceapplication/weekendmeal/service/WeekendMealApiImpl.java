@@ -18,6 +18,7 @@ import io.github.v1serviceapplication.weekendmeal.exception.NonResponseStatusIsI
 import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealCanNotApplicationException;
 import io.github.v1serviceapplication.weekendmeal.exception.WeekendMealNotFoundException;
 import io.github.v1serviceapplication.weekendmeal.spi.PostWeekendMealApplyRepositorySpi;
+import io.github.v1serviceapplication.weekendmeal.spi.PostWeekendMealRepository;
 import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealApplyRepositorySpi;
 import io.github.v1serviceapplication.weekendmeal.spi.QueryWeekendMealRepositorySpi;
 import lombok.RequiredArgsConstructor;
@@ -41,13 +42,18 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     private final QueryWeekendMealApplyRepositorySpi queryWeekendMealApplyRepositorySpi;
     private final PostWeekendMealCheckRepositorySpi postWeekendMealCheckRepositorySpi;
     private final QueryWeekendMealCheckRepositorySpi queryWeekendMealCheckRepositorySpi;
+    private final PostWeekendMealRepository postWeekendMealRepository;
     private final UserIdFacade userIdFacade;
     private final UserFeignSpi userFeignSpi;
 
     @Override
     public void postWeekendMealApply(WeekendMealApplicationStatus status) {
-        checkWeekendMealValidTerm();
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
+
+        if(!weekendMeal.isAllowedPeriod()) {
+            throw WeekendMealCanNotApplicationException.EXCEPTION;
+        }
+
         UUID userId = userIdFacade.getCurrentUserId();
 
         if (weekendMeal == null) {
@@ -61,15 +67,6 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     private void checkWeekendMealValidStatus(WeekendMealApplicationStatus requestStatus) {
         if (requestStatus == WeekendMealApplicationStatus.NON_RESPONSE) {
             throw NonResponseStatusIsImpossibleException.EXCEPTION;
-        }
-    }
-
-    private void checkWeekendMealValidTerm() {
-        int nowDate = LocalDate.now().atStartOfDay().getDayOfMonth();
-        int weekendMealApplicationDate = LocalDate.now().withDayOfMonth(3).getDayOfMonth();
-
-        if (nowDate > weekendMealApplicationDate) {
-            throw WeekendMealCanNotApplicationException.EXCEPTION;
         }
     }
 
@@ -147,6 +144,13 @@ public class WeekendMealApiImpl implements WeekendMealApi {
 
         weekendMealCheckSaveOrUpdate(weekendMeal.getId(), teacherId, weekendMealCheck);
     }
+
+    @Override
+    public void changeWeekendMealAllowedPeriod(boolean allowPeriod) {
+        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMealByDate();
+        postWeekendMealRepository.changeWeekendMealAllowedPeriod(weekendMeal.getId(), allowPeriod);
+    }
+
     private void weekendMealCheckSaveOrUpdate(UUID weekendMealId, UUID userId, WeekendMealCheck weekendMealCheck) {
         Optional<WeekendMealCheck> weekendMealCheckDomain = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndUserId(weekendMealId, userId);
 
