@@ -57,6 +57,8 @@ public enum ErrorCode {
   
     PICNIC_PASS_MODIFY_FORBIDDEN(403, "PICNIC-403-2", "Picnic Pass Modify Forbidden."),
 
+    JSON_CONVERT_ERROR(400, "NOTIFICATION-400-1", "Json Convert Error"),
+
     PICNIC_APPLY_NOT_AVAILABLE(400, "PICNIC-400-2", "Picnic Apply Not Available."),
 
     NON_RESPONSE_STATUS_IS_IMPOSSIBLE(400, "WEEKEND-400-1", "Non Response Status Is Impossible."),
