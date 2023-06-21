@@ -101,37 +101,38 @@ public class WeekendMealApiImpl implements WeekendMealApi {
             return new WeekendMealListResponse(isCheck, List.of(), List.of());
         }
 
-        Map<UUID, UserInfoElement> userHashMap =
-                userFeignSpi.getUserInfoList(userIds).stream().collect(Collectors.toMap(UserInfoElement::getUserId,
-                        user -> user, (userId, user) -> user, HashMap::new));
+        Map<UUID, UserInfoElement> userHashMap = userFeignSpi.getUserInfoList(userIds)
+                .stream()
+                .collect(Collectors.toMap(UserInfoElement::getUserId, user -> user, (userId, user) -> user, HashMap::new));
 
         List<WeekendMealElement> weekendMealResponseElements = new ArrayList<>();
         List<WeekendMealElement> weekendMealNonResponseElements = new ArrayList<>();
 
         if (grade != null || classNum != null) {
-            weekendMealApplies.stream().filter(weekendMealApply -> {
-                UserInfoElement user = userHashMap.get(weekendMealApply.getUserId());
-                Integer userGrade = Integer.valueOf(user.getNum().substring(0, 1));
-                Integer userClassNum = Integer.valueOf(user.getNum().substring(1, 2));
+            weekendMealApplies.stream()
+                    .filter(weekendMealApply -> {
+                        UserInfoElement user = userHashMap.get(weekendMealApply.getUserId());
+                        Integer userGrade = Integer.valueOf(user.getNum().substring(0, 1));
+                        Integer userClassNum = Integer.valueOf(user.getNum().substring(1, 2));
 
-                if (grade != null && classNum == null) {
-                    return grade.equals(userGrade);
-                } else if (grade == null && classNum != null) {
-                    return classNum.equals(userClassNum);
-                } else {
-                    return grade.equals(userGrade) && classNum.equals(userClassNum);
-                }
-            }).map(weekendMealApply -> {
-                UserInfoElement user = userHashMap.get(weekendMealApply.getUserId());
-                return buildWeekendMealElement(user, weekendMealApply.getStatus(), weekendMealResponseElements, weekendMealNonResponseElements);
-            }).sorted(Comparator.comparing(WeekendMealElement::getNum)).toList();
+                        if (grade != null && classNum == null) {
+                            return grade.equals(userGrade);
+                        } else if (grade == null && classNum != null) {
+                            return classNum.equals(userClassNum);
+                        } else {
+                            return grade.equals(userGrade) && classNum.equals(userClassNum);
+                        }
+                    })
+                    .map(weekendMealApply -> {
+                        UserInfoElement user = userHashMap.get(weekendMealApply.getUserId());
+                        return buildWeekendMealElement(user, weekendMealApply.getStatus(), weekendMealResponseElements, weekendMealNonResponseElements);
+                    }).toList();
         } else {
-            weekendMealApplies.stream().map(weekendMealApply -> {
-                UserInfoElement user = userHashMap.get(weekendMealApply.getUserId());
-
-                return buildWeekendMealElement(user, weekendMealApply.getStatus(), weekendMealResponseElements,
-                        weekendMealNonResponseElements);
-            }).sorted(Comparator.comparing(WeekendMealElement::getNum)).toList();
+            weekendMealApplies.stream()
+                    .map(weekendMealApply -> {
+                        UserInfoElement user = userHashMap.get(weekendMealApply.getUserId());
+                        return buildWeekendMealElement(user, weekendMealApply.getStatus(), weekendMealResponseElements, weekendMealNonResponseElements);
+                    }).toList();
         }
 
         return new WeekendMealListResponse(isCheck, weekendMealResponseElements, weekendMealNonResponseElements);
@@ -236,5 +237,8 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         } else {
             weekendMealNonResponseElements.add(weekendMealElement);
         }
+
+        weekendMealResponseElements.sort(Comparator.comparing(WeekendMealElement::getNum));
+        weekendMealNonResponseElements.sort(Comparator.comparing(WeekendMealElement::getNum));
     }
 }
