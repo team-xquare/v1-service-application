@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,9 +26,9 @@ public class WeekendMealController {
 
     @Operation(summary = "주말 급식 신청 API")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping
+    @PatchMapping
     public void postWeekendMealApply(@RequestBody @Valid PostWeekendMealApplyRequest request) {
-        weekendMealApi.postWeekendMealApply(request.getApply());
+        weekendMealApi.postWeekendMealApply(request.getStatus());
     }
 
     @Operation(summary = "주말 급식 조회 API")

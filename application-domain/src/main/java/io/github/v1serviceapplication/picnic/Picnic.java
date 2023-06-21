@@ -19,6 +19,4 @@ public class Picnic {
     private final LocalTime endTime;
     private final String reason;
     private final String arrangement;
-    private final LocalTime dormitoryReturnCheckTime;
-    private final Boolean isAcceptance;
 }

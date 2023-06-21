@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -38,8 +37,10 @@ public class PicnicEntity extends BaseEntity {
     @NotNull
     private String arrangement;
 
-    private LocalTime dormitoryReturnCheckTime;
-
-    @Column(columnDefinition = "TINYINT(1) DEFAULT 0")
-    private Boolean isAcceptance = false;
+    public void updatePicnic(LocalTime startTime, LocalTime endTime, String reason, String arrangement) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.reason = reason;
+        this.arrangement = arrangement;
+    }
 }

@@ -14,4 +14,5 @@ public class PicnicTime {
     private final UUID id;
     private final LocalTime picnicTime;
     private final TimeType timeType;
+    private final DayType day;
 }

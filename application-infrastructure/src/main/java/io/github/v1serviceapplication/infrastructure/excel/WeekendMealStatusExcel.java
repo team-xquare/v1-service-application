@@ -26,7 +26,8 @@ public class WeekendMealStatusExcel {
 
         setHeaderRow(row1);
 
-        List<WeekendMealElement> weekendMealUserList = weekendMealApi.queryWeekendMealUserList().getStudents();
+        List<WeekendMealElement> weekendMealUserList = weekendMealApi.queryWeekendMealUserList(null, null).getNonResponseStudents();
+
         int i = 2;
         int j = 1;
         for (WeekendMealElement weekendMealElement : weekendMealUserList) {

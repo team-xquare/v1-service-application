@@ -27,11 +27,11 @@ public enum ErrorCode {
 
     STAY_NOT_FOUND(404, "STAY-404-1", "Stay Not Found."),
 
-    PICNIC_NOT_FOUND(404, "STAY-404-1", "Picnic Not Found."),
+    PICNIC_NOT_FOUND(404, "PICNIC-404-1", "Picnic Not Found."),
     
     WEEKEND_MEAL_NOT_FOUND(404, "WEEKEND-404-1", "Weekend Meal Not Found."),
 
-    WEEKEND_MEAL_APPLY_NOT_FOUND(404, "WEEKEND-APPLY-404-1", "Weekend Meal Apply Not Found."),
+    WEEKEND_MEAL_APPLY_NOT_FOUND(404, "WEEKEND-APPLY-404-2", "Weekend Meal Apply Not Found."),
 
     INTERNAL_SERVER_ERROR(500, "APPLICATION-500-1", "Internal Server Error."),
 
@@ -53,12 +53,23 @@ public enum ErrorCode {
 
     PICNIC_RESERVATION_NOT_FOUND(404, "RESERVATION-404-1", "Picnic Reservation Not Found."),
 
-    PICNIC_RESERVE_NOT_AVAILABLE(400, "RESERVATION-403-1", "Picnic Reserve Not Available."),
+    PICNIC_RESERVE_NOT_AVAILABLE(400, "RESERVATION-400-1", "Picnic Reserve Not Available."),
+  
+    PICNIC_PASS_MODIFY_FORBIDDEN(403, "PICNIC-403-2", "Picnic Pass Modify Forbidden."),
 
     PICNIC_APPLY_NOT_AVAILABLE(400, "PICNIC-403-1", "Picnic Apply Not Available."),
 
-    JSON_CONVERT_ERROR(400, "NOTIFICATION-400-1", "Json Convert Error");
+    JSON_CONVERT_ERROR(400, "NOTIFICATION-400-1", "Json Convert Error"),
 
+    PICNIC_APPLY_NOT_AVAILABLE(400, "PICNIC-400-2", "Picnic Apply Not Available."),
+
+    NON_RESPONSE_STATUS_IS_IMPOSSIBLE(400, "WEEKEND-400-1", "Non Response Status Is Impossible."),
+
+    WEEKEND_MEAL_CAN_NOT_APPLICATION(400, "WEEKEND-400-2", "Weekend Meal Can Not Application"),
+
+    WEEKEND_MEAL_CHECK_NOT_FOUND(404, "WEEKEND-404-3", "Weekend Meal Check Not Found"),
+
+    NOT_MATCHED_HOMEROOM_TEACHER(403, "WEEKEND-403-1", "Not Matched Homeroom Teacher");
 
     private final int status;
     private final String code;

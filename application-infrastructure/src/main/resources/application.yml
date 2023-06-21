@@ -25,7 +25,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     open-in-view: false
 
   jackson:
@@ -45,3 +45,6 @@ springdoc:
 
 user:
   url: ${user.url}
+
+sentry:
+  dsn: ${sentry.dsn}
