@@ -40,15 +40,11 @@ public class WeekendMealAllStudentExcel {
 
         setHeaderRow(row1, headerStyle);
 
-        List<WeekendMealElement> responseStudents =
-                weekendMealApi.queryWeekendMealUserList(null, null).getResponseStudents();
-        List<WeekendMealElement> nonResponseStudents =
-                weekendMealApi.queryWeekendMealUserList(null, null).getNonResponseStudents();
-        List<WeekendMealCheckTeacherElement> weekendMealCheckList =
-                weekendMealApi.weekendMealExcelUserList().getTeacherCheckLists();
+        List<WeekendMealElement> responseStudents = weekendMealApi.queryWeekendMealUserList(null, null).getResponseStudents();
+        List<WeekendMealElement> nonResponseStudents = weekendMealApi.queryWeekendMealUserList(null, null).getNonResponseStudents();
+        List<WeekendMealCheckTeacherElement> weekendMealCheckList = weekendMealApi.weekendMealExcelUserList().getTeacherCheckLists();
 
-        setWeekendMealResponseStudents(sheet, colorStyle, headerStyle, cellStyle, responseStudents,
-                nonResponseStudents, weekendMealCheckList);
+        setWeekendMealResponseStudents(sheet, colorStyle, headerStyle, cellStyle, responseStudents, nonResponseStudents, weekendMealCheckList);
 
         return workbook;
     }
@@ -63,12 +59,13 @@ public class WeekendMealAllStudentExcel {
 
 
         for (WeekendMealElement weekendMealElement : responseStudents) {
+
             int currentGrade = Integer.parseInt(weekendMealElement.getNum().substring(0, 1));
 
             if (previousGrade != currentGrade) {
                 // 이전 학년과 동일하지 않은 경우 새로운 학년 열을 생성
                 startColumn = (currentGrade - 1) * 4 + 1;
-                startRow = startRow > 2 ? startRow - 1 : startRow;
+                startRow = startRow > 2 ? startRow = 2 : startRow;
                 previousGrade = currentGrade; // 이전 학년 변수를 업데이트
             }
 
