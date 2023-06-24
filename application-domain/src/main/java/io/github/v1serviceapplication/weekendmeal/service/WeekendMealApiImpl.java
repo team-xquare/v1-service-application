@@ -210,9 +210,15 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     @Override
     public WeekendMealCheckStatusResponse queryWeekendMealCheckStatus(int grade, int classNum) {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMeal();
-        Boolean isCheck = false;
 
-        if (!queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndGradeAndClassNum(weekendMeal.getId(), grade, classNum).isEmpty()) {
+        if (weekendMeal == null) {
+            throw WeekendMealNotFoundException.EXCEPTION;
+        }
+
+        Boolean isCheck;
+        if (queryWeekendMealCheckRepositorySpi.queryWeekendMealCheckByWeekendMealIdAndGradeAndClassNum(weekendMeal.getId(), grade, classNum).isEmpty()) {
+            isCheck = false;
+        } else {
             isCheck = true;
         }
 
