@@ -98,7 +98,7 @@ public class AdminWeekendMealController {
 
     @Operation(summary = "주말급식 선생님 확인 여부 확인API")
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/check?grade=&classNum=")
+    @GetMapping("/check")
     public WeekendMealCheckStatusResponse queryWeekendMealCheckStatus(
             @RequestParam(value = "grade") Integer grade,
             @RequestParam(value = "classNum") Integer classNum
