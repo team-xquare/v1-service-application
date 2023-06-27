@@ -67,10 +67,10 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         UUID userId = userIdFacade.getCurrentUserId();
         WeekendMealUserInfoElement userInfo = weekendMealUserFeignSpi.queryUserInfo(userId);
 
-        boolean weekendMealCheckIsEmpty = !queryWeekendMealCheckRepositorySpi
+        boolean existWeekendMealCheck = !queryWeekendMealCheckRepositorySpi
                 .queryWeekendMealCheck(weekendMeal.getId(), userInfo.getGrade(), userInfo.getClassNum()).isEmpty();
 
-        if (weekendMealCheckIsEmpty) {
+        if (existWeekendMealCheck) {
             throw WeekendMealCanNotApplicationException.EXCEPTION;
         }
 
