@@ -16,6 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins(
                         "https://service.xquare.app",
                         "https://admin.xquare.app",
+                        "https://admin.dsm-pick.com",
                         "http://localhost:3000",
                         "http://localhost:3001"
                 );
