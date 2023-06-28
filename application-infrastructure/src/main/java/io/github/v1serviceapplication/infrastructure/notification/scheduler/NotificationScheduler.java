@@ -26,8 +26,8 @@ public class NotificationScheduler {
 
     @Scheduled(cron = "0 20 8 * * * *", zone = "Asia/Seoul")
     public void weekendMealNotification() {
-        Boolean isAllowedPeriod = weekendMealApi.queryWeekendMealIsAllowedPeriod();
-        if (isAllowedPeriod){
+        Boolean isAllowedWeekendMealPeriod = weekendMealApi.queryWeekendMealIsAllowedPeriod();
+        if (isAllowedWeekendMealPeriod){
             sendGroupNotification(APPLICATION_WEEKEND_MEAL, WEEKEND_MEAL_CONTENT, THREAD_ID);
         }
     }
