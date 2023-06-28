@@ -67,8 +67,8 @@ public class CustomWeekendMealCheckRepositoryImpl implements PostWeekendMealChec
     }
 
     @Override
-    public Optional<WeekendMealCheck> queryWeekendMealCheck(UUID weekendMealId, int grade, int classNum) {
-        WeekendMealCheckEntity entity = queryFactory
+    public boolean queryWeekendMealCheck(UUID weekendMealId, int grade, int classNum) {
+        return queryFactory
                 .selectFrom(weekendMealCheckEntity)
                 .join(weekendMealEntity)
                 .on(weekendMealCheckEntity.weekendMeal.id.eq(weekendMealId))
@@ -77,8 +77,6 @@ public class CustomWeekendMealCheckRepositoryImpl implements PostWeekendMealChec
                         weekendMealCheckEntity.classNum.eq(classNum),
                         weekendMealCheckEntity.isCheck.eq(true)
                 )
-                .fetchOne();
-
-        return Optional.ofNullable(entity).map(weekendMealCheckMapper::entityToDomain);
+                .fetchOne() != null;
     }
 }
