@@ -9,4 +9,5 @@ import java.util.UUID;
 public interface QueryWeekendMealCheckRepositorySpi {
    Optional<WeekendMealCheck> queryWeekendMealCheckByWeekendMealIdAndUserId(UUID weekendMealId, UUID userId);
    List<WeekendMealCheck> queryWeekendMealCheckListByWeekendMealId(UUID weekendMealId);
+   boolean existWeekendMealCheck(UUID weekendMealId, int grade, int classNum);
 }

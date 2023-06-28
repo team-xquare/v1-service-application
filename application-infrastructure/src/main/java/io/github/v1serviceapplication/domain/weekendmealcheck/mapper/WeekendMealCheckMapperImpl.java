@@ -21,6 +21,8 @@ public class WeekendMealCheckMapperImpl implements WeekendMealCheckMapper{
                 .createDate(weekendMealCheckEntity.getCreateDate())
                 .weekendMealId(weekendMealCheckEntity.getWeekendMealId())
                 .isCheck(weekendMealCheckEntity.isCheck())
+                .grade(weekendMealCheckEntity.getGrade())
+                .classNum(weekendMealCheckEntity.getClassNum())
                 .build();
     }
 
@@ -35,6 +37,8 @@ public class WeekendMealCheckMapperImpl implements WeekendMealCheckMapper{
                 .createDate(weekendMealCheck.getCreateDate())
                 .weekendMeal(weekendMeal)
                 .isCheck(weekendMealCheck.isCheck())
+                .grade(weekendMealCheck.getGrade())
+                .classNum(weekendMealCheck.getClassNum())
                 .build();
     }
 }

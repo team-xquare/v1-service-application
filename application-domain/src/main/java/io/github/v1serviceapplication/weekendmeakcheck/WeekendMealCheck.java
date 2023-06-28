@@ -16,4 +16,6 @@ public class WeekendMealCheck {
     private final LocalDate createDate;
     private final UUID weekendMealId;
     private final boolean isCheck;
+    private final int grade;
+    private final int classNum;
 }

@@ -33,6 +33,14 @@ public class WeekendMealCheckEntity extends BaseDateEntity{
     @Column(columnDefinition = "TINYINT(1)")
     private boolean isCheck;
 
+    @NotNull
+    @Column(columnDefinition = "INT(1)")
+    private Integer grade;
+
+    @NotNull
+    @Column(columnDefinition = "INT(1)")
+    private Integer classNum;
+
     public UUID getWeekendMealId() {
         return this.weekendMeal.getId();
     }

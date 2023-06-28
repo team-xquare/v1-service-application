@@ -65,4 +65,18 @@ public class CustomWeekendMealCheckRepositoryImpl implements PostWeekendMealChec
                 .stream()
                 .map(weekendMealCheckMapper::entityToDomain).toList();
     }
+
+    @Override
+    public boolean existWeekendMealCheck(UUID weekendMealId, int grade, int classNum) {
+        return queryFactory
+                .selectFrom(weekendMealCheckEntity)
+                .join(weekendMealEntity)
+                .on(weekendMealCheckEntity.weekendMeal.id.eq(weekendMealId))
+                .where(
+                        weekendMealCheckEntity.grade.eq(grade),
+                        weekendMealCheckEntity.classNum.eq(classNum),
+                        weekendMealCheckEntity.isCheck.eq(true)
+                )
+                .fetchOne() != null;
+    }
 }

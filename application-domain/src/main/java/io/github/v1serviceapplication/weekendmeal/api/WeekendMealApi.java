@@ -2,6 +2,7 @@ package io.github.v1serviceapplication.weekendmeal.api;
 
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import io.github.v1serviceapplication.weekendmeal.api.dto.QueryWeekendMealResponse;
+import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealCheckStatusResponse;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealExcelListResponse;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealListResponse;
 
@@ -15,5 +16,6 @@ public interface WeekendMealApi {
     void postWeekendMealCheck(boolean isCheck, int grade, int classNum);
     WeekendMealExcelListResponse weekendMealExcelUserList();
     void changeWeekendMealAllowedPeriod(boolean allowPeriod);
+    WeekendMealCheckStatusResponse queryWeekendMealCheckStatus(int grade, int classNum);
     Boolean queryWeekendMealIsAllowedPeriod();
 }

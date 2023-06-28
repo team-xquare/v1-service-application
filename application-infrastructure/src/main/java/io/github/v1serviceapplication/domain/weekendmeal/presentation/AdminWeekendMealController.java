@@ -6,6 +6,7 @@ import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.reques
 import io.github.v1serviceapplication.infrastructure.excel.WeekendMealAllStudentExcel;
 import io.github.v1serviceapplication.infrastructure.excel.WeekendMealStatusExcel;
 import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
+import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealCheckStatusResponse;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -93,5 +94,15 @@ public class AdminWeekendMealController {
     @PatchMapping("/change/student/status")
     public void changeStudentWeekendMealApplyStatus(@RequestBody @Valid ChangeStudentWeekendMealApplyStatusRequest request) {
         weekendMealApi.changeStudentWeekendMealApplyStatus(request.getStudentId(), request.getStatus());
+    }
+
+    @Operation(summary = "주말급식 선생님 확인 여부 확인API")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/check")
+    public WeekendMealCheckStatusResponse queryWeekendMealCheckStatus(
+            @RequestParam(value = "grade") Integer grade,
+            @RequestParam(value = "classNum") Integer classNum
+    ) {
+        return weekendMealApi.queryWeekendMealCheckStatus(grade, classNum);
     }
 }
