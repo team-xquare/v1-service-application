@@ -68,7 +68,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         WeekendMealUserInfoElement userInfo = weekendMealUserFeignSpi.queryUserInfo(userId);
 
         boolean existWeekendMealCheck = queryWeekendMealCheckRepositorySpi
-                .queryWeekendMealCheck(weekendMeal.getId(), userInfo.getGrade(), userInfo.getClassNum());
+                .existWeekendMealCheck(weekendMeal.getId(), userInfo.getGrade(), userInfo.getClassNum());
 
         if (existWeekendMealCheck) {
             throw WeekendMealCanNotApplicationException.EXCEPTION;
@@ -217,7 +217,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
             throw WeekendMealNotFoundException.EXCEPTION;
         }
 
-        boolean isCheck = queryWeekendMealCheckRepositorySpi.queryWeekendMealCheck(weekendMeal.getId(), grade, classNum);
+        boolean isCheck = queryWeekendMealCheckRepositorySpi.existWeekendMealCheck(weekendMeal.getId(), grade, classNum);
         return new WeekendMealCheckStatusResponse(isCheck);
     }
 

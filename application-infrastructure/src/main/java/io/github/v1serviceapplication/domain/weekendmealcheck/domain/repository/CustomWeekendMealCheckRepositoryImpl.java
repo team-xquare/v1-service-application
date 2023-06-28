@@ -67,7 +67,7 @@ public class CustomWeekendMealCheckRepositoryImpl implements PostWeekendMealChec
     }
 
     @Override
-    public boolean queryWeekendMealCheck(UUID weekendMealId, int grade, int classNum) {
+    public boolean existWeekendMealCheck(UUID weekendMealId, int grade, int classNum) {
         return queryFactory
                 .selectFrom(weekendMealCheckEntity)
                 .join(weekendMealEntity)
