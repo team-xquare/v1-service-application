@@ -241,4 +241,10 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         weekendMealResponseElements.sort(Comparator.comparing(WeekendMealElement::getNum));
         weekendMealNonResponseElements.sort(Comparator.comparing(WeekendMealElement::getNum));
     }
+
+    @Override
+    public Boolean queryWeekendMealIsAllowedPeriod() {
+        WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMeal();
+        return weekendMeal.isAllowedPeriod();
+    }
 }
