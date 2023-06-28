@@ -15,4 +15,5 @@ public interface WeekendMealApi {
     void postWeekendMealCheck(boolean isCheck, int grade, int classNum);
     WeekendMealExcelListResponse weekendMealExcelUserList();
     void changeWeekendMealAllowedPeriod(boolean allowPeriod);
+    Boolean queryWeekendMealIsAllowedPeriod();
 }
