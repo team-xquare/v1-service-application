@@ -2,6 +2,7 @@ package io.github.v1serviceapplication.infrastructure.notification.scheduler;
 
 import io.github.v1serviceapplication.notification.NotificationSpi;
 import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
+import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealAllowedPeriodResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public class NotificationScheduler {
 
     @Scheduled(cron = "0 20 8 * * *", zone = "Asia/Seoul")
     public void weekendMealNotification() {
-        Boolean isAllowedWeekendMealPeriod = weekendMealApi.queryWeekendMealIsAllowedPeriod();
+        boolean isAllowedWeekendMealPeriod = weekendMealApi.queryWeekendMealIsAllowedPeriod().isAllowedPeriod();
         if (isAllowedWeekendMealPeriod){
             sendGroupNotification(APPLICATION_WEEKEND_MEAL, WEEKEND_MEAL_CONTENT, THREAD_ID);
         }

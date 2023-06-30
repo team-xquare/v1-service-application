@@ -12,6 +12,7 @@ import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import io.github.v1serviceapplication.weekendmeal.WeekendMealApply;
 import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
 import io.github.v1serviceapplication.weekendmeal.api.dto.QueryWeekendMealResponse;
+import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealAllowedPeriodResponse;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealCheckStatusResponse;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealCheckTeacherElement;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealElement;
@@ -262,8 +263,8 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     }
 
     @Override
-    public Boolean queryWeekendMealIsAllowedPeriod() {
+    public WeekendMealAllowedPeriodResponse queryWeekendMealIsAllowedPeriod() {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMeal();
-        return weekendMeal.isAllowedPeriod();
+        return new WeekendMealAllowedPeriodResponse(weekendMeal.isAllowedPeriod());
     }
 }

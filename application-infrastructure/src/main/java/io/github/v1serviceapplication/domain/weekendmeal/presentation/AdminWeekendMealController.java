@@ -6,6 +6,7 @@ import io.github.v1serviceapplication.domain.weekendmeal.presentation.dto.reques
 import io.github.v1serviceapplication.infrastructure.excel.WeekendMealAllStudentExcel;
 import io.github.v1serviceapplication.infrastructure.excel.WeekendMealStatusExcel;
 import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
+import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealAllowedPeriodResponse;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealCheckStatusResponse;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealListResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -96,7 +97,7 @@ public class AdminWeekendMealController {
         weekendMealApi.changeStudentWeekendMealApplyStatus(request.getStudentId(), request.getStatus());
     }
 
-    @Operation(summary = "주말급식 선생님 확인 여부 확인API")
+    @Operation(summary = "주말급식 선생님 확인 여부 확인 API")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/check")
     public WeekendMealCheckStatusResponse queryWeekendMealCheckStatus(
@@ -104,5 +105,12 @@ public class AdminWeekendMealController {
             @RequestParam(value = "classNum") Integer classNum
     ) {
         return weekendMealApi.queryWeekendMealCheckStatus(grade, classNum);
+    }
+
+    @Operation(summary = "주말급식 허용 기간 조회 API")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/period")
+    public WeekendMealAllowedPeriodResponse queryWeekendMealAllowedPeriod() {
+        return weekendMealApi.queryWeekendMealIsAllowedPeriod();
     }
 }
