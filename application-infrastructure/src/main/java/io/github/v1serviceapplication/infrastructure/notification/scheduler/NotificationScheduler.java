@@ -49,12 +49,6 @@ public class NotificationScheduler {
         }
     }
 
-    @Scheduled(cron = "0 3 16 * * *", zone = "Asia/Seoul")
-    public void test() {
-        List<UUID> userIdList = weekendMealApi.queryUserIdByStatus(WeekendMealApplicationStatus.NON_RESPONSE);
-        notificationSpi.sendSpecificGroupNotification(userIdList, APPLICATION_WEEKEND_MEAL, WEEKEND_MEAL_CONTENT, THREAD_ID);
-    }
-
     private void sendSpecificGroupNotification(List<UUID> userIdList, String topic, String content, String threadId) {
         notificationSpi.sendSpecificGroupNotification(userIdList, topic, content, threadId);
     }
