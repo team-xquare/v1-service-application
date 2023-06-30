@@ -20,6 +20,7 @@ import io.github.v1serviceapplication.stay.exception.AlreadyExistsStayException;
 import io.github.v1serviceapplication.stay.spi.PointUserFeignSpi;
 import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
 import io.github.v1serviceapplication.stay.spi.StayUserFeignSpi;
+import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
@@ -128,5 +129,10 @@ public class StayApiImpl implements StayApi {
     @Override
     public StayApplyListResponse queryStayApplyList() {
         return stayRepositorySpi.queryStayApplyList();
+    }
+
+    @Override
+    public List<UUID> queryUserIdByStatus(StayStatusCode status) {
+        return stayRepositorySpi.queryStayUserListByStatus(status);
     }
 }

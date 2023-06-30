@@ -1,11 +1,22 @@
 package io.github.v1serviceapplication.infrastructure.notification.scheduler;
 
+import io.github.v1serviceapplication.infrastructure.feign.client.dto.response.IsHomecomingResponse;
+import io.github.v1serviceapplication.infrastructure.feign.client.schedule.ScheduleClient;
+import io.github.v1serviceapplication.infrastructure.feign.client.user.UserClient;
 import io.github.v1serviceapplication.notification.NotificationSpi;
+import io.github.v1serviceapplication.stay.api.StayApi;
+import io.github.v1serviceapplication.stay.code.StayStatusCode;
+import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import io.github.v1serviceapplication.weekendmeal.api.WeekendMealApi;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealAllowedPeriodResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Component
@@ -19,21 +30,39 @@ public class NotificationScheduler {
 
     private final NotificationSpi notificationSpi;
     private final WeekendMealApi weekendMealApi;
+    private final StayApi stayApi;
+    private final ScheduleClient scheduleClient;
 
     @Scheduled(cron = "0 0 21 * * FRI-SAT", zone = "Asia/Seoul")
     public void weekendApplicationNotification() {
-        sendGroupNotification(APPLICATION_WEEKEND_PICNIC, WEEKEND_PICNIC_CONTENT, THREAD_ID);
+        IsHomecomingResponse isHomecomingDay = scheduleClient.queryIsHomecomingDay(LocalDate.now());
+        List<UUID> userIdList = stayApi.queryUserIdByStatus(StayStatusCode.STAY);
+        if (!isHomecomingDay.isHomecomingDay()) {
+            sendSpecificGroupNotification(userIdList, APPLICATION_WEEKEND_PICNIC, WEEKEND_PICNIC_CONTENT, THREAD_ID);
+        }
     }
 
     @Scheduled(cron = "0 20 8 * * *", zone = "Asia/Seoul")
     public void weekendMealNotification() {
+<<<<<<< refs/remotes/origin/main
         boolean isAllowedWeekendMealPeriod = weekendMealApi.queryWeekendMealIsAllowedPeriod().isAllowedPeriod();
+=======
+        Boolean isAllowedWeekendMealPeriod = weekendMealApi.queryWeekendMealIsAllowedPeriod();
+        List<UUID> userIdList = weekendMealApi.queryUserIdByStatus(WeekendMealApplicationStatus.NON_RESPONSE);
+
+>>>>>>> ♻️ :: 특정 유저들에게 알림보내도록 수정
         if (isAllowedWeekendMealPeriod){
-            sendGroupNotification(APPLICATION_WEEKEND_MEAL, WEEKEND_MEAL_CONTENT, THREAD_ID);
+            sendSpecificGroupNotification(userIdList, APPLICATION_WEEKEND_MEAL, WEEKEND_MEAL_CONTENT, THREAD_ID);
         }
     }
 
-    private void sendGroupNotification(String topic, String content, String threadId) {
-        notificationSpi.sendGroupNotification(topic, content, threadId);
+    @Scheduled(cron = "0 3 16 * * *", zone = "Asia/Seoul")
+    public void test() {
+        List<UUID> userIdList = weekendMealApi.queryUserIdByStatus(WeekendMealApplicationStatus.NON_RESPONSE);
+        notificationSpi.sendSpecificGroupNotification(userIdList, APPLICATION_WEEKEND_MEAL, WEEKEND_MEAL_CONTENT, THREAD_ID);
+    }
+
+    private void sendSpecificGroupNotification(List<UUID> userIdList, String topic, String content, String threadId) {
+        notificationSpi.sendSpecificGroupNotification(userIdList, topic, content, threadId);
     }
 }

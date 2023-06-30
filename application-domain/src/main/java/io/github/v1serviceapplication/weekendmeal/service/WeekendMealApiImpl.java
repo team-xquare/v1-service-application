@@ -60,7 +60,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
         if (weekendMeal == null) {
             throw WeekendMealNotFoundException.EXCEPTION;
         }
-        
+
         if (weekendMeal.isAllowedPeriod() == false) {
             throw WeekendMealCanNotApplicationException.EXCEPTION;
         }
@@ -175,7 +175,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
 
         postWeekendMealApplyRepositorySpi.updateWeekendMealApply(studentId, weekendMeal.getId(), status);
     }
-  
+
     @Override
     public WeekendMealExcelListResponse weekendMealExcelUserList() {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMeal();
@@ -195,8 +195,8 @@ public class WeekendMealApiImpl implements WeekendMealApi {
 
                     return WeekendMealCheckTeacherElement.builder()
                             .name(user.getName())
-                            .grade(Integer.parseInt(user.getNum().substring(0,1)))
-                            .classNum(Integer.parseInt(user.getNum().substring(1,2)))
+                            .grade(Integer.parseInt(user.getNum().substring(0, 1)))
+                            .classNum(Integer.parseInt(user.getNum().substring(1, 2)))
                             .createDate(weekendMealCheck.getCreateDate())
                             .build();
                 }).sorted(Comparator.comparing(WeekendMealCheckTeacherElement::getGrade)).toList();
@@ -243,7 +243,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
                 .num(user.getNum())
                 .name(user.getName())
                 .status(status).build();
-        
+
         addWeekendMealList(weekendMealElement, status, weekendMealResponseElements, weekendMealNonResponseElements);
 
         return weekendMealElement;
@@ -266,5 +266,10 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     public WeekendMealAllowedPeriodResponse queryWeekendMealIsAllowedPeriod() {
         WeekendMeal weekendMeal = queryWeekendMealRepositorySpi.queryWeekendMeal();
         return new WeekendMealAllowedPeriodResponse(weekendMeal.isAllowedPeriod());
+    }
+
+    @Override
+    public List<UUID> queryUserIdByStatus(WeekendMealApplicationStatus status) {
+        return queryWeekendMealApplyRepositorySpi.queryWeekendMealUserListByStatus(status);
     }
 }
