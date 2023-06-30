@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class DomainSendGroupMessageRequest {
 
-    private String topic;
+    private String category;
 
     private String content;
 

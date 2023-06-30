@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Spi
 public interface NotificationSpi {
-    void sendNotification(UUID userId, String topic, String content, String threadId);
-    void sendGroupNotification(String topic, String content, String threadId);
-    void sendSpecificGroupNotification(List<UUID> userIdList, String topic, String content, String threadId);
+    void sendNotification(UUID userId, String category, String content, String threadId);
+    void sendGroupNotification(String category, String content, String threadId);
+    void sendSpecificGroupNotification(List<UUID> userIdList, String category, String content, String threadId);
 }
