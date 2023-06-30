@@ -6,5 +6,5 @@ import lombok.Getter;
 @Getter
 @Builder
 public class IsHomecomingResponse {
-    boolean isHomecomingDay;
+    private final boolean isHomecomingDay;
 }
