@@ -44,13 +44,9 @@ public class NotificationScheduler {
 
     @Scheduled(cron = "0 20 8 * * *", zone = "Asia/Seoul")
     public void weekendMealNotification() {
-<<<<<<< refs/remotes/origin/main
         boolean isAllowedWeekendMealPeriod = weekendMealApi.queryWeekendMealIsAllowedPeriod().isAllowedPeriod();
-=======
-        Boolean isAllowedWeekendMealPeriod = weekendMealApi.queryWeekendMealIsAllowedPeriod();
         List<UUID> userIdList = weekendMealApi.queryUserIdByStatus(WeekendMealApplicationStatus.NON_RESPONSE);
 
->>>>>>> ♻️ :: 특정 유저들에게 알림보내도록 수정
         if (isAllowedWeekendMealPeriod){
             sendSpecificGroupNotification(userIdList, APPLICATION_WEEKEND_MEAL, WEEKEND_MEAL_CONTENT, THREAD_ID);
         }

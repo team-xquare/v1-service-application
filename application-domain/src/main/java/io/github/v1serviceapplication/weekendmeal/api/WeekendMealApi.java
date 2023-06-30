@@ -19,10 +19,6 @@ public interface WeekendMealApi {
     WeekendMealExcelListResponse weekendMealExcelUserList();
     void changeWeekendMealAllowedPeriod(boolean allowPeriod);
     WeekendMealCheckStatusResponse queryWeekendMealCheckStatus(int grade, int classNum);
-<<<<<<< refs/remotes/origin/main
     WeekendMealAllowedPeriodResponse queryWeekendMealIsAllowedPeriod();
-=======
-    Boolean queryWeekendMealIsAllowedPeriod();
     List<UUID> queryUserIdByStatus(WeekendMealApplicationStatus status);
->>>>>>> ♻️ :: 특정 유저들에게 알림보내도록 수정
 }
