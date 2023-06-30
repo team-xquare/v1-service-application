@@ -57,7 +57,8 @@ public class NotificationAdapter implements NotificationSpi {
                 userIdList,
                 topic,
                 content,
-                threadId);
+                threadId
+        );
 
         sendSqsMessage(NOTIFICATION_SPECIFIC_GROUP_FIFO, convertToJsonString(domainSendSpecificGroupRequest));
     }
