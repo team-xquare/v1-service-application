@@ -269,7 +269,7 @@ public class WeekendMealApiImpl implements WeekendMealApi {
     }
 
     @Override
-    public List<UUID> queryUserIdByStatus(WeekendMealApplicationStatus status) {
+    public List<UUID> queryUserIdListByStatus(WeekendMealApplicationStatus status) {
         return queryWeekendMealApplyRepositorySpi.queryWeekendMealUserListByStatus(status);
     }
 }

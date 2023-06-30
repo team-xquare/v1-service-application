@@ -132,7 +132,7 @@ public class StayApiImpl implements StayApi {
     }
 
     @Override
-    public List<UUID> queryUserIdByStatus(StayStatusCode status) {
+    public List<UUID> queryUserIdListByStatus(StayStatusCode status) {
         return stayRepositorySpi.queryStayUserListByStatus(status);
     }
 }

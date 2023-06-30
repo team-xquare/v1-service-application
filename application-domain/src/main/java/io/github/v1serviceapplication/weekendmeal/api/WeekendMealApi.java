@@ -20,5 +20,5 @@ public interface WeekendMealApi {
     void changeWeekendMealAllowedPeriod(boolean allowPeriod);
     WeekendMealCheckStatusResponse queryWeekendMealCheckStatus(int grade, int classNum);
     WeekendMealAllowedPeriodResponse queryWeekendMealIsAllowedPeriod();
-    List<UUID> queryUserIdByStatus(WeekendMealApplicationStatus status);
+    List<UUID> queryUserIdListByStatus(WeekendMealApplicationStatus status);
 }
