@@ -68,8 +68,6 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
                 .select(weekendMealApplyEntity.userId)
                 .from(weekendMealApplyEntity)
                 .where(weekendMealApplyEntity.status.eq(status))
-                .fetch()
-                .stream()
-                .toList();
+                .fetch();
     }
 }
