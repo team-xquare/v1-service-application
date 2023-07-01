@@ -61,4 +61,13 @@ public class CustomWeekendMealApplyRepositoryImpl implements PostWeekendMealAppl
                 .map(weekendMealApplyMapper::entityToDomain)
                 .toList();
     }
+
+    @Override
+    public List<UUID> queryWeekendMealUserListByStatus(WeekendMealApplicationStatus status) {
+        return jpaQueryFactory
+                .select(weekendMealApplyEntity.userId)
+                .from(weekendMealApplyEntity)
+                .where(weekendMealApplyEntity.status.eq(status))
+                .fetch();
+    }
 }

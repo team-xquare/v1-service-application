@@ -6,6 +6,7 @@ import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusRespo
 import io.github.v1serviceapplication.stay.api.dto.response.StayApplyListResponse;
 import io.github.v1serviceapplication.stay.api.dto.response.UserStayStatusValueResponse;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
+import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +20,6 @@ public interface StayRepositorySpi {
     boolean existsByUserId(UUID userId);
     List<Stay> queryAll();
     void changeStayStatus(UUID userId, StayStatusCode stayStatusCode);
-
     StayApplyListResponse queryStayApplyList();
+    List<UUID> queryStayUserListByStatus(StayStatusCode status);
 }
