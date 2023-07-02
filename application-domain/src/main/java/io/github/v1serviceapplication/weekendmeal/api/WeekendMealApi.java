@@ -7,6 +7,7 @@ import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealCheckStatus
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealExcelListResponse;
 import io.github.v1serviceapplication.weekendmeal.api.dto.WeekendMealListResponse;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface WeekendMealApi {
@@ -19,4 +20,5 @@ public interface WeekendMealApi {
     void changeWeekendMealAllowedPeriod(boolean allowPeriod);
     WeekendMealCheckStatusResponse queryWeekendMealCheckStatus(int grade, int classNum);
     WeekendMealAllowedPeriodResponse queryWeekendMealIsAllowedPeriod();
+    List<UUID> queryUserIdListByStatus(WeekendMealApplicationStatus status);
 }

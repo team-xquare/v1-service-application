@@ -12,6 +12,7 @@ import io.github.v1serviceapplication.stay.api.dto.response.UserStayStatusValueR
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomUserFeignSpi;
+import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -135,6 +136,11 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
 
     private String getStudentNum(int grade, int classNum, int num) {
         return String.valueOf(grade) + classNum + String.format("%02d", num);
+    }
+
+    @Override
+    public List<UUID> queryStayUserListByStatus(StayStatusCode status) {
+        return stayRepository.findAllByCode(status);
     }
 }
     

@@ -7,11 +7,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.v1serviceapplication.domain.notification.dto.DomainSendGroupMessageRequest;
 import io.github.v1serviceapplication.domain.notification.dto.DomainSendMessageRequest;
+import io.github.v1serviceapplication.domain.notification.dto.DomainSendSpecificGroupRequest;
 import io.github.v1serviceapplication.error.JsonConvertException;
 import io.github.v1serviceapplication.notification.NotificationSpi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -23,13 +25,14 @@ public class NotificationAdapter implements NotificationSpi {
     private final ObjectMapper objectMapper;
     private static final String NOTIFICATION_FIFO = "notification.fifo";
     private static final String NOTIFICATION_GROUP_FIFO = "group-notification.fifo";
+    private static final String NOTIFICATION_SPECIFIC_GROUP_FIFO = "specific-group-notification.fifo";
 
 
     @Override
-    public void sendNotification(UUID userId, String topic, String content, String threadId) {
+    public void sendNotification(UUID userId, String category, String content, String threadId) {
         DomainSendMessageRequest domainSendMessageRequest = new DomainSendMessageRequest(
                 userId,
-                topic,
+                category,
                 content,
                 threadId
         );
@@ -38,14 +41,26 @@ public class NotificationAdapter implements NotificationSpi {
     }
 
     @Override
-    public void sendGroupNotification(String topic, String content, String threadId) {
+    public void sendGroupNotification(String category, String content, String threadId) {
         DomainSendGroupMessageRequest domainSendGroupMessageRequest = new DomainSendGroupMessageRequest(
-                topic,
+                category,
                 content,
                 threadId
         );
 
         sendSqsMessage(NOTIFICATION_GROUP_FIFO, convertToJsonString(domainSendGroupMessageRequest));
+    }
+
+    @Override
+    public void sendSpecificGroupNotification(List<UUID> userIdList, String category, String content, String threadId) {
+        DomainSendSpecificGroupRequest domainSendSpecificGroupRequest = new DomainSendSpecificGroupRequest(
+                userIdList,
+                category,
+                content,
+                threadId
+        );
+
+        sendSqsMessage(NOTIFICATION_SPECIFIC_GROUP_FIFO, convertToJsonString(domainSendSpecificGroupRequest));
     }
 
     private void sendSqsMessage(String queueName, String content) {
