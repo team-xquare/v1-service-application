@@ -49,7 +49,7 @@ public class NotificationScheduler {
         }
     }
 
-    private void sendSpecificGroupNotification(List<UUID> userIdList, String category, String content, String threadId) {
-        notificationSpi.sendSpecificGroupNotification(userIdList, category, content, threadId);
+    private void sendSpecificGroupNotification(List<UUID> userIdList, String topic, String content, String threadId) {
+        notificationSpi.sendSpecificGroupNotification(userIdList, topic, content, threadId);
     }
 }
