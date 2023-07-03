@@ -11,7 +11,7 @@ import java.util.UUID;
 public class DomainSendSpecificGroupRequest {
     private List<UUID> userIdList;
 
-    private String category;
+    private String topic;
 
     private String content;
 
