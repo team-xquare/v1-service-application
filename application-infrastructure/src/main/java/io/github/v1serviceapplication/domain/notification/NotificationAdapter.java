@@ -29,10 +29,10 @@ public class NotificationAdapter implements NotificationSpi {
 
 
     @Override
-    public void sendNotification(UUID userId, String category, String content, String threadId) {
+    public void sendNotification(UUID userId, String topic, String content, String threadId) {
         DomainSendMessageRequest domainSendMessageRequest = new DomainSendMessageRequest(
                 userId,
-                category,
+                topic,
                 content,
                 threadId
         );
@@ -41,9 +41,9 @@ public class NotificationAdapter implements NotificationSpi {
     }
 
     @Override
-    public void sendGroupNotification(String category, String content, String threadId) {
+    public void sendGroupNotification(String topic, String content, String threadId) {
         DomainSendGroupMessageRequest domainSendGroupMessageRequest = new DomainSendGroupMessageRequest(
-                category,
+                topic,
                 content,
                 threadId
         );
@@ -52,10 +52,10 @@ public class NotificationAdapter implements NotificationSpi {
     }
 
     @Override
-    public void sendSpecificGroupNotification(List<UUID> userIdList, String category, String content, String threadId) {
+    public void sendSpecificGroupNotification(List<UUID> userIdList, String topic, String content, String threadId) {
         DomainSendSpecificGroupRequest domainSendSpecificGroupRequest = new DomainSendSpecificGroupRequest(
                 userIdList,
-                category,
+                topic,
                 content,
                 threadId
         );
