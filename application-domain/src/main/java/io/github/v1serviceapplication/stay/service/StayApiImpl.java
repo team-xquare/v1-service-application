@@ -3,6 +3,7 @@ package io.github.v1serviceapplication.stay.service;
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.code.CodeElement;
 import io.github.v1serviceapplication.error.UserNotFoundException;
+import io.github.v1serviceapplication.stay.exception.CanNotStayApplyException;
 import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.stay.Stay;
 import io.github.v1serviceapplication.stay.api.StayApi;
@@ -20,9 +21,10 @@ import io.github.v1serviceapplication.stay.exception.AlreadyExistsStayException;
 import io.github.v1serviceapplication.stay.spi.PointUserFeignSpi;
 import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
 import io.github.v1serviceapplication.stay.spi.StayUserFeignSpi;
-import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -73,8 +75,26 @@ public class StayApiImpl implements StayApi {
 
     @Override
     public void applyStay(StayStatusCode status) {
+        validCheckApplyStayTime();
         UUID userId = userIdFacade.getCurrentUserId();
         stayRepositorySpi.applyStay(userId, status);
+    }
+
+    private void validCheckApplyStayTime() {
+        LocalTime nowTime = LocalTime.now();
+        LocalTime startTime = LocalTime.parse("23:00:00");
+        LocalTime endTime = LocalTime.parse("00:00:00");
+
+        // validWeekNumber : 목요일(4)부터 일요일(7)까지는 신청 불가임으로 현재날짜가 목요일부터 일요일에 해당하는지 확인
+        boolean validWeekNumber = LocalDate.now().getDayOfWeek().getValue() >= 4;
+
+        // 목요일 22시부터 일요일 0시까지 신청 불가
+        boolean validRequestStartTime  = nowTime.isAfter(startTime);
+        boolean validRequestEndTime = nowTime.isBefore(endTime);
+
+        if(validWeekNumber && (validRequestStartTime || validRequestEndTime)) {
+            throw CanNotStayApplyException.EXCEPTION;
+        }
     }
 
     @Override

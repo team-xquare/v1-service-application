@@ -67,7 +67,9 @@ public enum ErrorCode {
 
     WEEKEND_MEAL_CHECK_NOT_FOUND(404, "WEEKEND-404-3", "Weekend Meal Check Not Found"),
 
-    NOT_MATCHED_HOMEROOM_TEACHER(403, "WEEKEND-403-1", "Not Matched Homeroom Teacher");
+    NOT_MATCHED_HOMEROOM_TEACHER(403, "WEEKEND-403-1", "Not Matched Homeroom Teacher"),
+
+    CAN_NOT_STAY_APPLY(400, "STAY-400-2", "Can Not Stay Apply");
 
     private final int status;
     private final String code;
