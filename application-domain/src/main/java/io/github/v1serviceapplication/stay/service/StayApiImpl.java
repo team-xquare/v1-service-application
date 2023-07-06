@@ -86,11 +86,18 @@ public class StayApiImpl implements StayApi {
     }
 
     private void validCheckApplyStayTime() {
-        boolean validRequestWeek = !LocalDate.now().getDayOfWeek().equals(DayOfWeek.THURSDAY);
-        boolean validRequestStartTime  = LocalTime.now().isAfter(LocalTime.parse("23:00:00.00"));
-        boolean validRequestEndTime = LocalTime.now().isBefore(LocalTime.parse("20:30:00"));
+        LocalTime nowTime = LocalTime.now();
+        LocalTime startTime = LocalTime.parse("23:00:00");
+        LocalTime endTime = LocalTime.parse("00:00:00");
 
-        if(validRequestWeek || validRequestStartTime || validRequestEndTime) {
+        // validWeekNumber : 목요일(4)부터 일요일(7)까지는 신청 불가임으로 현재날짜가 목요일부터 일요일에 해당하는지 확인
+        boolean validWeekNumber = LocalDate.now().getDayOfWeek().getValue() >= 4;
+
+        // 목요일 22시부터 일요일 0시까지 신청 불가
+        boolean validRequestStartTime  = nowTime.isAfter(startTime);
+        boolean validRequestEndTime = nowTime.isBefore(endTime);
+
+        if(validWeekNumber && (validRequestStartTime || validRequestEndTime)) {
             throw CanNotStayApplyException.EXCEPTION;
         }
     }
