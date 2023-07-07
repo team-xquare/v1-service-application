@@ -82,7 +82,7 @@ public class StayApiImpl implements StayApi {
 
     private void validCheckApplyStayTime() {
         LocalDateTime nowDateTime = LocalDateTime.now();
-        boolean isAfterRequestEndTime = nowDateTime.toLocalTime().isAfter(LocalTime.of(23, 0));
+        boolean isAfterRequestEndTime = nowDateTime.toLocalTime().isAfter(LocalTime.of(22, 0));
 
         switch (nowDateTime.toLocalDate().getDayOfWeek()) {
             case THURSDAY -> {
