@@ -3,8 +3,6 @@ package io.github.v1serviceapplication.stay.service;
 import io.github.v1serviceapplication.annotation.DomainService;
 import io.github.v1serviceapplication.code.CodeElement;
 import io.github.v1serviceapplication.error.UserNotFoundException;
-import io.github.v1serviceapplication.stay.exception.CanNotStayApplyException;
-import io.github.v1serviceapplication.user.UserIdFacade;
 import io.github.v1serviceapplication.stay.Stay;
 import io.github.v1serviceapplication.stay.api.StayApi;
 import io.github.v1serviceapplication.stay.api.dto.response.AdminUserInfoResponse;
@@ -18,12 +16,14 @@ import io.github.v1serviceapplication.stay.api.dto.response.UserPointStatusRespo
 import io.github.v1serviceapplication.stay.api.dto.response.UserStayStatusValueResponse;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import io.github.v1serviceapplication.stay.exception.AlreadyExistsStayException;
+import io.github.v1serviceapplication.stay.exception.CanNotStayApplyException;
 import io.github.v1serviceapplication.stay.spi.PointUserFeignSpi;
 import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
 import io.github.v1serviceapplication.stay.spi.StayUserFeignSpi;
+import io.github.v1serviceapplication.user.UserIdFacade;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -81,19 +81,16 @@ public class StayApiImpl implements StayApi {
     }
 
     private void validCheckApplyStayTime() {
-        LocalTime nowTime = LocalTime.now();
-        LocalTime startTime = LocalTime.parse("23:00:00");
-        LocalTime endTime = LocalTime.parse("00:00:00");
+        LocalDateTime nowDateTime = LocalDateTime.now();
+        boolean isAfterRequestEndTime = nowDateTime.toLocalTime().isAfter(LocalTime.of(22, 0));
 
-        // validWeekNumber : 목요일(4)부터 일요일(7)까지는 신청 불가임으로 현재날짜가 목요일부터 일요일에 해당하는지 확인
-        boolean validWeekNumber = LocalDate.now().getDayOfWeek().getValue() >= 4;
-
-        // 목요일 22시부터 일요일 0시까지 신청 불가
-        boolean validRequestStartTime  = nowTime.isAfter(startTime);
-        boolean validRequestEndTime = nowTime.isBefore(endTime);
-
-        if(validWeekNumber && (validRequestStartTime || validRequestEndTime)) {
-            throw CanNotStayApplyException.EXCEPTION;
+        switch (nowDateTime.toLocalDate().getDayOfWeek()) {
+            case THURSDAY -> {
+                if (isAfterRequestEndTime) {
+                    throw CanNotStayApplyException.EXCEPTION;
+                }
+            }
+            case FRIDAY, SATURDAY -> throw CanNotStayApplyException.EXCEPTION;
         }
     }
 
@@ -108,7 +105,7 @@ public class StayApiImpl implements StayApi {
                 .map(stay -> {
                             StayUserElement user = studentList.get(stay.getUserId());
 
-                            if(user == null) {
+                            if (user == null) {
                                 LOGGER.info(String.valueOf(stay.getUserId()));
                                 throw UserNotFoundException.EXCEPTION;
                             }
