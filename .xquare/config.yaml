@@ -1,0 +1,4 @@
+config:
+  name: application
+  prefix: /applications
+  service_type: be
