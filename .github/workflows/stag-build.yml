@@ -65,3 +65,10 @@ jobs:
                           "version": "${{ github.sha }}",
                           "service_name": "${{env.SERVICE_NAME}}",
                           "service_type": "${{env.SERVICE_TYPE}}" }'
+
+      - name: Deploy to xquare
+        uses: team-xquare/xquare-deployment-action@master 
+        with:
+          environment: stag
+          xquare_role_arn: ${{ secrets.XQUARE_ROLE_ARN }}
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
