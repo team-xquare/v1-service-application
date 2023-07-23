@@ -36,6 +36,6 @@ jobs:
       - name: Deploy to xquare
         uses: team-xquare/xquare-deployment-action@master 
         with:
-          environment: prod
+          environment: stag
           xquare_role_arn: ${{ secrets.XQUARE_ROLE_ARN }}
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
