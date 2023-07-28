@@ -50,6 +50,7 @@ jobs:
           registry: ${{ steps.ecr.outputs.registry }}
           tags: ${{ github.sha }}
           buildargs: |
+            build-args : |
             PROFILE=${{secrets.STAG_PROFILE}}
             CLOUD_CONFIG_USERNAME=${{ secrets.CLOUD_CONFIG_USERNAME }}
             CLOUD_CONFIG_PASSWORD=${{ secrets.CLOUD_CONFIG_PASSWORD }}
