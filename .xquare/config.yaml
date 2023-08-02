@@ -2,3 +2,4 @@ config:
   name: application
   prefix: /applications
   service_type: be
+  port: 8080
