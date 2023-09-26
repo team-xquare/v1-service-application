@@ -1,5 +1,6 @@
 package io.github.v1serviceapplication.stay.spi;
 
+import io.github.v1serviceapplication.studyroom.api.dto.response.StudentElement;
 import io.github.v1serviceapplication.user.dto.response.UserInfoElement;
 import io.github.v1serviceapplication.stay.api.dto.response.StayUserElement;
 
@@ -11,4 +12,6 @@ public interface StayUserFeignSpi {
     StayUserElement getUserInfo(UUID userId);
 
     List<StayUserElement> getStudent();
+
+    List<StudentElement> queryAllUser();
 }
