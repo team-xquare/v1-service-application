@@ -11,8 +11,8 @@ import io.github.v1serviceapplication.stay.api.dto.response.QueryStayStatusRespo
 import io.github.v1serviceapplication.stay.api.dto.response.UserStayStatusValueResponse;
 import io.github.v1serviceapplication.stay.code.StayStatusCode;
 import io.github.v1serviceapplication.stay.spi.StayRepositorySpi;
+import io.github.v1serviceapplication.stay.spi.StayUserFeignSpi;
 import io.github.v1serviceapplication.studyroom.spi.StudyRoomUserFeignSpi;
-import io.github.v1serviceapplication.weekendmeal.WeekendMealApplicationStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 public class StayRepositorySpiImpl implements StayRepositorySpi {
     private final StayRepository stayRepository;
     private final StayMapper stayMapper;
+    private final StayUserFeignSpi stayUserFeignSpi;
     private final StudyRoomUserFeignSpi studyRoomUserFeignSpi;
 
     @Override
@@ -114,7 +115,7 @@ public class StayRepositorySpiImpl implements StayRepositorySpi {
                 .map(stayMapper::mapToStayStatus)
                 .toList();
 
-        return studyRoomUserFeignSpi.queryAllUser()
+        return stayUserFeignSpi.queryAllUser()
                 .stream()
                 .map(user -> {
                     String stay = stayList.stream()
